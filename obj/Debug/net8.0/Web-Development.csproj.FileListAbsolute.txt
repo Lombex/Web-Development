@@ -1,0 +1,68 @@
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/bin/Debug/net8.0/appsettings.Development.json
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/bin/Debug/net8.0/appsettings.json
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/bin/Debug/net8.0/Web-Development
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/bin/Debug/net8.0/Web-Development.deps.json
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/bin/Debug/net8.0/Web-Development.runtimeconfig.json
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/bin/Debug/net8.0/Web-Development.dll
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/bin/Debug/net8.0/Web-Development.pdb
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/bin/Debug/net8.0/Microsoft.AspNetCore.OpenApi.dll
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/bin/Debug/net8.0/Microsoft.OpenApi.dll
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/bin/Debug/net8.0/Swashbuckle.AspNetCore.Swagger.dll
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/bin/Debug/net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/Web-Development.csproj.AssemblyReference.cache
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/Web-Development.GeneratedMSBuildEditorConfig.editorconfig
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/Web-Development.AssemblyInfoInputs.cache
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/Web-Development.AssemblyInfo.cs
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/Web-Development.csproj.CoreCompileInputs.cache
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/Web-Development.MvcApplicationPartsAssemblyInfo.cs
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/Web-Development.MvcApplicationPartsAssemblyInfo.cache
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/Web-Development.sourcelink.json
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/staticwebassets.build.json
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/staticwebassets.development.json
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/staticwebassets/msbuild.Web-Development.Microsoft.AspNetCore.StaticWebAssets.props
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/staticwebassets/msbuild.build.Web-Development.props
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.Web-Development.props
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.Web-Development.props
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/staticwebassets.pack.json
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/scopedcss/bundle/Web-Development.styles.css
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/Web-Development.csproj.CopyComplete
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/Web-Development.dll
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/refint/Web-Development.dll
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/Web-Development.pdb
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/Web-Development.genruntimeconfig.cache
+/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/ref/Web-Development.dll
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\Web-Development.dll
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\refint\Web-Development.dll
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\Web-Development.pdb
+C:\Users\Alex\Documents\GitHub\Web-Development\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\Alex\Documents\GitHub\Web-Development\bin\Debug\net8.0\appsettings.json
+C:\Users\Alex\Documents\GitHub\Web-Development\bin\Debug\net8.0\Web-Development.exe
+C:\Users\Alex\Documents\GitHub\Web-Development\bin\Debug\net8.0\Web-Development.deps.json
+C:\Users\Alex\Documents\GitHub\Web-Development\bin\Debug\net8.0\Web-Development.runtimeconfig.json
+C:\Users\Alex\Documents\GitHub\Web-Development\bin\Debug\net8.0\Web-Development.dll
+C:\Users\Alex\Documents\GitHub\Web-Development\bin\Debug\net8.0\Web-Development.pdb
+C:\Users\Alex\Documents\GitHub\Web-Development\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\Alex\Documents\GitHub\Web-Development\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\Alex\Documents\GitHub\Web-Development\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Alex\Documents\GitHub\Web-Development\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Alex\Documents\GitHub\Web-Development\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\Web-Development.csproj.AssemblyReference.cache
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\Web-Development.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\Web-Development.AssemblyInfoInputs.cache
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\Web-Development.AssemblyInfo.cs
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\Web-Development.csproj.CoreCompileInputs.cache
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\Web-Development.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\Web-Development.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\Web-Development.sourcelink.json
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\staticwebassets\msbuild.Web-Development.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\staticwebassets\msbuild.build.Web-Development.props
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Web-Development.props
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Web-Development.props
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\scopedcss\bundle\Web-Development.styles.css
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\Web-Development.csproj.CopyComplete
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\Web-Development.genruntimeconfig.cache
+C:\Users\Alex\Documents\GitHub\Web-Development\obj\Debug\net8.0\ref\Web-Development.dll

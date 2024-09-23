@@ -1,3 +1,139 @@
-GET https://localhost:5000/
+### User API Tests
 
-#####
+### 1. Test User API Health
+GET http://localhost:5001/api/user/Test
+Content-Type: application/json
+
+###
+
+### 2. Create a New User
+POST http://localhost:5001/api/user/create
+Content-Type: application/json
+
+{
+  "firstname": "John",
+  "lastname": "Doe",
+  "email": "john.doe@example.com",
+  "password": "password123",
+  "recuringDays": 7
+}
+
+###
+
+### 3. Get All Users
+GET http://localhost:5001/api/user/all
+Content-Type: application/json
+
+###
+
+### 4. Get User by ID
+GET http://localhost:5001/api/user
+Content-Type: application/json
+
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "firstname": "John",
+  "lastname": "Doe",
+  "email": "john.doe@example.com",
+  "password": "password123",
+  "recuringDays": 7
+}
+
+###
+
+### 5. Update User
+PUT http://localhost:5001/api/user/update/v1
+Content-Type: application/json
+
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "firstname": "Jane",
+  "lastname": "Doe",
+  "email": "jane.doe@example.com",
+  "password": "newpassword123",
+  "recuringDays": 10
+}
+
+###
+
+### 6. Delete User
+DELETE http://localhost:5001/api/user/delete
+Content-Type: application/json
+
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "firstname": "John",
+  "lastname": "Doe",
+  "email": "john.doe@example.com",
+  "password": "password123",
+  "recuringDays": 7
+}
+
+###
+
+### Event API Tests
+
+### 1. Test Event API Health
+GET http://localhost:5001/api/events/Test
+Content-Type: application/json
+
+###
+
+### 2. Create a New Event
+POST http://localhost:5001/api/events/create
+Content-Type: application/json
+
+{
+  "title": "Team Building Workshop",
+  "description": "A day-long workshop focused on team building activities",
+  "startTime": "2024-05-15T09:00:00",
+  "endTime": "2024-05-15T17:00:00",
+  "location": "Conference Room A",
+  "approval": true
+}
+
+###
+
+### 3. Get All Events
+GET http://localhost:5001/api/events/all
+Content-Type: application/json
+
+###
+
+### 4. Get Event by ID
+GET http://localhost:5001/api/events/00000000-0000-0000-0000-000000000000
+Content-Type: application/json
+
+###
+
+### 5. Update Event
+PUT http://localhost:5001/api/events/update
+Content-Type: application/json
+
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "title": "Updated Team Building Workshop",
+  "description": "An updated day-long workshop focused on team building activities",
+  "startTime": "2024-05-16T10:00:00",
+  "endTime": "2024-05-16T18:00:00",
+  "location": "Conference Room B",
+  "approval": true
+}
+
+###
+
+### 6. Delete Event
+DELETE http://localhost:5001/api/events/delete
+Content-Type: application/json
+
+{
+  "id": "6692502b-f8a2-4d3e-89ed-aec71104cced",
+  "title": "Team Building Workshop",
+  "description": "A day-long workshop focused on team building activities",
+  "startTime": "2024-05-15T09:00:00",
+  "endTime": "2024-05-15T17:00:00",
+  "location": "Conference Room A",
+  "approval": true
+}
+
+###
