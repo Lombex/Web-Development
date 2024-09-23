@@ -460,26 +460,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\zdenn\\.nuget\\packages\\": {}
+    "/Users/steynhellendoorn/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\zdenn\\Desktop\\Web development\\Web-Development\\Web-Development.csproj",
+      "projectUniqueName": "/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/Web-Development.csproj",
       "projectName": "Web-Development",
-      "projectPath": "C:\\Users\\zdenn\\Desktop\\Web development\\Web-Development\\Web-Development.csproj",
-      "packagesPath": "C:\\Users\\zdenn\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\zdenn\\Desktop\\Web development\\Web-Development\\obj\\",
+      "projectPath": "/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/Web-Development.csproj",
+      "packagesPath": "/Users/steynhellendoorn/.nuget/packages/",
+      "outputPath": "/Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\zdenn\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/steynhellendoorn/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -492,11 +491,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -531,7 +525,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

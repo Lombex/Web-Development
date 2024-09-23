@@ -1,3 +1,57 @@
-GET https://localhost:5000/
+### 1. Test API Health
+GET https://localhost:5000/api/user/Test
+Content-Type: application/json
 
-#####
+###
+
+### 2. Create a New User (POST)
+POST https://localhost:5000/api/user
+Content-Type: application/json
+
+{
+  "firstname": "John",
+  "lastname": "Doe",
+  "email": "john.doe@example.com",
+  "password": "password123",
+  "recuringDays": 7
+}
+
+###
+
+### 3. Get All Users (GET)
+GET https://localhost:5000/api/user
+Content-Type: application/json
+
+###
+
+### 4. Get User by ID (GET)
+GET https://localhost:5000/api/user/{{{{$guid}}}}
+Content-Type: application/json
+
+###
+# Vervang {{userId}} met een daadwerkelijke gebruikers-ID die je ophaalt via de 'Get All Users'-aanroep
+###
+
+### 5. Update User by ID (PUT)
+PUT https://localhost:5000/api/user/{{{$guid}}}
+Content-Type: application/json
+
+{
+  "firstname": "Jane",
+  "lastname": "Doe",
+  "email": "jane.doe@example.com",
+  "password": "newpassword123",
+  "recuringDays": 10
+}
+
+###
+# Vervang {{userId}} met een daadwerkelijke gebruikers-ID
+###
+
+### 6. Delete User by ID (DELETE)
+DELETE https://localhost:5000/api/user/{{$guids}}
+Content-Type: application/json
+
+###
+# Vervang {{userId}} met een daadwerkelijke gebruikers-ID
+###
