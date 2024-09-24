@@ -1,11 +1,11 @@
 ### 1. Test API Health
-GET https://localhost:5000/api/user/Test
+GET http://localhost:5000/api/user/Test
 Content-Type: application/json
 
 ###
 
 ### 2. Create a New User (POST)
-POST https://localhost:5000/api/user
+POST http://localhost:5000/api/user/create
 Content-Type: application/json
 
 {
@@ -19,13 +19,12 @@ Content-Type: application/json
 ###
 
 ### 3. Get All Users (GET)
-GET https://localhost:5000/api/user
-Content-Type: application/json
+GET http://localhost:5000/api/user/all
 
 ###
 
 ### 4. Get User by ID (GET)
-GET https://localhost:5000/api/user/{{{{$guid}}}}
+GET http://localhost:5000/api/user/{{{{$guid}}}}
 Content-Type: application/json
 
 ###
@@ -33,7 +32,7 @@ Content-Type: application/json
 ###
 
 ### 5. Update User by ID (PUT)
-PUT https://localhost:5000/api/user/{{{$guid}}}
+PUT http://localhost:5000/api/user/{{{$guid}}}
 Content-Type: application/json
 
 {
@@ -49,7 +48,7 @@ Content-Type: application/json
 ###
 
 ### 6. Delete User by ID (DELETE)
-DELETE https://localhost:5000/api/user/{{$guids}}
+DELETE http://localhost:5000/api/user/{{$guids}}
 Content-Type: application/json
 
 ###

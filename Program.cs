@@ -25,6 +25,7 @@ public record User(Guid id, string Firstname, string Lastname, string Email, str
 [Route("api/user")]
 public class UserController : ControllerBase {
     
+    
     [HttpGet("Test")] // https://localhost:5000/api/user/Test
     public async Task<IActionResult> APIHealth() => Ok("API is healthy!");
 
@@ -72,8 +73,6 @@ public class UserController : ControllerBase {
 }
 
 #endregion User
-
-// Hier
 
 public interface IUserService
 {
