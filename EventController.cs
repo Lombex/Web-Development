@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+
 [ApiController]
 [Route("api/events")]
 public class EventController : ControllerBase
@@ -26,6 +28,7 @@ public class EventController : ControllerBase
     }
 
     [HttpGet("all")] // http://localhost:5001/api/events/all
+    [Authorize(Policy = "RequireUserRole")]
     public async Task<IActionResult> GetAllEvents()
     {
         // In a real scenario, you'd fetch all events from the database
