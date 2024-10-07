@@ -22,8 +22,9 @@ public class UserService : IUserService
 
     public async Task<User> CreateUserAsync(User user)
     {
-        _users.Add(user);
-        return await Task.FromResult(user);
+        var newUser = user with { id = Guid.NewGuid() }; // Ensure a new GUID is generated
+        _users.Add(newUser);
+        return await Task.FromResult(newUser);
     }
 
     public async Task<User?> UpdateUserAsync(Guid id, User user)
@@ -43,4 +44,6 @@ public class UserService : IUserService
         _users.Remove(user);
         return await Task.FromResult(true);
     }
+
+    
 }

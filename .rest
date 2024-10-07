@@ -5,7 +5,7 @@ Content-Type: application/json
 ###
 
 ### 2. Create a New User (POST)
-POST http://localhost:5000/api/user/create
+POST http://localhost:5001/api/user/create
 Content-Type: application/json
 
 {
@@ -13,13 +13,14 @@ Content-Type: application/json
   "lastname": "Doe",
   "email": "john.doe@example.com",
   "password": "password123",
-  "recuringDays": 7
+  "recurringDays": 7,
+  "role": 3
 }
 
 ###
 
 ### 3. Get All Users (GET)
-GET http://localhost:5000/api/user/all
+GET http://localhost:5001/api/user/all
 
 ###
 

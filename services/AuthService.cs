@@ -16,13 +16,6 @@ public static class Policies
     public const string RequireAdminRole = "RequireAdminRole";
 }
 
-public class AuthorizedUser
-{
-    public Guid Id { get; set; }
-    public string Username { get; set; }
-    public UserRole Role { get; set; }
-}
-
 public static class AuthorizationSetup
 {
     public static void AddAuthorizationPolicies(this IServiceCollection services)
