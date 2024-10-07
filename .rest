@@ -21,11 +21,14 @@ Content-Type: application/json
 
 ### 3. Get All Users (GET)
 GET http://localhost:5001/api/user/all
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImp0aSI6ImFkOWMzZGRhLTI3ZGUtNGJmMC04ZGJlLTAxZDNiN2FmMTFlYyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiNDY5MjVmM2EtYjg1Ni00YTFmLWJiZjQtNjM1ODNmNWI1ODEyIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3MjgzMTY2OTgsImlzcyI6IkNhbGVuZGVyZnkiLCJhdWQiOiJDYWxlbmRlcmZ5LVVzZXJzIn0.H_nls4ZQMHNJ9Ruvc6DzjA1Nz0rp70Lzyuaqktd41xY
+
 
 ###
 
 ### 4. Get User by ID (GET)                  Add one and put id here
-GET http://localhost:5001/api/user/6ea385ac-9a0c-48c3-9343-87e8eb1db43e 
+GET http://localhost:5001/api/user/5a85a43b-5f15-4fe5-8a92-a5e246926652 
+
 Content-Type: application/json
 
 ###
@@ -33,7 +36,9 @@ Content-Type: application/json
 ###
 
 ### 5. Update User by ID (PUT)
-PUT http://localhost:5000/api/user/{{{$guid}}}
+PUT http://localhost:5001/api/user/{{{$guid}}}
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImp0aSI6IjUzYzNhNzU0LTJlY2UtNDYxMy1iMjhlLWQ0NmZhMWYxMzE2ZCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiNWE4NWE0M2ItNWYxNS00ZmU1LThhOTItYTVlMjQ2OTI2NjUyIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3MjgzMTQzOTUsImlzcyI6IkNhbGVuZGVyZnkiLCJhdWQiOiJDYWxlbmRlcmZ5LVVzZXJzIn0.wefoUidq1MGFRnGEPP1mmgXpZKzmeq5UoQ-HOwS-kyQ
+
 Content-Type: application/json
 
 {
@@ -49,7 +54,8 @@ Content-Type: application/json
 ###
 
 ### 6. Delete User by ID (DELETE)
-DELETE http://localhost:5000/api/user/{{$guids}}
+DELETE http://localhost:5001/api/user/868f0c78-e04b-4119-9562-e026fbcf7f7e
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImp0aSI6ImFkOWMzZGRhLTI3ZGUtNGJmMC04ZGJlLTAxZDNiN2FmMTFlYyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiNDY5MjVmM2EtYjg1Ni00YTFmLWJiZjQtNjM1ODNmNWI1ODEyIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3MjgzMTY2OTgsImlzcyI6IkNhbGVuZGVyZnkiLCJhdWQiOiJDYWxlbmRlcmZ5LVVzZXJzIn0.H_nls4ZQMHNJ9Ruvc6DzjA1Nz0rp70Lzyuaqktd41xY
 Content-Type: application/json
 
 ###
@@ -72,3 +78,9 @@ Content-Type: application/json
   "password": "password122"
 }
 ###
+### Get User Profile (Authenticated Request)
+GET http://localhost:5001/api/user/all
+
+### Get User Profile (Authenticated Request)
+GET http://localhost:5001/api/user/all
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huLmRvZUBleGFtcGxlLmNvbSIsImp0aSI6IjUzYzNhNzU0LTJlY2UtNDYxMy1iMjhlLWQ0NmZhMWYxMzE2ZCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiNWE4NWE0M2ItNWYxNS00ZmU1LThhOTItYTVlMjQ2OTI2NjUyIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3MjgzMTQzOTUsImlzcyI6IkNhbGVuZGVyZnkiLCJhdWQiOiJDYWxlbmRlcmZ5LVVzZXJzIn0.wefoUidq1MGFRnGEPP1mmgXpZKzmeq5UoQ-HOwS-kyQ

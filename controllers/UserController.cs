@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 [ApiController]
 [Route("api/user")]
-public class UserController : ControllerBase {
-    
+public class UserController : ControllerBase 
+{
     private readonly IUserService _userService;
 
     public UserController(IUserService userService)
@@ -13,9 +15,26 @@ public class UserController : ControllerBase {
         _userService = userService;
     }
 
-    [HttpGet("Test")] // http://localhost:5001/api/user/Test
+    [HttpGet("Test")]
     public IActionResult APIHealth() => Ok("API is healthy!");
 
+    [Authorize(Policy = Policies.RequireUserRole)]
+    [HttpGet("profile")]
+    public IActionResult GetProfile()
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+        var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+
+        return Ok(new { 
+            Message = "This is accessible to all authenticated users", 
+            UserId = userId,
+            Email = userEmail,
+            Role = userRole
+        });
+    }
+
+    //[Authorize(Policy = Policies.RequireAdminRole)]
     [HttpPost("create")]
     public async Task<IActionResult> CreateUser([FromBody] User user)
     {
@@ -24,42 +43,39 @@ public class UserController : ControllerBase {
         return Ok("User has been successfully created!");
     }
 
-    [HttpGet("{id}")] // Get ID from user for url param | http://localhost:5001/api/user/{id}
-    public async Task<IActionResult> GetUser(Guid id) {
+    [Authorize(Policy = Policies.RequireAdminRole)]
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetUser(Guid id)
+    {
         var _user = await _userService.GetUserAsync(id);
-        // Get "_user" info from database. 
         if (_user == null)
             return NotFound("User not found");
         return Ok(_user);
     }
 
-    [HttpGet("all")] // http://localhost:5001/api/user/all
-    public async Task<IActionResult> GetAllUsers() {
+    [Authorize(Policy = Policies.RequireAdminRole)]
+    [HttpGet("all")]
+    public async Task<IActionResult> GetAllUsers()
+    {
         var users = await _userService.GetAllUsersAsync();
-        // Get all users from database. 
         return Ok(users);
     }
 
-    [HttpPut("update/v1")] // http:localhost:5001/api/user/update/v1
-    public async Task<IActionResult> UpdateUser([FromBody] User user) {
+    [Authorize(Policy = Policies.RequireAdminRole)]
+    [HttpPut("update")]
+    public async Task<IActionResult> UpdateUser([FromBody] User user)
+    {
         var updatedUser = await _userService.UpdateUserAsync(user.id, user);
-        // Update Entire User from "_user" 
         if (updatedUser == null)
             return NotFound("User not found");
         return Ok("User has been successfully updated");
     }
 
-    // [HttpPatch("update/v2")]// https:localhost:5000/api/user/update/v2
-    // public async Task<IActionResult> UpdateUser([FromBody] User user) {
-    //     var _user = new User(user.id, user.Firstname, user.Lastname, user.Email, user.Password, user.RecuringDays);
-    //     // Update Entire User from "_user" 
-    //     return Ok("User has been successfully updated");
-    // }
-
-    [HttpDelete("delete")] // http:localhost:5001/api/user/delete
-    public async Task<IActionResult> DeleteUser([FromBody] User user) {
-        var result = await _userService.DeleteUserAsync(user.id);
-        // Delete "_user" from database.
+    [Authorize(Policy = Policies.RequireAdminRole)]
+    [HttpDelete("delete/{id}")]
+    public async Task<IActionResult> DeleteUser(Guid id)
+    {
+        var result = await _userService.DeleteUserAsync(id);
         if (!result)
             return NotFound("User not found");
         return Ok("User has been successfully deleted!");
