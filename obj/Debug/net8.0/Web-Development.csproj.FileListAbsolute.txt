@@ -32,3 +32,45 @@
 /Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/Web-Development.pdb
 /Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/Web-Development.genruntimeconfig.cache
 /Users/steynhellendoorn/Informatica jaar twee (deel 2)/Web development/Kans_twee/Web-Development/obj/Debug/net8.0/ref/Web-Development.dll
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\appsettings.json
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Web-Development.exe
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Web-Development.deps.json
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Web-Development.runtimeconfig.json
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Web-Development.dll
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Web-Development.pdb
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\zdenn\Desktop\Web-Development\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\Web-Development.csproj.AssemblyReference.cache
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\Web-Development.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\Web-Development.AssemblyInfoInputs.cache
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\Web-Development.AssemblyInfo.cs
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\Web-Development.csproj.CoreCompileInputs.cache
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\Web-Development.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\Web-Development.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\Web-Development.sourcelink.json
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\staticwebassets\msbuild.Web-Development.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\staticwebassets\msbuild.build.Web-Development.props
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.Web-Development.props
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.Web-Development.props
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\scopedcss\bundle\Web-Development.styles.css
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\Web-Deve.25721CB9.Up2Date
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\Web-Development.dll
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\refint\Web-Development.dll
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\Web-Development.pdb
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\Web-Development.genruntimeconfig.cache
+C:\Users\zdenn\Desktop\Web-Development\obj\Debug\net8.0\ref\Web-Development.dll
