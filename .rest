@@ -24,8 +24,8 @@ GET http://localhost:5001/api/user/all
 
 ###
 
-### 4. Get User by ID (GET)
-GET http://localhost:5000/api/user/{{{{$guid}}}}
+### 4. Get User by ID (GET)                  Add one and put id here
+GET http://localhost:5001/api/user/6ea385ac-9a0c-48c3-9343-87e8eb1db43e 
 Content-Type: application/json
 
 ###
@@ -53,5 +53,22 @@ DELETE http://localhost:5000/api/user/{{$guids}}
 Content-Type: application/json
 
 ###
-# Vervang {{userId}} met een daadwerkelijke gebruikers-ID
+//CORRECT PASSWORD
+POST http://localhost:5001/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "john.doe@example.com",
+  "password": "password123"
+}
+### 
+
+//WRONG PASSWORD
+POST http://localhost:5001/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "john.doe@example.com",
+  "password": "password122"
+}
 ###
