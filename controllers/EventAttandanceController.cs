@@ -22,13 +22,11 @@ public class EventAttendanceController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> CreateEventAttendance([FromBody] EventAttendance eventAttendance)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(ModelState);
+        if (!ModelState.IsValid) return BadRequest(ModelState);
 
         // Gebruik de juiste service voor event attendance
         var result = await _eventattendanceService.RegisterEventAttendance(eventAttendance);
-        if (!result.IsSuccess)
-            return StatusCode(500, result.ErrorMessage);
+        if (!result.IsSuccess) return StatusCode(500, result.ErrorMessage);
 
         return Ok(result.Message);
     }
@@ -39,11 +37,8 @@ public class EventAttendanceController : ControllerBase
     {
         // Gebruik de juiste service voor event attendance
         var attendance = await _eventattendanceService.GetEventAttendances(id);
-        if (attendance == null || attendance.Count == 0)
-        {
-            return NotFound($"No attendance found with ID {id}");
-        }
-
+        if (attendance == null || attendance.Count == 0) return NotFound($"No attendance found with ID {id}");
+        
         return Ok(attendance);
     }
 
@@ -53,8 +48,7 @@ public class EventAttendanceController : ControllerBase
     {
         // Gebruik de juiste service voor event attendance
         var result = await _eventattendanceService.RemoveEventAttendance(id);
-        if (!result.IsSuccess)
-            return NotFound(result.ErrorMessage);
+        if (!result.IsSuccess) return NotFound(result.ErrorMessage);
 
         return Ok($"EventAttendance with ID {id} has been successfully deleted");
     }
