@@ -1,7 +1,6 @@
 public class EventService
 {
     private readonly List<Event> _events = new();
-
     public async Task<Event?> GetEventAsync(Guid id) => await Task.FromResult(_events.FirstOrDefault(e => e.id == id));
     public async Task<IEnumerable<Event>> GetAllEventsAsync() => await Task.FromResult(_events);
     public async Task<Event> CreateEventAsync(Event eventItem) { _events.Add(eventItem); return await Task.FromResult(eventItem); }

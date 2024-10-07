@@ -1,15 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-
 [ApiController]
 [Route("api/events")]
 public class EventController : ControllerBase
 {
     [HttpGet("Test")] // http://localhost:5001/api/events/Test
     public IActionResult APIHealth() => Ok("Event API is healthy!");
-
     [HttpPost("create")] // http://localhost:5001/api/events/create
     public async Task<IActionResult> CreateEvent([FromBody] Event eventItem)
     {
@@ -17,7 +14,6 @@ public class EventController : ControllerBase
         // Save "_event" to new database. 
         return Ok($"Event has been successfully created! ID:{_event.id} Title:{_event.Title}");
     }
-
     [HttpGet("{id}")] // http://localhost:5001/api/events/{id}
     public async Task<IActionResult> GetEvent(Guid id)
     {
@@ -26,9 +22,7 @@ public class EventController : ControllerBase
         // Get "_event" info from database. 
         return Ok(_event);
     }
-
     [HttpGet("all")] // http://localhost:5001/api/events/all
-    [Authorize(Policy = "RequireUserRole")]
     public async Task<IActionResult> GetAllEvents()
     {
         // In a real scenario, you'd fetch all events from the database
@@ -36,7 +30,6 @@ public class EventController : ControllerBase
         // Get all events from database. 
         return Ok(new[] { _event });
     }
-
     [HttpPut("update")] // http://localhost:5001/api/events/update
     public async Task<IActionResult> UpdateEvent([FromBody] Event eventItem)
     {
@@ -44,7 +37,6 @@ public class EventController : ControllerBase
         // Update entire Event from "_event" in the database
         return Ok("Event has been successfully updated");
     }
-
     [HttpDelete("delete")] // http://localhost:5001/api/events/delete
     public async Task<IActionResult> DeleteEvent([FromBody] Event eventItem)
     {
