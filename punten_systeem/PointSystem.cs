@@ -1,5 +1,9 @@
+
+
 public class PointSystem {
     
+    public record PointRecord(User user, int Points, DateTime Date);
+
     /*
     - Users are getting points for participating with events.
     - When user has a current streak you get bonus points
@@ -24,7 +28,7 @@ public class PointSystem {
     // TODO
     // Make a function that can read and write to the database.
     // Make a fuction that (Get, Add, Delete, Update) Users points.
-      
+    
     // Make a function to trade with points for cosmetics.
     // Make a list of purchasable badges / special roles.
     // Make a list of purchasable cosmetics.
