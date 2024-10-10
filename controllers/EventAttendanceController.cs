@@ -15,21 +15,21 @@ public class EventAttendanceController : ControllerBase
     [HttpPost("create")] // http://localhost:5001/api/eventattendance/create
     public async Task<IActionResult> CreateEventAttendance([FromBody] EventAttendance eventAttendance)
     {
-        var newAttendance = new EventAttendance(Guid.NewGuid(), eventAttendance.UserId, eventAttendance.EventId, 
+        var newAttendance = new EventAttendance(Guid.NewGuid(), eventAttendance.UserID, eventAttendance.EventID, 
         eventAttendance.Rating, eventAttendance.Feedback
         );
 
         // Simulate saving to a database
         eventAttendances.Add(newAttendance);
 
-        return Ok($"EventAttendance successfully created for Event ID: {newAttendance.EventId}");
+        return Ok($"EventAttendance successfully created for Event ID: {newAttendance.EventID}");
     }
 
     // Get an EventAttendance entry by its ID
     [HttpGet("{id}")] // http://localhost:5000/api/eventattendance/{id}
     public async Task<IActionResult> GetEventAttendance(Guid id)
     {
-        var attendance = eventAttendances.Find(ea => ea.id == id);
+        var attendance = eventAttendances.Find(ea => ea.Id == id);
         if (attendance == null)
         {
             return NotFound($"No attendance found with ID {id}");
@@ -49,14 +49,14 @@ public class EventAttendanceController : ControllerBase
     [HttpPut("update/{id}")] // http://localhost:5000/api/eventattendance/update/{id}
     public async Task<IActionResult> UpdateEventAttendance(Guid id, [FromBody] EventAttendance updatedAttendance)
     {
-        var attendance = eventAttendances.Find(ea => ea.id == id);
+        var attendance = eventAttendances.Find(ea => ea.Id == id);
         if (attendance == null)
         {
             return NotFound($"No attendance found with ID {id}");
         }
 
         // Update the attendance details
-        attendance = new EventAttendance(id, updatedAttendance.UserId, updatedAttendance.EventId, updatedAttendance.Rating, updatedAttendance.Feedback);
+        attendance = new EventAttendance(id, updatedAttendance.UserID, updatedAttendance.EventID, updatedAttendance.Rating, updatedAttendance.Feedback);
         return Ok($"EventAttendance with ID {id} has been successfully updated");
     }
 
@@ -64,7 +64,7 @@ public class EventAttendanceController : ControllerBase
     [HttpDelete("delete/{id}")] // http://localhost:5000/api/eventattendance/delete/{id}
     public async Task<IActionResult> DeleteEventAttendance(Guid id)
     {
-        var attendance = eventAttendances.Find(ea => ea.id == id);
+        var attendance = eventAttendances.Find(ea => ea.Id == id);
         if (attendance == null)
         {
             return NotFound($"No attendance found with ID {id}");

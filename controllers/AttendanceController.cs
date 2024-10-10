@@ -21,7 +21,7 @@ namespace YourNamespace.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterAttendance([FromBody] Attendance attendance)
         {
-            if (attendance == null || attendance.UserId == Guid.Empty || attendance.date == DateTime.MinValue)
+            if (attendance == null || attendance.UserId == Guid.Empty || attendance.Date == DateTime.MinValue)
             {
                 return BadRequest("Invalid attendance data.");
             }
