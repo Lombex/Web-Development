@@ -46,5 +46,4 @@ public class PointSystem {
           |
           |_ Get user login/logout time from Event Attandance class and add points accordingly. 
     */
-
 }

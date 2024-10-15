@@ -55,3 +55,14 @@ Content-Type: application/json
 ###
 # Vervang {{userId}} met een daadwerkelijke gebruikers-ID
 ###
+
+
+####
+
+GET http://localhost:5001/api/points/{{$guids}}
+
+###
+
+POST http://localhost:5001/api/points/ 
+
+
