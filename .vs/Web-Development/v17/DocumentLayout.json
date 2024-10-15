@@ -3,14 +3,6 @@
   "WorkspaceRootPath": "C:\\Users\\zdenn\\Desktop\\Web-Development\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\punten_systeem\\pointsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:punten_systeem\\pointsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\punten_systeem\\point system controllers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:punten_systeem\\point system controllers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -19,8 +11,16 @@
       "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:controllers\\attendancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\controllers\\eventcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:controllers\\eventcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\.rest||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:.rest||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\punten_systeem\\pointsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:punten_systeem\\pointsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,7 +38,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
+              "Title": ".rest",
+              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\.rest",
+              "RelativeDocumentMoniker": ".rest",
+              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\.rest",
+              "RelativeToolTip": ".rest",
+              "ViewState": "AQIAABUAAAAAAAAAAAA4wEAAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2024-10-15T22:35:42.231Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "UserController.cs",
               "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\UserController.cs",
               "RelativeDocumentMoniker": "controllers\\UserController.cs",
@@ -51,13 +64,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Point System Controllers.cs",
               "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\punten_systeem\\Point System Controllers.cs",
               "RelativeDocumentMoniker": "punten_systeem\\Point System Controllers.cs",
               "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\punten_systeem\\Point System Controllers.cs",
               "RelativeToolTip": "punten_systeem\\Point System Controllers.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAABAAAAAAAAAA",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAA0AAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-09T17:13:08.278Z",
               "EditorCaption": ""
@@ -65,46 +78,12 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "PointSystem.cs",
-              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\punten_systeem\\PointSystem.cs",
-              "RelativeDocumentMoniker": "punten_systeem\\PointSystem.cs",
-              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\punten_systeem\\PointSystem.cs",
-              "RelativeToolTip": "punten_systeem\\PointSystem.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAQAAAAiAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-09T17:11:32.471Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "Orientation": 0,
-      "VerticalTabListWidth": 256,
-      "FloatingWindowState": {
-        "Id": "6247ac68-e232-4186-ba02-f777c6c93c7b",
-        "Display": 1,
-        "X": 1672,
-        "Y": 84,
-        "Width": 1477,
-        "Height": 1029,
-        "WindowState": 0
-      },
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "AttendanceController.cs",
               "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\AttendanceController.cs",
               "RelativeDocumentMoniker": "controllers\\AttendanceController.cs",
               "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\AttendanceController.cs",
               "RelativeToolTip": "controllers\\AttendanceController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAACXAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-09T19:08:40.492Z",
               "EditorCaption": ""
@@ -112,14 +91,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "EventController.cs",
-              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\EventController.cs",
-              "RelativeDocumentMoniker": "controllers\\EventController.cs",
-              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\EventController.cs",
-              "RelativeToolTip": "controllers\\EventController.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAwAAAAeAAAA",
+              "Title": "PointSystem.cs",
+              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\punten_systeem\\PointSystem.cs",
+              "RelativeDocumentMoniker": "punten_systeem\\PointSystem.cs",
+              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\punten_systeem\\PointSystem.cs",
+              "RelativeToolTip": "punten_systeem\\PointSystem.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADAAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-09T17:14:12.835Z",
+              "WhenOpened": "2024-10-09T17:11:32.471Z",
               "EditorCaption": ""
             }
           ]
