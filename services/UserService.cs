@@ -53,7 +53,6 @@ public class UserService : IUserService
             throw new Exception("User not found.");
         }
 
-        // Create a new user with updated fields
         var updatedUserEntity = new User(
             user.Id,
             updatedUser.Firstname,

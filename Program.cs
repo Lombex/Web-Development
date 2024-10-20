@@ -49,10 +49,8 @@ app.MapControllers();
 
 app.Run();
 
-public record User(Guid Id, string Firstname, string Lastname, string Email, string Password, int RecuringDays, UserRole Role)
-{
-    internal readonly Guid id;
-}
+public record User(Guid Id, string Firstname, string Lastname, string Email, string Password, int RecuringDays, UserRole Role);
+
 public record EventAttendance(Guid Id, int UserID, int EventID, int Rating, string Feedback); // Recheck what Rating is.
 public record Event(Guid Id, string Title, string Description, DateTime StartTime, DateTime EndTime, string Location, bool Approval)
 {
