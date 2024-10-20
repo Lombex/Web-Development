@@ -1,49 +1,90 @@
+// UserService.cs
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
+
+
 public interface IUserService
 {
-    Task<User?> GetUserAsync(Guid id);
-    Task<IEnumerable<User>> GetAllUsersAsync();
     Task<User> CreateUserAsync(User user);
-    Task<User?> UpdateUserAsync(Guid id, User user);
+    Task<User> GetUserAsync(Guid id);
+    Task<User> UpdateUserAsync(Guid id, User updatedUser);
     Task<bool> DeleteUserAsync(Guid id);
+    Task<IEnumerable<User>> GetAllUsersAsync(); // method to get all users
 }
+
 public class UserService : IUserService
 {
-    private readonly List<User> _users = new();
+    private readonly AppDbContext _context;
 
-    public async Task<User?> GetUserAsync(Guid id)
+    public UserService(AppDbContext context)
     {
-        return await Task.FromResult(_users.FirstOrDefault(u => u.id == id));
+        _context = context;
     }
 
-    public async Task<IEnumerable<User>> GetAllUsersAsync()
+    public async Task<User> CreateUserAsync(User user) //create user
     {
-        return await Task.FromResult(_users);
+        var newUser = new User(
+            Guid.NewGuid(),
+            user.Firstname,
+            user.Lastname,
+            user.Email,
+            user.Password,
+            user.RecuringDays,
+            user.Role
+        );
+
+        _context.Users.Add(newUser);
+        await _context.SaveChangesAsync();
+
+        return newUser;
     }
 
-    public async Task<User> CreateUserAsync(User user)
+    public async Task<User> GetUserAsync(Guid id) // get user by id
     {
-        var newUser = user with { id = Guid.NewGuid() }; // Ensure a new GUID is generated
-        _users.Add(newUser);
-        return await Task.FromResult(newUser);
+        return await _context.Users.FindAsync(id);
     }
 
-    public async Task<User?> UpdateUserAsync(Guid id, User user)
+    public async Task<User> UpdateUserAsync(Guid id, User updatedUser) //update user
     {
-        var index = _users.FindIndex(u => u.id == id);
-        if (index == -1) return null;
-        
-        _users[index] = user with { id = id }; // Update met behoud van de originele ID
-        return await Task.FromResult(_users[index]);
+        var user = await _context.Users.FindAsync(id);
+        if (user == null)
+        {
+            throw new Exception("User not found.");
+        }
+
+        var updatedUserEntity = new User(
+            user.Id,
+            updatedUser.Firstname,
+            updatedUser.Lastname,
+            updatedUser.Email,
+            updatedUser.Password,
+            updatedUser.RecuringDays,
+            updatedUser.Role
+        );
+
+
+        _context.Users.Remove(user);
+        _context.Users.Add(updatedUserEntity);
+
+        await _context.SaveChangesAsync();
+
+        return updatedUserEntity;
     }
 
-    public async Task<bool> DeleteUserAsync(Guid id)
+    async Task<bool> IUserService.DeleteUserAsync(Guid id)
     {
-        var user = _users.FirstOrDefault(u => u.id == id);
-        if (user == null) return false;
-        
-        _users.Remove(user);
-        return await Task.FromResult(true);
+        var user =  await _context.Users.FindAsync(id);
+        if (user == null)
+        {
+            return false;
+        }
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
+        return true;
     }
-
-    
+    public async Task<IEnumerable<User>> GetAllUsersAsync() //get all users
+    {
+        return await _context.Users.ToListAsync();
+    }
 }

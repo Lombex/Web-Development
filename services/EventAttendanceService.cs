@@ -18,7 +18,7 @@ public class EventAttendanceService : IEventAttendanceService
     // Get EventAttendance by ID
     public async Task<EventAttendance?> GetEventAttendanceAsync(Guid id)
     {
-        return await Task.FromResult(_eventAttendances.FirstOrDefault(ea => ea.id == id));
+        return await Task.FromResult(_eventAttendances.FirstOrDefault(ea => ea.Id == id));
     }
 
     // Get all EventAttendances
@@ -37,21 +37,21 @@ public class EventAttendanceService : IEventAttendanceService
     // Update an existing EventAttendance
     public async Task<EventAttendance?> UpdateEventAttendanceAsync(Guid id, EventAttendance eventAttendance)
     {
-        var existingAttendance = _eventAttendances.FirstOrDefault(ea => ea.id == id);
+        var existingAttendance = _eventAttendances.FirstOrDefault(ea => ea.Id == id);
         if (existingAttendance == null)
         {
             return null; // Return null if the attendance entry is not found
         }
 
         // Update the entry
-        existingAttendance = new EventAttendance(id, eventAttendance.UserId, eventAttendance.EventId, eventAttendance.Rating, eventAttendance.Feedback);
+        existingAttendance = new EventAttendance(id, eventAttendance.UserID, eventAttendance.EventID, eventAttendance.Rating, eventAttendance.Feedback);
         return await Task.FromResult(existingAttendance);
     }
 
     // Delete EventAttendance
     public async Task<bool> DeleteEventAttendanceAsync(Guid id)
     {
-        var attendance = _eventAttendances.FirstOrDefault(ea => ea.id == id);
+        var attendance = _eventAttendances.FirstOrDefault(ea => ea.Id == id);
         if (attendance == null) return false;
 
         _eventAttendances.Remove(attendance);

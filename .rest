@@ -1,5 +1,5 @@
 ### 1. Test API Health
-GET http://localhost:5000/api/user/Test
+GET http://localhost:5001/api/user/Test
 Content-Type: application/json
 
 ###
@@ -9,12 +9,12 @@ POST http://localhost:5001/api/user/create
 Content-Type: application/json
 
 {
-  "firstname": "John",
-  "lastname": "Doe",
-  "email": "john.doe@example.com",
-  "password": "password123",
-  "recurringDays": 7,
-  "role": 3
+  "firstname": "Altaaaeeeeeaaa",
+  "lastname": "Doek",
+  "email": "altaassssf.doe@example.com",
+  "password": "password23311",
+  "recuringDays": 4,
+  "role": 1
 }
 
 ###
@@ -25,7 +25,7 @@ GET http://localhost:5001/api/user/all
 ###
 
 ### 4. Get User by ID (GET)
-GET http://localhost:5000/api/user/{{{{$guid}}}}
+GET http://localhost:5001/api/user/f792a3cc-434d-4cbd-9a89-3175c1ef8657
 Content-Type: application/json
 
 ###
@@ -33,14 +33,14 @@ Content-Type: application/json
 ###
 
 ### 5. Update User by ID (PUT)
-PUT http://localhost:5000/api/user/{{{$guid}}}
+PUT http://localhost:5001/api/user/f792a3cc-434d-4cbd-9a89-3175c1ef8657
 Content-Type: application/json
 
 {
-  "firstname": "Jane",
-  "lastname": "Doe",
-  "email": "jane.doe@example.com",
-  "password": "newpassword123",
+  "firstname": "yaaaaa",
+  "lastname": "Doasdasdae",
+  "email": "janasdase.doe@example.com",
+  "password": "newasdasdpassword123",
   "recuringDays": 10
 }
 
@@ -49,7 +49,7 @@ Content-Type: application/json
 ###
 
 ### 6. Delete User by ID (DELETE)
-DELETE http://localhost:5000/api/user/{{$guids}}
+DELETE http://localhost:5001/api/user/FA3B7FD9-7923-487C-B16D-85FE6D6DA78B
 Content-Type: application/json
 
 ###

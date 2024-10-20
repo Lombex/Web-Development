@@ -1,11 +1,12 @@
+// UserController.cs
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
 [ApiController]
 [Route("api/user")]
-public class UserController : ControllerBase {
-    
+public class UserController : ControllerBase
+{
     private readonly IUserService _userService;
 
     public UserController(IUserService userService)
@@ -19,49 +20,81 @@ public class UserController : ControllerBase {
     [HttpPost("create")]
     public async Task<IActionResult> CreateUser([FromBody] User user)
     {
-        var _user = new User(Guid.NewGuid(), user.Firstname, user.Lastname, user.Email, user.Password, user.RecuringDays, user.Role);
-        await _userService.CreateUserAsync(_user);
-        return Ok("User has been successfully created!");
+        if (user == null)
+        {
+            return BadRequest("User data is invalid.");
+        }
+
+        try
+        {
+            var newUser = await _userService.CreateUserAsync(user);
+            return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Internal server error: " + ex.Message);
+        }
     }
 
-    [HttpGet("{id}")] // Get ID from user for url param | http://localhost:5001/api/user/{id}
-    public async Task<IActionResult> GetUser(Guid id) {
-        var _user = await _userService.GetUserAsync(id);
-        // Get "_user" info from database. 
-        if (_user == null)
-            return NotFound("User not found");
-        return Ok(_user);
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetUser(Guid id)
+    {
+        var user = await _userService.GetUserAsync(id);
+        if (user == null)
+        {
+            return NotFound("User not found.");
+        }
+        return Ok(user);
     }
 
-    [HttpGet("all")] // http://localhost:5001/api/user/all
-    public async Task<IActionResult> GetAllUsers() {
-        var users = await _userService.GetAllUsersAsync();
-        // Get all users from database. 
-        return Ok(users);
-    }
-
-    [HttpPut("update/v1")] // http:localhost:5001/api/user/update/v1
-    public async Task<IActionResult> UpdateUser([FromBody] User user) {
-        var updatedUser = await _userService.UpdateUserAsync(user.id, user);
-        // Update Entire User from "_user" 
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateUser(Guid id, [FromBody] User updatedUser)
+    {
         if (updatedUser == null)
-            return NotFound("User not found");
-        return Ok("User has been successfully updated");
+        {
+            return BadRequest("User data is invalid.");
+        }
+
+        try
+        {
+            var user = await _userService.UpdateUserAsync(id, updatedUser);
+            return Ok(user);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Internal server error: " + ex.Message);
+        }
     }
 
-    // [HttpPatch("update/v2")]// https:localhost:5000/api/user/update/v2
-    // public async Task<IActionResult> UpdateUser([FromBody] User user) {
-    //     var _user = new User(user.id, user.Firstname, user.Lastname, user.Email, user.Password, user.RecuringDays);
-    //     // Update Entire User from "_user" 
-    //     return Ok("User has been successfully updated");
-    // }
+     [HttpDelete("{id}")] // Delete user
+    public async Task<IActionResult> DeleteUser(Guid id)
+    {
+        try
+        {
+            var isDeleted = await _userService.DeleteUserAsync(id);
+            if (!isDeleted)
+            {
+                return NotFound("User not found.");
+            }
+            return Ok("User deleted successfully.");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Internal server error: " + ex.Message);
+        }
+    }
 
-    [HttpDelete("delete")] // http:localhost:5001/api/user/delete
-    public async Task<IActionResult> DeleteUser([FromBody] User user) {
-        var result = await _userService.DeleteUserAsync(user.id);
-        // Delete "_user" from database.
-        if (!result)
-            return NotFound("User not found");
-        return Ok("User has been successfully deleted!");
+    [HttpGet("all")]
+    public async Task<IActionResult> GetAllUsers()
+    {
+        try
+        {
+            var users = await _userService.GetAllUsersAsync();
+            return Ok(users);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "Internal server error: " + ex.Message);
+        }
     }
 }
