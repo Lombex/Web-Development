@@ -45,3 +45,4 @@ public record EventAttendance(Guid Id, Guid UserID, Guid EventID, int Rating, st
 public record Event(Guid id, string Title, string Description, DateTime StartTime, DateTime EndTime, string Location, bool Approval);
 public record Attendance(Guid UserID, DateTime date); // Add user id to this attendace
 public record Admin(Guid id, string Username, string Password, string Email);
+public record ShopItems(Guid id, int price, string name, string description);
