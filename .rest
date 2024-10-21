@@ -11,7 +11,7 @@ POST http://localhost:5001/api/user/create
 Content-Type: application/json
 
 {
-  "FirstName": "John",
+  "FirstName": "J",
   "LastName": "Doe",
   "Email": "john.doe@example.com",
   "Password": "password123",
@@ -119,3 +119,46 @@ GET http://localhost:5001/api/points/{0f22cc4c-9e45-47dd-af83-b7db0752188c}/leve
 Content-Type: application/json
 
 ###
+
+### Create a new Event
+POST http://localhost:5001/api/event/create
+Content-Type: application/json
+
+{
+  "Id": "",  // Laat dit veld als lege GUID voor automatisch genereren
+  "Title": "Sample Event",
+  "Description": "Description of the event",
+  "StartTime": "2024-12-01T10:00:00",
+  "EndTime": "2024-12-01T12:00:00",
+  "Location": "Amsterdam",
+  "Approval": true
+}
+### Test API Health
+GET http://localhost:5001/api/events/Test
+Content-Type: application/json
+### Create a new Event
+POST http://localhost:5001/api/events/create
+Content-Type: application/json
+
+{
+  "Title": "Sample Event",
+  "Description": "Description of the event",
+  "StartTime": "2024-12-01T10:00:00",
+  "EndTime": "2024-12-01T12:00:00",
+  "Location": "Amsterdam",
+  "Approval": true
+}
+### Test API Health
+GET http://localhost:5001/api/eventattendance/Test
+Content-Type: application/json
+
+### Register a new Event Attendance
+POST http://localhost:5001/api/eventattendance/register
+Content-Type: application/json
+
+{
+  "UserId": "E4F85926-770F-4B45-80A2-99D323EBEB52",  // Vervang door een echte User ID
+  "EventID": "5A285679-F4C0-4A16-92B2-C8371B56EA5A", // Vervang door een echt Event ID
+  "Rating": 5,
+  "Feedback": "Great event!"
+}

@@ -30,8 +30,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Change IUserService to scoped
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<EventService>();
 builder.Services.AddScoped<IPointSystemService, PointSystemService>();
+builder.Services.AddScoped<IEventAttendanceService, EventAttendanceService>();
+builder.Services.AddScoped<IEventService, EventService>();
+
 
 var app = builder.Build();
 app.Urls.Add("http://localhost:5001");

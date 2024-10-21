@@ -12,6 +12,12 @@ public interface IPointSystemService
 
 public class PointSystemService : IPointSystemService
 {
+     private readonly AppDbContext _context;
+
+    public PointSystemService(AppDbContext context)
+    {
+        _context = context;
+    }
     public async Task<int> GetPointsFromUser(User user)
     {
         var userModel = user.Points.PointAmount;

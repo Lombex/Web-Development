@@ -6,43 +6,51 @@ using System.Threading.Tasks;
 [Route("api/events")]
 public class EventController : ControllerBase
 {
+    private readonly IEventService _eventService;
+
+    public EventController(IEventService eventService)
+    {
+        _eventService = eventService;
+    }
+
     [HttpGet("Test")] // http://localhost:5001/api/events/Test
     public IActionResult APIHealth() => Ok("Event API is healthy!");
+
     [HttpPost("create")] // http://localhost:5001/api/events/create
     public async Task<IActionResult> CreateEvent([FromBody] Event eventItem)
     {
-        var _event = new Event(Guid.NewGuid(), eventItem.Title, eventItem.Description, eventItem.StartTime, eventItem.EndTime, eventItem.Location, eventItem.Approval);
-        // Save "_event" to new database. 
-        return Ok($"Event has been successfully created! ID:{_event.Id} Title:{_event.Title}");
+        var createdEvent = await _eventService.CreateEventAsync(new Event(Guid.NewGuid(), eventItem.Title, eventItem.Description, eventItem.StartTime, eventItem.EndTime, eventItem.Location, eventItem.Approval));
+        return Ok($"Event has been successfully created! ID:{createdEvent.Id} Title:{createdEvent.Title}");
     }
+
     [HttpGet("{id}")] // http://localhost:5001/api/events/{id}
     public async Task<IActionResult> GetEvent(Guid id)
     {
-        // In a real scenario, you'd fetch the event from the database using the id
-        var _event = new Event(id, "Sample Event", "Description", DateTime.Now, DateTime.Now.AddHours(2), "Sample Location", true);
-        // Get "_event" info from database. 
+        var _event = await _eventService.GetEventAsync(id); // Haal event op vanuit database
+        if (_event == null) return NotFound("Event not found.");
         return Ok(_event);
     }
+
     [HttpGet("all")] // http://localhost:5001/api/events/all
     public async Task<IActionResult> GetAllEvents()
     {
-        // In a real scenario, you'd fetch all events from the database
-        var _event = new Event(Guid.NewGuid(), "Sample Event", "Description", DateTime.Now, DateTime.Now.AddHours(2), "Sample Location", true);
-        // Get all events from database. 
-        return Ok(new[] { _event });
+        var events = await _eventService.GetAllEventsAsync(); // Haal alle events uit de database
+        return Ok(events);
     }
+
     [HttpPut("update")] // http://localhost:5001/api/events/update
     public async Task<IActionResult> UpdateEvent([FromBody] Event eventItem)
     {
-        var _event = new Event(eventItem.Id, eventItem.Title, eventItem.Description, eventItem.StartTime, eventItem.EndTime, eventItem.Location, eventItem.Approval);
-        // Update entire Event from "_event" in the database
+        var updatedEvent = await _eventService.UpdateEventAsync(eventItem.Id, eventItem);
+        if (updatedEvent == null) return NotFound("Event not found.");
         return Ok("Event has been successfully updated");
     }
-    [HttpDelete("delete")] // http://localhost:5001/api/events/delete
-    public async Task<IActionResult> DeleteEvent([FromBody] Event eventItem)
+
+    [HttpDelete("delete/{id}")] // http://localhost:5001/api/events/delete/{id}
+    public async Task<IActionResult> DeleteEvent(Guid id)
     {
-        var _event = new Event(eventItem.Id, eventItem.Title, eventItem.Description, eventItem.StartTime, eventItem.EndTime, eventItem.Location, eventItem.Approval);
-        // Delete "_event" from database.
+        var isDeleted = await _eventService.DeleteEventAsync(id);
+        if (!isDeleted) return NotFound("Event not found.");
         return Ok("Event has been successfully deleted!");
     }
 }
