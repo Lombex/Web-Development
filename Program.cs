@@ -35,6 +35,8 @@ builder.Services.AddScoped<IEventAttendanceService, EventAttendanceService>();
 builder.Services.AddScoped<IEventService, EventService>();
 
 
+
+
 var app = builder.Build();
 app.Urls.Add("http://localhost:5001");
 

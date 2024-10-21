@@ -24,7 +24,6 @@ public class EventAttendanceController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        // Gebruik de juiste service voor event attendance
         var result = await _eventattendanceService.RegisterEventAttendance(eventAttendance);
         if (!result.IsSuccess) return StatusCode(500, result.ErrorMessage);
 
@@ -32,21 +31,19 @@ public class EventAttendanceController : ControllerBase
     }
 
     [Authorize(Policy = Policies.RequireUserRole)]
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetEventAttendance(Guid id)
+    [HttpGet("user/{userId}")]
+    public async Task<IActionResult> GetEventAttendances(Guid userId)
     {
-        // Gebruik de juiste service voor event attendance
-        var attendance = await _eventattendanceService.GetEventAttendances(id);
-        if (attendance == null || attendance.Count == 0) return NotFound($"No attendance found with ID {id}");
+        var attendances = await _eventattendanceService.GetEventAttendances(userId);
+        if (attendances == null || attendances.Count == 0) return NotFound($"No attendances found for User ID {userId}");
         
-        return Ok(attendance);
+        return Ok(attendances);
     }
 
     [Authorize(Policy = Policies.RequireAdminRole)]
     [HttpDelete("delete/{id}")]
     public async Task<IActionResult> DeleteEventAttendance(Guid id)
     {
-        // Gebruik de juiste service voor event attendance
         var result = await _eventattendanceService.RemoveEventAttendance(id);
         if (!result.IsSuccess) return NotFound(result.ErrorMessage);
 

@@ -10,4 +10,5 @@ public class User
     public string Password { get; set; }
     public int RecuringDays { get; set; }
     public UserPointsModel Points { get; set; } = new UserPointsModel();
+    public ICollection<EventAttendance> EventAttendances { get; set; } = new List<EventAttendance>();
 }

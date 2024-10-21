@@ -36,9 +36,10 @@ public class EventAttendanceService : IEventAttendanceService
     public async Task<List<EventAttendance>> GetEventAttendances(Guid userId)
     {
         return await _context.EventAttendances
-            .Where(ea => ea.UserID == userId)
+            .Where(ea => ea.Id == userId)
             .ToListAsync(); // Haal de attendances op voor een specifieke gebruiker
     }
+
 
     public async Task<(bool IsSuccess, string ErrorMessage)> RemoveEventAttendance(Guid id)
     {

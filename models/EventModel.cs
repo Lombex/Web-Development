@@ -10,8 +10,8 @@ public record Event
     public DateTime EndTime { get; init; }
     public string Location { get; init; }
     public bool Approval { get; init; }
+    public ICollection<EventAttendance> EventAttendances { get; set; } = new List<EventAttendance>();
 
-    // You may also add a constructor for ease of use
     public Event(Guid id, string title, string description, DateTime startTime, DateTime endTime, string location, bool approval)
     {
         Id = id;

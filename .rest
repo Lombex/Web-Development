@@ -153,12 +153,17 @@ GET http://localhost:5001/api/eventattendance/Test
 Content-Type: application/json
 
 ### Register a new Event Attendance
-POST http://localhost:5001/api/eventattendance/register
+### Test API Health
+GET http://localhost:5001/api/shopitems/test
+Content-Type: application/json
+
+### Create a new ShopItem
+POST http://localhost:5001/api/shopitems/create
 Content-Type: application/json
 
 {
-  "UserId": "E4F85926-770F-4B45-80A2-99D323EBEB52",  // Vervang door een echte User ID
-  "EventID": "5A285679-F4C0-4A16-92B2-C8371B56EA5A", // Vervang door een echt Event ID
-  "Rating": 5,
-  "Feedback": "Great event!"
+  "Price": 100,
+  "Name": "Sword",
+  "Description": "A sharp blade for battle."
 }
+

@@ -34,6 +34,17 @@ public class AppDbContext : DbContext
                     item.WithOwner(); // This assumes ShopItems is owned by UserPointsModel
                 });
             });
+        modelBuilder.Entity<EventAttendance>()
+            .HasOne(ea => ea.User)
+            .WithMany(u => u.EventAttendances)
+            .HasForeignKey(ea => ea.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<EventAttendance>()
+            .HasOne(ea => ea.Event)
+            .WithMany(e => e.EventAttendances)
+            .HasForeignKey(ea => ea.EventId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         base.OnModelCreating(modelBuilder);
     }
