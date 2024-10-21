@@ -1,8 +1,8 @@
 public class UserPointsModel
 {
-    public int AllTimePoints { get; set; }
-    public int PointAmount { get; set; }
-    public List<ShopItems> items { get; set; }
+    public int AllTimePoints { get; set; } =0;
+    public int PointAmount { get; set; } = 0;
+    public List<ShopItems> items { get; set; } = new();
 }
 
 public interface IPointSystemService
@@ -17,25 +17,19 @@ public interface IPointSystemService
 
 public class PointSystemService 
 {
-    private readonly Dictionary<Guid, int> _userPoints = new();
-
-    public async Task<int> GetPointsFromUser(User user)
-    {
-        return await Task.FromResult(_userPoints.TryGetValue(user.id, out var points) ? points : 0);
-    }
-
     public async void AddUserPoints(User user, int amount)
     {
-        if (_userPoints.ContainsKey(user.id)) _userPoints[user.id] += amount;
-        else _userPoints[user.id] = amount;
+        user.Points.AllTimePoints += amount;
+        user.Points.PointAmount += amount;
         await Task.CompletedTask;
     }
 
     public async Task<bool> BuyItem(User user, ShopItems item)
     {
-        if (_userPoints.TryGetValue(user.id, out var points) && points >= item.price)
+        if (user.Points.PointAmount >= item.price)
         {
-            _userPoints[user.id] -= item.price;
+            user.Points.PointAmount -= item.price;
+            user.Points.items.Add(item);
             return await Task.FromResult(true);
         }
         return await Task.FromResult(false);
@@ -43,9 +37,9 @@ public class PointSystemService
 
     public async Task<bool> UpdateUserPoints(User user, int amount)
     {
-        if (_userPoints.ContainsKey(user.id))
+        if (user != null)
         {
-            _userPoints[user.id] = amount;
+            user.Points.PointAmount = amount;
             return await Task.FromResult(true);
         }
         return await Task.FromResult(false);
@@ -53,9 +47,9 @@ public class PointSystemService
 
     public async Task<float> GetUserLevel(User user)
     {
-        if (_userPoints.TryGetValue(user.id, out var points))
+        if (user != null)
         {
-            float level = points / 100;
+            float level = user.Points.AllTimePoints / 100;
             return await Task.FromResult(level);
         }
         return await Task.FromResult(0.0f);
