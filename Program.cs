@@ -3,8 +3,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
+<<<<<<< HEAD
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+=======
+using System.Xml.Serialization;
+
+>>>>>>> PointsMethods
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +34,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
+<<<<<<< HEAD
             ValidIssuer = jwtIssuer,
             ValidAudience = jwtAudience,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
@@ -37,6 +43,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 // Add authorization policies if needed
 // builder.Services.AddAuthorizationPolicies();
+=======
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(s: builder.Configuration["Jwt:Key"]))
+        }; 
+    });
+
+// Add authorization policies
+builder.Services.AddAuthorizationPolicies();
+builder.Services.AddSingleton<IUserService, UserService>();
+builder.Services.AddSingleton<EventService>();
+builder.Services.AddSingleton<IPointSystemService, PointSystemService>();
+>>>>>>> PointsMethods
 
 var app = builder.Build();
 app.Urls.Add("http://localhost:5001");
@@ -48,6 +67,7 @@ app.MapGet("/", () => "This is the home page");
 app.MapControllers();
 
 app.Run();
+<<<<<<< HEAD
 
 public record User(Guid Id, string Firstname, string Lastname, string Email, string Password, int RecuringDays, UserRole Role);
 
@@ -63,3 +83,5 @@ public record Attendance(int UserID, DateTime Date) // Add user id to this atten
 }
 
 public record Admin(Guid Id, string Username, string Password, string Email);
+=======
+>>>>>>> PointsMethods

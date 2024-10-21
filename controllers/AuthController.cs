@@ -24,6 +24,10 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginModel model)
     {
         var user = await AuthenticateUser(model.Email, model.Password);
+<<<<<<< HEAD
+=======
+        Console.WriteLine($"{model.Email} {model.Password}");
+>>>>>>> PointsMethods
 
         if (user == null)
             return Unauthorized(new { message = "Invalid email or password" });
@@ -35,8 +39,34 @@ public class AuthController : ControllerBase
 
     private async Task<User?> AuthenticateUser(string email, string password)
     {
+<<<<<<< HEAD
         var users = await _userService.GetAllUsersAsync();
         return users.FirstOrDefault(u => u.Email == email && u.Password == password);
+=======
+        // Retrieve users from the service
+        var users = await _userService.GetAllUsersAsync();
+    
+        // Check if the user exists
+        var user = users.FirstOrDefault(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase));
+    
+        if (user == null)
+        {
+            Console.WriteLine($"User not found: {email}"); // Debug log
+            return null; // User not found
+        }
+    
+        // Check if the password matches (assuming plain text for now)
+        if (user.Password == password) // Ensure that the password field exists in User
+        {
+            Console.WriteLine($"User authenticated: {user.Email}"); // Debug log
+            return user; // Password is valid
+        }
+        else
+        {
+            Console.WriteLine($"Invalid password for user: {email}"); // Debug log
+            return null; // Invalid password
+        }
+>>>>>>> PointsMethods
     }
 
     private string GenerateJwtToken(User user)
@@ -48,7 +78,11 @@ public class AuthController : ControllerBase
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+<<<<<<< HEAD
             new Claim(ClaimTypes.NameIdentifier, user.id.ToString()),
+=======
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+>>>>>>> PointsMethods
             new Claim(ClaimTypes.Role, user.Role.ToString())
         };
 
@@ -69,6 +103,7 @@ public class LoginModel
     public string? Email { get; set; }
     public string? Password { get; set; }
 }
+<<<<<<< HEAD
 
 public class AuthorizedUser
 {
@@ -76,3 +111,5 @@ public class AuthorizedUser
     public string? Username { get; set; }
     public UserRole Role { get; set; }
 }
+=======
+>>>>>>> PointsMethods
