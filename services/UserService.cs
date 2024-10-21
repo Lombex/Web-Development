@@ -1,16 +1,15 @@
-// UserService.cs
-using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using Microsoft.EntityFrameworkCore;
 
 public interface IUserService
 {
+    Task<User?> GetUserAsync(Guid id);
+    Task<IEnumerable<User>> GetAllUsersAsync();
     Task<User> CreateUserAsync(User user);
-    Task<User> GetUserAsync(Guid id);
-    Task<User> UpdateUserAsync(Guid id, User updatedUser);
+    Task<User?> UpdateUserAsync(Guid id, User user);
     Task<bool> DeleteUserAsync(Guid id);
-    Task<IEnumerable<User>> GetAllUsersAsync(); // method to get all users
 }
 
 public class UserService : IUserService
@@ -22,69 +21,55 @@ public class UserService : IUserService
         _context = context;
     }
 
-    public async Task<User> CreateUserAsync(User user) //create user
+    public async Task<User> CreateUserAsync(User user) // Create user
     {
-        var newUser = new User(
-            Guid.NewGuid(),
-            user.Firstname,
-            user.Lastname,
-            user.Email,
-            user.Password,
-            user.RecuringDays,
-            user.Role
-        );
+        user.Id = user.Id == Guid.Empty ? Guid.NewGuid() : user.Id; // Assign a new ID if it's empty
+        await _context.Users.AddAsync(user); // Use AddAsync for asynchronous operation
+        await _context.SaveChangesAsync(); // Save changes
 
-        _context.Users.Add(newUser);
-        await _context.SaveChangesAsync();
-
-        return newUser;
+        return user; // Return the created user
     }
 
-    public async Task<User> GetUserAsync(Guid id) // get user by id
+    public async Task<User?> GetUserAsync(Guid id) // Get user by id
     {
-        return await _context.Users.FindAsync(id);
+        return await _context.Users.FindAsync(id); // Use FindAsync to find the user by ID
     }
 
-    public async Task<User> UpdateUserAsync(Guid id, User updatedUser) //update user
+    public async Task<User?> UpdateUserAsync(Guid id, User updatedUser) // Update user
     {
         var user = await _context.Users.FindAsync(id);
         if (user == null)
         {
-            throw new Exception("User not found.");
+            return null; // Return null if user not found
         }
 
-        var updatedUserEntity = new User(
-            user.Id,
-            updatedUser.Firstname,
-            updatedUser.Lastname,
-            updatedUser.Email,
-            updatedUser.Password,
-            updatedUser.RecuringDays,
-            updatedUser.Role
-        );
+        // Update user properties
+        user.Firstname = updatedUser.Firstname;
+        user.Lastname = updatedUser.Lastname;
+        user.Email = updatedUser.Email;
+        user.Password = updatedUser.Password; // Consider hashing the password
+        user.RecuringDays = updatedUser.RecuringDays;
+        user.Role = updatedUser.Role;
 
+        await _context.SaveChangesAsync(); // Save changes
 
-        _context.Users.Remove(user);
-        _context.Users.Add(updatedUserEntity);
-
-        await _context.SaveChangesAsync();
-
-        return updatedUserEntity;
+        return user; // Return the updated user
     }
 
-    async Task<bool> IUserService.DeleteUserAsync(Guid id)
+    public async Task<bool> DeleteUserAsync(Guid id) // Delete user
     {
-        var user =  await _context.Users.FindAsync(id);
+        var user = await _context.Users.FindAsync(id);
         if (user == null)
         {
-            return false;
+            return false; // Return false if user not found
         }
         _context.Users.Remove(user);
-        await _context.SaveChangesAsync();
-        return true;
+        await _context.SaveChangesAsync(); // Save changes
+        return true; // Return true if deleted
     }
-    public async Task<IEnumerable<User>> GetAllUsersAsync() //get all users
+
+    public async Task<IEnumerable<User>> GetAllUsersAsync() // Get all users
     {
-        return await _context.Users.ToListAsync();
+        return await _context.Users.ToListAsync(); // Return all users
     }
 }

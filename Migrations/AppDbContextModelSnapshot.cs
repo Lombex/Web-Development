@@ -18,7 +18,7 @@ namespace Web_Development.Migrations
 
             modelBuilder.Entity("Admin", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -34,14 +34,14 @@ namespace Web_Development.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Admins");
                 });
 
             modelBuilder.Entity("Event", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -66,19 +66,19 @@ namespace Web_Development.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Events");
                 });
 
             modelBuilder.Entity("EventAttendance", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("EventID")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("EventID")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Feedback")
                         .IsRequired()
@@ -87,17 +87,17 @@ namespace Web_Development.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UserID")
-                        .HasColumnType("INTEGER");
+                    b.Property<Guid>("UserID")
+                        .HasColumnType("TEXT");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("EventAttendances");
                 });
 
             modelBuilder.Entity("User", b =>
                 {
-                    b.Property<Guid>("id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
@@ -123,9 +123,64 @@ namespace Web_Development.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("User", b =>
+                {
+                    b.OwnsOne("UserPointsModel", "Points", b1 =>
+                        {
+                            b1.Property<Guid>("UserId")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<int>("AllTimePoints")
+                                .HasColumnType("INTEGER");
+
+                            b1.Property<int>("PointAmount")
+                                .HasColumnType("INTEGER");
+
+                            b1.HasKey("UserId");
+
+                            b1.ToTable("UserPointsModels");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserId");
+
+                            b1.OwnsMany("ShopItems", "Items", b2 =>
+                                {
+                                    b2.Property<Guid>("UserPointsModelUserId")
+                                        .HasColumnType("TEXT");
+
+                                    b2.Property<Guid>("Id")
+                                        .ValueGeneratedOnAdd()
+                                        .HasColumnType("TEXT");
+
+                                    b2.Property<string>("Description")
+                                        .IsRequired()
+                                        .HasColumnType("TEXT");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasColumnType("TEXT");
+
+                                    b2.Property<int>("Price")
+                                        .HasColumnType("INTEGER");
+
+                                    b2.HasKey("UserPointsModelUserId", "Id");
+
+                                    b2.ToTable("ShopItems");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("UserPointsModelUserId");
+                                });
+
+                            b1.Navigation("Items");
+                        });
+
+                    b.Navigation("Points")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
