@@ -24,10 +24,7 @@ public class AuthController : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginModel model)
     {
         var user = await AuthenticateUser(model.Email, model.Password);
-<<<<<<< HEAD
-=======
         Console.WriteLine($"{model.Email} {model.Password}");
->>>>>>> PointsMethods
 
         if (user == null)
             return Unauthorized(new { message = "Invalid email or password" });
@@ -39,10 +36,6 @@ public class AuthController : ControllerBase
 
     private async Task<User?> AuthenticateUser(string email, string password)
     {
-<<<<<<< HEAD
-        var users = await _userService.GetAllUsersAsync();
-        return users.FirstOrDefault(u => u.Email == email && u.Password == password);
-=======
         // Retrieve users from the service
         var users = await _userService.GetAllUsersAsync();
     
@@ -66,7 +59,6 @@ public class AuthController : ControllerBase
             Console.WriteLine($"Invalid password for user: {email}"); // Debug log
             return null; // Invalid password
         }
->>>>>>> PointsMethods
     }
 
     private string GenerateJwtToken(User user)
@@ -78,11 +70,7 @@ public class AuthController : ControllerBase
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-<<<<<<< HEAD
-            new Claim(ClaimTypes.NameIdentifier, user.id.ToString()),
-=======
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
->>>>>>> PointsMethods
             new Claim(ClaimTypes.Role, user.Role.ToString())
         };
 
@@ -103,13 +91,3 @@ public class LoginModel
     public string? Email { get; set; }
     public string? Password { get; set; }
 }
-<<<<<<< HEAD
-
-public class AuthorizedUser
-{
-    public Guid Id { get; set; }
-    public string? Username { get; set; }
-    public UserRole Role { get; set; }
-}
-=======
->>>>>>> PointsMethods

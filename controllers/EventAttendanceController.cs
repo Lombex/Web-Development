@@ -15,7 +15,7 @@ public class EventAttendanceController : ControllerBase
     [HttpPost("create")] // http://localhost:5001/api/eventattendance/create
     public async Task<IActionResult> CreateEventAttendance([FromBody] EventAttendance eventAttendance)
     {
-        var newAttendance = new EventAttendance(Guid.NewGuid(), eventAttendance.UserID, eventAttendance.EventID, 
+        var newAttendance = new EventAttendance( eventAttendance.UserID, eventAttendance.EventID, 
         eventAttendance.Rating, eventAttendance.Feedback
         );
 
@@ -56,7 +56,7 @@ public class EventAttendanceController : ControllerBase
         }
 
         // Update the attendance details
-        attendance = new EventAttendance(id, updatedAttendance.UserID, updatedAttendance.EventID, updatedAttendance.Rating, updatedAttendance.Feedback);
+        attendance = new EventAttendance( updatedAttendance.UserID, updatedAttendance.EventID, updatedAttendance.Rating, updatedAttendance.Feedback);
         return Ok($"EventAttendance with ID {id} has been successfully updated");
     }
 

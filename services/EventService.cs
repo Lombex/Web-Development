@@ -27,11 +27,8 @@ public class EventService
 
         var index = _events.FindIndex(e => e.Id == id);
         if (index == -1) return null;
-<<<<<<< HEAD
-=======
 
         // Update the existing event, keeping the original ID
->>>>>>> PointsMethods
         _events[index] = eventItem with { Id = id };
         return await Task.FromResult(_events[index]);
     }
