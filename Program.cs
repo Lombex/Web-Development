@@ -1,11 +1,8 @@
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore; // Ensure this is included for DbContext
 using System.Text;
-using System.Security.Claims;
-using System.Xml.Serialization;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,15 +20,18 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(s: builder.Configuration["Jwt:Key"]))
-        }; 
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
     });
 
-// Add authorization policies
-builder.Services.AddAuthorizationPolicies();
-builder.Services.AddSingleton<IUserService, UserService>();
-builder.Services.AddSingleton<EventService>();
-builder.Services.AddSingleton<IPointSystemService, PointSystemService>();
+// Add DbContext for SQLite
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))); // Use UseSqlite here
+
+// Change IUserService to scoped
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<EventService>();
+builder.Services.AddScoped<IPointSystemService, PointSystemService>();
 
 var app = builder.Build();
 app.Urls.Add("http://localhost:5001");
