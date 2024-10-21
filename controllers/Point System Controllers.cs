@@ -1,40 +1,71 @@
 using Microsoft.AspNetCore.Mvc;
 
 [Route("api/points")]
-public class PointSystemController : ControllerBase
-{
-    private readonly IPointSystemService _pointService;
-
-    public PointSystemController(IPointSystemService pointService)
+ [ApiController]
+    public class PointSystemController : ControllerBase
     {
-        _pointService = pointService;
-    }
+        private readonly IPointSystemService _pointSystemService;
 
-    [HttpGet("{userId}")]
-    public async Task<IActionResult> GetPoints(Guid userId)
-    {
-        var user = await _pointService.GetPointsFromUser(new User { id = userId });
-        return Ok(user);
-    }
+        public PointSystemController(IPointSystemService pointSystemService)
+        {
+            _pointSystemService = pointSystemService;
+        }
 
-    [HttpPost("Add")]
-    public async Task<IActionResult> AddPoints([FromBody] UserPointsModel pointRecord, int amount)
-    {
-        _pointService.AddUserPoints(pointRecord.user, amount);
-        return Ok("Points added");
-    }
+        // 1. Get User Points
+        [HttpGet("{userId}/points")]
+        public async Task<IActionResult> GetUserPoints(Guid userId)
+        {
+            var points = await _pointSystemService.GetPointsFromUser(userId);
+            return Ok(points);
+        }
 
-    [HttpPut("Update/{userId}")]
-    public async Task<IActionResult> UpdatePoints(Guid userId, int amount)
-    {
-        var result = await _pointService.UpdateUserPoints(new User { id = userId }, amount);
-        return result ? Ok("Points updated") : BadRequest("Failed to update points");
-    }
+        // 2. Add Points to User
+        [HttpPost("{userId}/points/add")]
+        public async Task<IActionResult> AddPoints(Guid userId, [FromBody] int amount)
+        {
+            _pointSystemService.AddUserPoints(userId, amount);
+            return Ok();
+        }
 
-    [HttpDelete("Delete/{userId}")]
-    public async Task<IActionResult> RemovePoints(Guid userId, int amount)
-    {
-        var result = await _pointService.RemoveUserPoints(new User { id = userId }, amount);
-        return result ? Ok("Points removed") : BadRequest("Failed to remove points");
+        // 3. Update User Points
+        [HttpPut("{userId}/points/update")]
+        public async Task<IActionResult> UpdateUserPoints(Guid userId, [FromBody] int amount)
+        {
+            var result = await _pointSystemService.UpdateUserPoints(userId, amount);
+            return result ? Ok() : NotFound();
+        }
+
+        // 4. Buy Item
+        [HttpPost("{userId}/buy-item")]
+        public async Task<IActionResult> BuyItem(Guid userId, [FromBody] Guid itemId)
+        {
+            var item = await _pointSystemService.GetItemById(itemId);
+            if (await _pointSystemService.BuyItem(userId, item))
+                return Ok();
+            return BadRequest("Insufficient points or item not available.");
+        }
+
+        // 5. Get All Shop Items
+        [HttpGet("shop/items")]
+        public async Task<IActionResult> GetAllShopItems()
+        {
+            var items = await _pointSystemService.GetAllShopItems();
+            return Ok(items);
+        }
+
+        // 6. Get User Level
+        [HttpGet("{userId}/level")]
+        public async Task<IActionResult> GetUserLevel(Guid userId)
+        {
+            var level = await _pointSystemService.GetUserLevel(userId);
+            return Ok(level);
+        }
+
+        // 7. Get User's Items
+        [HttpGet("{userId}/items")]
+        public async Task<IActionResult> GetUserItems(Guid userId)
+        {
+            var items = await _pointSystemService.GetUserItems(userId);
+            return Ok(items);
+        }
     }
-}
