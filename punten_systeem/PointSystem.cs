@@ -1,9 +1,3 @@
-public class UserPointsModel
-{
-    public int AllTimePoints { get; set; } =0;
-    public int PointAmount { get; set; } = 0;
-    public List<ShopItems> items { get; set; } = new();
-}
 
 public interface IPointSystemService
 {
@@ -34,10 +28,10 @@ public class PointSystemService : IPointSystemService
 
     public async Task<bool> BuyItem(User user, ShopItems item)
     {
-        if (user.Points.PointAmount >= item.price)
+        if (user.Points.PointAmount >= item.Price)
         {
-            user.Points.PointAmount -= item.price;
-            user.Points.items.Add(item);
+            user.Points.PointAmount -= item.Price;
+            user.Points.Items.Add(item);
             return await Task.FromResult(true);
         }
         return await Task.FromResult(false);

@@ -1,67 +1,89 @@
 ### 1. Test API Health
-GET http://localhost:5000/api/user/Test
+GET http://localhost:5001/api/user/Test
 Content-Type: application/json
 
 ###
 
 ### 2. Create a New User (POST)
-POST http://localhost:5000/api/user/create
+POST http://localhost:5001/api/user/create
 Content-Type: application/json
 
 {
-  "firstname": "John",
-  "lastname": "Doe",
-  "email": "john.doe@example.com",
-  "password": "password123",
-  "recuringDays": 7
+  "FirstName": "John",
+  "LastName": "Doe",
+  "Email": "john.doe@example.com",
+  "Password": "password123",
+  "RecurringDays": 7,
+  "Role": 3,
+  "Points": {
+    "AllTimePoints": 1000,
+    "PointAmount": 0,
+    "Items": []
+  }
 }
 
 ###
 
 ### 3. Get All Users (GET)
-GET http://localhost:5000/api/user/all
+GET http://localhost:5001/api/user/all
+Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 
 ###
 
 ### 4. Get User by ID (GET)
-GET http://localhost:5000/api/user/{{{{$guid}}}}
+GET http://localhost:5001/api/user/{USER_ID}
+Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
+
 Content-Type: application/json
 
-###
-# Vervang {{userId}} met een daadwerkelijke gebruikers-ID die je ophaalt via de 'Get All Users'-aanroep
 ###
 
 ### 5. Update User by ID (PUT)
-PUT http://localhost:5000/api/user/{{{$guid}}}
+PUT http://localhost:5001/api/user/{USER_ID}
+Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 Content-Type: application/json
 
 {
-  "firstname": "Jane",
-  "lastname": "Doe",
-  "email": "jane.doe@example.com",
-  "password": "newpassword123",
-  "recuringDays": 10
+  "FirstName": "Jane",
+  "LastName": "Doe",
+  "Email": "jane.doe@example.com",
+  "Password": "newpassword123",
+  "RecurringDays": 10
 }
 
 ###
-# Vervang {{userId}} met een daadwerkelijke gebruikers-ID
-###
 
 ### 6. Delete User by ID (DELETE)
-DELETE http://localhost:5000/api/user/{{$guids}}
+DELETE http://localhost:5001/api/user/{USER_ID}
+Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 Content-Type: application/json
 
 ###
-# Vervang {{userId}} met een daadwerkelijke gebruikers-ID
+
+### 7. Login with Correct Password
+POST http://localhost:5001/api/auth/login
+Content-Type: application/json
+
+{
+  "Email": "john.doe@example.com",
+  "Password": "password123"
+}
+
 ###
 
+### 8. Login with Wrong Password
+POST http://localhost:5001/api/auth/login
+Content-Type: application/json
 
-####
-
-GET http://localhost:5001/api/points/{{$guids}}
+{
+  "Email": "john.doe@example.com",
+  "Password": "password122"
+}
 
 ###
 
-POST http://localhost:5001/api/points/ 
+### 9. Get User Profile (Authenticated Request)
+GET http://localhost:5001/api/user/all
+Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 
-
+###

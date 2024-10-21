@@ -12,7 +12,7 @@ public class UserService : IUserService
 
     public async Task<User?> GetUserAsync(Guid id)
     {
-        return await Task.FromResult(_users.FirstOrDefault(u => u.id == id));
+        return await Task.FromResult(_users.FirstOrDefault(u => u.Id == id));
     }
 
     public async Task<IEnumerable<User>> GetAllUsersAsync()
@@ -28,16 +28,17 @@ public class UserService : IUserService
 
     public async Task<User?> UpdateUserAsync(Guid id, User user)
     {
-        var index = _users.FindIndex(u => u.id == id);
+        var index = _users.FindIndex(u => u.Id == id);
         if (index == -1) return null;
         
-        _users[index] = user with { id = id }; // Update met behoud van de originele ID
+        _users[index].Firstname = user.Firstname;
+        _users[index].Email = user.Email;
         return await Task.FromResult(_users[index]);
     }
 
     public async Task<bool> DeleteUserAsync(Guid id)
     {
-        var user = _users.FirstOrDefault(u => u.id == id);
+        var user = _users.FirstOrDefault(u => u.Id == id);
         if (user == null) return false;
         
         _users.Remove(user);

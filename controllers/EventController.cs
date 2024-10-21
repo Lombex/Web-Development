@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+
 [ApiController]
 [Route("api/events")]
 public class EventController : ControllerBase
@@ -12,7 +13,7 @@ public class EventController : ControllerBase
     {
         var _event = new Event(Guid.NewGuid(), eventItem.Title, eventItem.Description, eventItem.StartTime, eventItem.EndTime, eventItem.Location, eventItem.Approval);
         // Save "_event" to new database. 
-        return Ok($"Event has been successfully created! ID:{_event.id} Title:{_event.Title}");
+        return Ok($"Event has been successfully created! ID:{_event.Id} Title:{_event.Title}");
     }
     [HttpGet("{id}")] // http://localhost:5001/api/events/{id}
     public async Task<IActionResult> GetEvent(Guid id)
@@ -33,14 +34,14 @@ public class EventController : ControllerBase
     [HttpPut("update")] // http://localhost:5001/api/events/update
     public async Task<IActionResult> UpdateEvent([FromBody] Event eventItem)
     {
-        var _event = new Event(eventItem.id, eventItem.Title, eventItem.Description, eventItem.StartTime, eventItem.EndTime, eventItem.Location, eventItem.Approval);
+        var _event = new Event(eventItem.Id, eventItem.Title, eventItem.Description, eventItem.StartTime, eventItem.EndTime, eventItem.Location, eventItem.Approval);
         // Update entire Event from "_event" in the database
         return Ok("Event has been successfully updated");
     }
     [HttpDelete("delete")] // http://localhost:5001/api/events/delete
     public async Task<IActionResult> DeleteEvent([FromBody] Event eventItem)
     {
-        var _event = new Event(eventItem.id, eventItem.Title, eventItem.Description, eventItem.StartTime, eventItem.EndTime, eventItem.Location, eventItem.Approval);
+        var _event = new Event(eventItem.Id, eventItem.Title, eventItem.Description, eventItem.StartTime, eventItem.EndTime, eventItem.Location, eventItem.Approval);
         // Delete "_event" from database.
         return Ok("Event has been successfully deleted!");
     }

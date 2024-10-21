@@ -17,7 +17,7 @@ public class AttendanceController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> RegisterAttendance([FromBody] Attendance attendance)
     {
-        if (attendance == null || attendance.UserID == Guid.Empty || attendance.date == DateTime.MinValue) return BadRequest("Invalid attendance data.");
+        if (attendance == null || attendance.UserID == Guid.Empty || attendance.Date == DateTime.MinValue) return BadRequest("Invalid attendance data.");
         var result = await _attendanceService.RegisterAttendance(attendance);
         if (result.IsSuccess) return Ok(result.Message);
         else return BadRequest(result.ErrorMessage);
