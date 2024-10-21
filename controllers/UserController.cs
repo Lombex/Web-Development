@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 [Route("api/[controller]")]
@@ -13,7 +14,7 @@ public class UserController : ControllerBase
     {
         _userService = userService ?? throw new ArgumentNullException(nameof(userService));
     }
-    
+
     [HttpGet("Test")]
     public IActionResult Test()
     {
@@ -24,7 +25,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> CreateUser([FromBody] User user)
     {
         var createdUser = await _userService.CreateUserAsync(user);
-        return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
+        return CreatedAtAction(nameof(GetUserById), new { id =  Guid.NewGuid() }, createdUser);
     }
 
     [HttpGet("all")]
