@@ -22,10 +22,12 @@ public class UserService : IUserService
 
     public async Task<User> CreateUserAsync(User user)
     {
+        var GetUser = user.Id == Guid.Empty ? Guid.NewGuid() : user.Id;
+        user.Id = GetUser;
         _users.Add(user);
+        Console.WriteLine($"Added User to list: {user.Id}");
         return await Task.FromResult(user);
     }
-
     public async Task<User?> UpdateUserAsync(Guid id, User user)
     {
         var index = _users.FindIndex(u => u.Id == id);

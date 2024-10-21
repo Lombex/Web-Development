@@ -29,7 +29,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("all")]
-    [Authorize(Policies.RequireUserRole)]
+    //[Authorize(Policies.RequireUserRole)]
     public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
     {
         return Ok(await _userService.GetAllUsersAsync());
