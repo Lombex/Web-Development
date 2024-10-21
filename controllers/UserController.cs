@@ -1,100 +1,50 @@
-// UserController.cs
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
-
 [ApiController]
 [Route("api/user")]
-public class UserController : ControllerBase
-{
-    private readonly IUserService _userService;
-
-    public UserController(IUserService userService)
-    {
-        _userService = userService;
-    }
-
+public class UserController : ControllerBase {
+    
     [HttpGet("Test")] // http://localhost:5001/api/user/Test
-    public IActionResult APIHealth() => Ok("API is healthy!");
+    public async Task<IActionResult> APIHealth() => Ok("API is healthy!");
 
-    [HttpPost("create")]
-    public async Task<IActionResult> CreateUser([FromBody] User user)
-    {
-        if (user == null)
-        {
-            return BadRequest("User data is invalid.");
-        }
-
-        try
-        {
-            var newUser = await _userService.CreateUserAsync(user);
-            return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, "Internal server error: " + ex.Message);
-        }
+    [HttpPost("create")] // http://localhost:5001/api/user/create
+    public async Task<IActionResult> CreateUser([FromBody] User user) {
+        var _user = new User(Guid.NewGuid(), user.Firstname, user.Lastname, user.Email, user.Password, user.RecuringDays, user.Points);
+        // Save "_user" to new database. 
+        return Ok("User has been sucessfully created!");
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetUser(Guid id)
-    {
-        var user = await _userService.GetUserAsync(id);
-        if (user == null)
-        {
-            return NotFound("User not found.");
-        }
-        return Ok(user);
+    [HttpGet()] // Get ID form user for url parm | http://localhost:5001/api/user/{id}
+    public async Task<IActionResult> GetUser([FromBody] User user) {
+        var _user = new User(Guid.NewGuid(), user.Firstname, user.Lastname, user.Email, user.Password, user.RecuringDays, user.Points);
+        // Get "_user" info from database. 
+        return Ok("return user here...");
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(Guid id, [FromBody] User updatedUser)
-    {
-        if (updatedUser == null)
-        {
-            return BadRequest("User data is invalid.");
-        }
-
-        try
-        {
-            var user = await _userService.UpdateUserAsync(id, updatedUser);
-            return Ok(user);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, "Internal server error: " + ex.Message);
-        }
+    [HttpGet("all")] // http://localhost:5001/api/user/all
+    public async Task<IActionResult> GetAllUsers([FromBody] User user) {
+        var _user = new User(Guid.NewGuid(), user.Firstname, user.Lastname, user.Email, user.Password, user.RecuringDays, user.Points);
+        // Get all users from database. 
+        return Ok("return user here...");
     }
 
-     [HttpDelete("{id}")] // Delete user
-    public async Task<IActionResult> DeleteUser(Guid id)
-    {
-        try
-        {
-            var isDeleted = await _userService.DeleteUserAsync(id);
-            if (!isDeleted)
-            {
-                return NotFound("User not found.");
-            }
-            return Ok("User deleted successfully.");
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, "Internal server error: " + ex.Message);
-        }
+    [HttpPut("update/v1")] // http:localhost:5001/api/user/update/v1
+    public async Task<IActionResult> UpdateUser([FromBody] User user) {
+        var _user = new User(user.id, user.Firstname, user.Lastname, user.Email, user.Password, user.RecuringDays, user.Points);
+        // Update Intire User from "_user" 
+        return Ok("User has been successfully updated");
     }
 
-    [HttpGet("all")]
-    public async Task<IActionResult> GetAllUsers()
-    {
-        try
-        {
-            var users = await _userService.GetAllUsersAsync();
-            return Ok(users);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, "Internal server error: " + ex.Message);
-        }
+    // [HttpPatch("update/v2")]// https:localhost:5000/api/user/update/v2
+    // public async Task<IActionResult> UpdateUser([FromBody] User user) {
+    //     var _user = new User(user.id, user.Firstname, user.Lastname, user.Email, user.Password, user.RecuringDays);
+    //     // Update Intire User from "_user" 
+    //     return Ok("User has been successfully updated");
+    // }
+
+    [HttpDelete("delete")] // http:localhost:5001/api/user/delete
+    public async Task<IActionResult> DeleteUser([FromBody] User user) {
+        var _user = new User(user.id, user.Firstname, user.Lastname, user.Email, user.Password, user.RecuringDays, user.Points);
+        // Delete "_user" from database.
+        return Ok("User has been succesfully deleted!");
     }
 }
