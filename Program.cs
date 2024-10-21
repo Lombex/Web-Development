@@ -31,6 +31,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorizationPolicies();
 builder.Services.AddSingleton<IUserService, UserService>();
 builder.Services.AddSingleton<EventService>();
+builder.Services.AddSingleton<IPointSystemService, PointSystemService>();
 
 var app = builder.Build();
 app.Urls.Add("http://localhost:5001");

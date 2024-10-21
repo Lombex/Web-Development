@@ -1,3 +1,5 @@
+
+
 ### 1. Test API Health
 GET http://localhost:5001/api/user/Test
 Content-Type: application/json
@@ -31,16 +33,16 @@ GET http://localhost:5001/api/user/all
 ###
 
 ### 4. Get User by ID (GET)
-GET http://localhost:5001/api/user/{USER_ID}
-Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
+GET http://localhost:5001/api/user/{079b196b-ccb3-4654-8f07-53b251b8079d}
+//Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 
 Content-Type: application/json
 
 ###
 
 ### 5. Update User by ID (PUT)
-PUT http://localhost:5001/api/user/{USER_ID}
-Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
+PUT http://localhost:5001/api/user/{079b196b-ccb3-4654-8f07-53b251b8079d}
+//Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 Content-Type: application/json
 
 {
@@ -54,8 +56,10 @@ Content-Type: application/json
 ###
 
 ### 6. Delete User by ID (DELETE)
-DELETE http://localhost:5001/api/user/{USER_ID}
-Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
+DELETE http://localhost:5001/api/user/{1113d1a7-3ccc-4fc0-b329-f600e314b0e3}
+//Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
+
+//CHANGE READOUT, WORKS!
 Content-Type: application/json
 
 ###
@@ -85,5 +89,33 @@ Content-Type: application/json
 ### 9. Get User Profile (Authenticated Request)
 GET http://localhost:5001/api/user/all
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
+
+###
+### 1. Get User Points
+GET http://localhost:5001/api/points/{0f22cc4c-9e45-47dd-af83-b7db0752188c}
+Content-Type: application/json
+
+###
+
+### 2. Add Points to User
+### 2. Add Points to User
+POST http://localhost:5001/api/points/{0f22cc4c-9e45-47dd-af83-b7db0752188c}/add
+Content-Type: application/json
+
+100
+###
+
+### 3. Update User Points
+PUT http://localhost:5001/api/points/{0f22cc4c-9e45-47dd-af83-b7db0752188c}/update
+Content-Type: application/json
+
+500
+
+
+###
+
+### 4. Get User Level
+GET http://localhost:5001/api/points/{0f22cc4c-9e45-47dd-af83-b7db0752188c}/level
+Content-Type: application/json
 
 ###
