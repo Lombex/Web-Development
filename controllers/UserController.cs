@@ -36,7 +36,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    [Authorize(Policies.RequireUserRole)]
+    //[Authorize(Policies.RequireUserRole)]
     public async Task<ActionResult<User>> GetUserById(Guid id)
     {
         var user = await _userService.GetUserAsync(id);
@@ -45,7 +45,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [Authorize(Policies.RequireUserRole)]
+    //[Authorize(Policies.RequireUserRole)]
     public async Task<IActionResult> UpdateUser(Guid id, [FromBody] User user)
     {
         var updatedUser = await _userService.UpdateUserAsync(id, user);
@@ -54,7 +54,7 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Policies.RequireAdminRole)]
+    //[Authorize(Policies.RequireAdminRole)]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
         var result = await _userService.DeleteUserAsync(id);

@@ -14,7 +14,7 @@ public class PointSystemController : ControllerBase
     }
 
     // 1. Get User Points
-    [HttpGet("{userId}/points")]
+    [HttpGet("{userId}")]
     public async Task<IActionResult> GetUserPoints(Guid userId)
     {
         var user = await _userService.GetUserAsync(userId);
@@ -23,17 +23,18 @@ public class PointSystemController : ControllerBase
     }
 
     // 2. Add Points to User
-    [HttpPost("{userId}/points/add")]
+    [HttpPost("{userId}/add")]
     public async Task<IActionResult> AddPoints(Guid userId, [FromBody] int amount)
     {
         var user = await _userService.GetUserAsync(userId);
-        if (user == null) return NotFound("user does not exits!");
+        if (user == null) return NotFound("User does not exist!");
+
         _pointSystemService.AddUserPoints(user, amount);
-        return Ok();
+        return Ok($"Added {amount} points to user {user.Firstname} {user.Lastname}.");
     }
 
     // 3. Update User Points
-    [HttpPut("{userId}/points/update")]
+    [HttpPut("{userId}/update")]
     public async Task<IActionResult> UpdateUserPoints(Guid userId, [FromBody] int amount)
     {
         var user = await _userService.GetUserAsync(userId);
