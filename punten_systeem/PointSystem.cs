@@ -9,14 +9,22 @@ public interface IPointSystemService
 {
     Task<int> GetPointsFromUser(User user);
     void AddUserPoints(User user, int amount);
-    bool UpdateUserPoints(User user, int amount);
-    float GetUserLevel(User user);
+    Task<bool> UpdateUserPoints(User user, int amount);
+    Task<float> GetUserLevel(User user);
     Task<bool> BuyItem(User user, ShopItems item);
-    Task<List<ShopItems>> GetAllShopItems();
+    // Task<List<ShopItems>> GetAllShopItems();
+    // Task<ShopItems> GetItemById(Guid id);
 }
 
-public class PointSystemService 
+public class PointSystemService : IPointSystemService
 {
+    public async Task<int> GetPointsFromUser(User user)
+    {
+        var userModel = user.Points.PointAmount;
+
+        return await Task.FromResult(userModel);
+    }
+
     public async void AddUserPoints(User user, int amount)
     {
         user.Points.AllTimePoints += amount;
