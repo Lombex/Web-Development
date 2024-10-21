@@ -1,50 +1,63 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+[Route("api/[controller]")]
 [ApiController]
-[Route("api/user")]
-public class UserController : ControllerBase {
+public class UserController : ControllerBase
+{
+     private readonly IUserService _userService;
+
+    public UserController(IUserService userService)
+    {
+        _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+    }
     
-    [HttpGet("Test")] // http://localhost:5001/api/user/Test
-    public async Task<IActionResult> APIHealth() => Ok("API is healthy!");
-
-    [HttpPost("create")] // http://localhost:5001/api/user/create
-    public async Task<IActionResult> CreateUser([FromBody] User user) {
-        var _user = new User(Guid.NewGuid(), user.Firstname, user.Lastname, user.Email, user.Password, user.RecuringDays, user.Points);
-        // Save "_user" to new database. 
-        return Ok("User has been sucessfully created!");
+    [HttpGet("Test")]
+    public IActionResult Test()
+    {
+        return Ok("API is running!");
     }
 
-    [HttpGet()] // Get ID form user for url parm | http://localhost:5001/api/user/{id}
-    public async Task<IActionResult> GetUser([FromBody] User user) {
-        var _user = new User(Guid.NewGuid(), user.Firstname, user.Lastname, user.Email, user.Password, user.RecuringDays, user.Points);
-        // Get "_user" info from database. 
-        return Ok("return user here...");
+    [HttpPost("create")]
+    public async Task<IActionResult> CreateUser([FromBody] User user)
+    {
+        var createdUser = await _userService.CreateUserAsync(user);
+        return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
     }
 
-    [HttpGet("all")] // http://localhost:5001/api/user/all
-    public async Task<IActionResult> GetAllUsers([FromBody] User user) {
-        var _user = new User(Guid.NewGuid(), user.Firstname, user.Lastname, user.Email, user.Password, user.RecuringDays, user.Points);
-        // Get all users from database. 
-        return Ok("return user here...");
+    [HttpGet("all")]
+    [Authorize(Policies.RequireUserRole)]
+    public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
+    {
+        return Ok(await _userService.GetAllUsersAsync());
     }
 
-    [HttpPut("update/v1")] // http:localhost:5001/api/user/update/v1
-    public async Task<IActionResult> UpdateUser([FromBody] User user) {
-        var _user = new User(user.id, user.Firstname, user.Lastname, user.Email, user.Password, user.RecuringDays, user.Points);
-        // Update Intire User from "_user" 
-        return Ok("User has been successfully updated");
+    [HttpGet("{id}")]
+    [Authorize(Policies.RequireUserRole)]
+    public async Task<ActionResult<User>> GetUserById(Guid id)
+    {
+        var user = await _userService.GetUserAsync(id);
+        if (user == null) return NotFound();
+        return Ok(user);
     }
 
-    // [HttpPatch("update/v2")]// https:localhost:5000/api/user/update/v2
-    // public async Task<IActionResult> UpdateUser([FromBody] User user) {
-    //     var _user = new User(user.id, user.Firstname, user.Lastname, user.Email, user.Password, user.RecuringDays);
-    //     // Update Intire User from "_user" 
-    //     return Ok("User has been successfully updated");
-    // }
+    [HttpPut("{id}")]
+    [Authorize(Policies.RequireUserRole)]
+    public async Task<IActionResult> UpdateUser(Guid id, [FromBody] User user)
+    {
+        var updatedUser = await _userService.UpdateUserAsync(id, user);
+        if (updatedUser == null) return NotFound();
+        return Ok(updatedUser);
+    }
 
-    [HttpDelete("delete")] // http:localhost:5001/api/user/delete
-    public async Task<IActionResult> DeleteUser([FromBody] User user) {
-        var _user = new User(user.id, user.Firstname, user.Lastname, user.Email, user.Password, user.RecuringDays, user.Points);
-        // Delete "_user" from database.
-        return Ok("User has been succesfully deleted!");
+    [HttpDelete("{id}")]
+    [Authorize(Policies.RequireAdminRole)]
+    public async Task<IActionResult> DeleteUser(Guid id)
+    {
+        var result = await _userService.DeleteUserAsync(id);
+        if (!result) return NotFound();
+        return NoContent();
     }
 }

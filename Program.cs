@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
+using System.Xml.Serialization;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 // Add authorization policies
 builder.Services.AddAuthorizationPolicies();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<EventService>();
 
 var app = builder.Build();
 app.Urls.Add("http://localhost:5001");
@@ -39,10 +43,3 @@ app.MapGet("/", () => "This is the home page");
 app.MapControllers();
 
 app.Run();
-
-public record User(Guid id, string Firstname, string Lastname, string Email, string Password, int RecuringDays, UserPointsModel Points);
-public record EventAttendance(Guid Id, Guid UserID, Guid EventID, int Rating, string Feedback);
-public record Event(Guid id, string Title, string Description, DateTime StartTime, DateTime EndTime, string Location, bool Approval);
-public record Attendance(Guid UserID, DateTime date); // Add user id to this attendace
-public record Admin(Guid id, string Username, string Password, string Email);
-public record ShopItems(Guid id, int price, string name, string description);
