@@ -2,7 +2,7 @@
 public interface IPointSystemService
 {
     Task<int> GetPointsFromUser(User user);
-    void AddUserPoints(User user, int amount);
+    Task AddUserPoints(User user, int amount);
     Task<bool> UpdateUserPoints(User user, int amount);
     Task<float> GetUserLevel(User user);
     Task<bool> BuyItem(User user, ShopItems item);
@@ -12,51 +12,66 @@ public interface IPointSystemService
 
 public class PointSystemService : IPointSystemService
 {
-    public async Task<int> GetPointsFromUser(User user)
-    {
-        var userModel = user.Points.PointAmount;
+    private readonly AppDbContext _context;
 
-        return await Task.FromResult(userModel);
+    public PointSystemService(AppDbContext context)
+    {
+        _context = context;
     }
 
-    public async void AddUserPoints(User user, int amount)
+    public async Task<int> GetPointsFromUser(User user)
     {
+        // Ensure user is not null before accessing Points
+        return await Task.FromResult(user?.Points.PointAmount ?? 0);
+    }
+
+    public async Task AddUserPoints(User user, int amount)
+    {
+        if (user == null) throw new ArgumentNullException(nameof(user));
+
         user.Points.AllTimePoints += amount;
         user.Points.PointAmount += amount;
-        await Task.CompletedTask;
+
+        _context.Users.Update(user); // Update user in the database
+        await _context.SaveChangesAsync(); // Save changes
     }
 
     public async Task<bool> BuyItem(User user, ShopItems item)
     {
+        if (user == null || item == null) return false;
+
         if (user.Points.PointAmount >= item.Price)
         {
             user.Points.PointAmount -= item.Price;
             user.Points.Items.Add(item);
-            return await Task.FromResult(true);
+
+            _context.Users.Update(user); // Update user in the database
+            await _context.SaveChangesAsync(); // Save changes
+            return true;
         }
-        return await Task.FromResult(false);
+        return false;
     }
 
     public async Task<bool> UpdateUserPoints(User user, int amount)
     {
-        if (user != null)
-        {
-            user.Points.PointAmount = amount;
-            return await Task.FromResult(true);
-        }
-        return await Task.FromResult(false);
+        if (user == null) return false;
+
+        user.Points.PointAmount = amount;
+
+        _context.Users.Update(user); // Update user in the database
+        await _context.SaveChangesAsync(); // Save changes
+        return true;
     }
 
     public async Task<float> GetUserLevel(User user)
     {
-        if (user != null)
-        {
-            float level = user.Points.AllTimePoints / 100;
-            return await Task.FromResult(level);
-        }
-        return await Task.FromResult(0.0f);
+        if (user == null) return 0.0f;
+
+        float level = user.Points.AllTimePoints / 100;
+        return await Task.FromResult(level);
     }
 }
+
 
 // lvl (lastlvl + currentlvl) * 1.25
 

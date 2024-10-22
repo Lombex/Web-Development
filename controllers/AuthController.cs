@@ -36,7 +36,7 @@ public class AuthController : ControllerBase
     private async Task<User?> AuthenticateUser(string email, string password)
     {
         var users = await _userService.GetAllUsersAsync();
-        return users.FirstOrDefault(u => u.Email == email && u.Password == password);
+        return users.FirstOrDefault(u => u.Email == email && u.Password == password); // Use hashed password comparison in production
     }
 
     private string GenerateJwtToken(User user)
@@ -68,11 +68,4 @@ public class LoginModel
 {
     public string? Email { get; set; }
     public string? Password { get; set; }
-}
-
-public class AuthorizedUser
-{
-    public Guid Id { get; set; }
-    public string? Username { get; set; }
-    public UserRole Role { get; set; }
 }

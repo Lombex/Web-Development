@@ -33,7 +33,7 @@ GET http://localhost:5001/api/user/all
 ###
 
 ### 4. Get User by ID (GET)
-GET http://localhost:5001/api/user/{079b196b-ccb3-4654-8f07-53b251b8079d}
+GET http://localhost:5001/api/user/{e4f85926-770f-4b45-80a2-99d323ebeb52}
 //Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 
 Content-Type: application/json

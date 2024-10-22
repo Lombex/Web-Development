@@ -9,6 +9,7 @@ public enum UserRole
     Admin = 3
 }
 
+
 public static class Policies
 {
     public const string RequireUserRole = "RequireUserRole";
@@ -25,7 +26,7 @@ public static class AuthorizationSetup
             options.AddPolicy(Policies.RequireUserRole, policy => 
                 policy.RequireRole(UserRole.User.ToString(), UserRole.EventOrganizer.ToString(), UserRole.Admin.ToString()));
             options.AddPolicy(Policies.RequireEventOrganizerRole, policy => 
-                policy.RequireRole(UserRole.EventOrganizer.ToString(), UserRole.Admin.ToString()));
+                policy.RequireRole(UserRole.EventOrganizer.ToString(), UserRole.User.ToString()));
             options.AddPolicy(Policies.RequireAdminRole, policy => 
                 policy.RequireRole(UserRole.Admin.ToString()));
         });

@@ -36,7 +36,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    //[Authorize(Policies.RequireUserRole)]
+    [Authorize(Policies.RequireUserRole)]
     public async Task<ActionResult<User>> GetUserById(Guid id)
     {
         var user = await _userService.GetUserAsync(id);
