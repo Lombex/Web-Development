@@ -19,3 +19,6 @@
 /obj/project.nuget.cache
 /obj/Web-Development.csproj.nuget.dgspec.json
 /obj/Web-Development.csproj.nuget.g.props
+
+
+.fake

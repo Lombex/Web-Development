@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 public interface IEventAttendanceService
 {
     Task<(bool IsSuccess, string Message, string ErrorMessage)> RegisterEventAttendance(EventAttendance attendance);
-    Task<List<EventAttendance>> GetEventAttendances(Guid userId);
-    Task<(bool IsSuccess, string ErrorMessage)> RemoveEventAttendance(Guid id);
+    Task<List<EventAttendance>> GetEventAttendances(Guid userId); // Ophaalservice per gebruiker
+    Task<(bool IsSuccess, string ErrorMessage)> RemoveEventAttendance(Guid id); // Verwijder attendance
 }
 
 public class EventAttendanceService : IEventAttendanceService
@@ -19,13 +19,14 @@ public class EventAttendanceService : IEventAttendanceService
         _context = context;
     }
 
+    // Register een nieuwe event attendance
     public async Task<(bool IsSuccess, string Message, string ErrorMessage)> RegisterEventAttendance(EventAttendance attendance)
     {
         try
         {
             await _context.EventAttendances.AddAsync(attendance); // Voeg attendance toe aan de database
             await _context.SaveChangesAsync(); // Sla wijzigingen op
-            return (true, "Event attendance registered successfully", null);
+            return (true, "Event attendance successfully registered", null);
         }
         catch (Exception ex)
         {
@@ -33,14 +34,15 @@ public class EventAttendanceService : IEventAttendanceService
         }
     }
 
+    // Haal alle attendances op voor een specifieke gebruiker
     public async Task<List<EventAttendance>> GetEventAttendances(Guid userId)
     {
         return await _context.EventAttendances
-            .Where(ea => ea.Id == userId)
-            .ToListAsync(); // Haal de attendances op voor een specifieke gebruiker
+            .Where(ea => ea.UserId == userId) // Zoek op UserID in plaats van Id
+            .ToListAsync();
     }
 
-
+    // Verwijder een event attendance
     public async Task<(bool IsSuccess, string ErrorMessage)> RemoveEventAttendance(Guid id)
     {
         var attendance = await _context.EventAttendances.FindAsync(id); // Zoek de attendance op basis van ID

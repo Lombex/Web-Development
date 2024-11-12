@@ -1,5 +1,6 @@
  using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,36 +13,43 @@ public interface IAttendanceService
 
 public class AttendanceService : IAttendanceService
 {
-    private readonly List<Attendance> _attendances = new(); 
+    private readonly AppDbContext _context;
+
+    public AttendanceService(AppDbContext context)
+    {
+        _context = context;
+    }
 
     public async Task<(bool IsSuccess, string Message, string ErrorMessage)> RegisterAttendance(Attendance attendance)
     {
         try
         {
-            _attendances.Add(attendance);
-            return await Task.FromResult<(bool, string, string)>((true, "Attendance registered successfully", null));
+            await _context.Attendances.AddAsync(attendance);
+            await _context.SaveChangesAsync();
+            return (true, "Attendance succesvol geregistreerd.", null);
         }
         catch (Exception ex)
         {
-            return await Task.FromResult<(bool, string, string)>((false, null, $"Error: {ex.Message}"));
+            // Fout loggen als je een logging framework hebt.
+            return (false, null, $"Er is een fout opgetreden: {ex.Message}");
         }
     }
 
     public async Task<List<Attendance>> GetUserAttendances(Guid userId)
     {
-        var userAttendances = _attendances.Where(a => a.UserId == userId).ToList();
-        return await Task.FromResult<List<Attendance>>(userAttendances);
+        return await _context.Attendances.Where(a => a.UserId == userId).ToListAsync();
     }
 
     public async Task<(bool IsSuccess, string ErrorMessage)> RemoveAttendance(Guid id)
     {
-        var attendance = _attendances.FirstOrDefault(a => a.UserId == id);
+        var attendance = await _context.Attendances.FindAsync(id);
         if (attendance == null)
         {
-            return await Task.FromResult<(bool, string)>((false, "Attendance not found"));
+            return (false, "Attendance niet gevonden.");
         }
 
-        _attendances.Remove(attendance);
-        return await Task.FromResult<(bool, string)>((true, null));
+        _context.Attendances.Remove(attendance);
+        await _context.SaveChangesAsync();
+        return (true, null);
     }
 }

@@ -125,7 +125,7 @@ POST http://localhost:5001/api/event/create
 Content-Type: application/json
 
 {
-  "Id": "",  // Laat dit veld als lege GUID voor automatisch genereren
+  "Id": "",  
   "Title": "Sample Event",
   "Description": "Description of the event",
   "StartTime": "2024-12-01T10:00:00",
@@ -154,16 +154,91 @@ Content-Type: application/json
 
 ### Register a new Event Attendance
 ### Test API Health
-GET http://localhost:5001/api/shopitems/test
+###
+# Events
+###
+GET http://localhost:5001/api/events/Test
 Content-Type: application/json
-
-### Create a new ShopItem
-POST http://localhost:5001/api/shopitems/create
+###
+POST http://localhost:5001/api/events/create
 Content-Type: application/json
 
 {
-  "Price": 100,
-  "Name": "Sword",
-  "Description": "A sharp blade for battle."
+  "Title": "Sample Event",
+  "Description": "A description of the sample event",
+  "StartTime": "2024-12-01T10:00:00",
+  "EndTime": "2024-12-01T12:00:00",
+  "Location": "Amsterdam",
+  "Approval": true
 }
+###
+GET http://localhost:5001/api/events/{5A285679-F4C0-4A16-92B2-C8371B56EA5A}
+Content-Type: application/json
+###
+GET http://localhost:5001/api/events/all
+Content-Type: application/json
+###
+PUT http://localhost:5001/api/events/update
+Content-Type: application/json
+
+{
+  "Id": "5A285679-F4C0-4A16-92B2-C8371B56EA5A",  
+  "Title": "title",
+  "Description": "iets",
+  "StartTime": "2024-12-01T11:00:00",
+  "EndTime": "2024-12-01T13:00:00",
+  "Location": "Rotterdam",
+  "Approval": false
+}
+###
+DELETE http://localhost:5001/api/events/delete/{5A285679-F4C0-4A16-92B2-C8371B56EA5A}
+Content-Type: application/json
+###
+
+#EventAttandance
+GET http://localhost:5001/api/eventattendance/Test
+Content-Type: application/json
+###
+POST http://localhost:5001/api/eventattendance/create
+Content-Type: application/json
+
+{
+  "userID": "9B4BD324-82A1-432F-B1EA-6E898AE6C18F", 
+  "eventID": "82C7EFD8-B68C-4195-86FB-62047ABF438B",  
+  "rating": 5,
+  "feedback": "Great event!"
+}
+
+###
+GET http://localhost:5001/api/eventattendance/user/{userId}
+Content-Type: application/json
+###
+DELETE http://localhost:5001/api/eventattendance/delete/{eventAttendanceId}
+Content-Type: application/json
+###
+
+#
+#-> Attandance
+#
+
+###
+GET http://localhost:5001/api/attendance/Test
+Content-Type: application/json
+###
+POST http://localhost:5001/api/attendance/register
+Content-Type: application/json
+
+{
+  "UserId": "00000000-0000-0000-0000-000000000001",  
+  "Date": "2024-11-15T08:00:00"
+}
+###
+GET http://localhost:5001/api/attendance/user/{userId}
+Content-Type: application/json
+###
+DELETE http://localhost:5001/api/attendance/delete/{attendanceId}
+Content-Type: application/json
+###
+
+
 

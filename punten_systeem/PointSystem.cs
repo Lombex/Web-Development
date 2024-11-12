@@ -12,7 +12,7 @@ public interface IPointSystemService
 
 public class PointSystemService : IPointSystemService
 {
-     private readonly AppDbContext _context;
+    private readonly AppDbContext _context;
 
     public PointSystemService(AppDbContext context)
     {

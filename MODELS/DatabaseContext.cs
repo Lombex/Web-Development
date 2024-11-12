@@ -5,6 +5,8 @@ public class AppDbContext : DbContext
 {
     // Properties for the database sets
     public DbSet<EventAttendance> EventAttendances { get; set; }
+    public DbSet<Attendance> Attendances { get; set; }
+
     public DbSet<Event> Events { get; set; }
     public DbSet<Admin> Admins { get; set; }
     public DbSet<User> Users { get; set; }

@@ -1,69 +1,62 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
-namespace YourNamespace.Controllers
+[ApiController]
+[Route("api/attendance")]
+public class AttendanceController : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class AttendanceController : ControllerBase
+    private readonly IAttendanceService _attendanceService;
+
+    public AttendanceController(IAttendanceService attendanceService)
     {
-        private readonly IAttendanceService _attendanceService;
+        _attendanceService = attendanceService;
+    }
 
-        public AttendanceController(IAttendanceService attendanceService)
+    [HttpGet("Test")]
+    public IActionResult APIHealth()
+    {
+        return Ok("Attendance API is healthy!");
+    }
+
+    [HttpPost("register")]
+    public async Task<IActionResult> RegisterAttendance([FromBody] Attendance attendance)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        attendance.Id = Guid.NewGuid(); // Zorg ervoor dat een nieuwe ID wordt toegewezen
+        var result = await _attendanceService.RegisterAttendance(attendance);
+
+        if (!result.IsSuccess)
         {
-            _attendanceService = attendanceService;
+            return StatusCode(500, result.ErrorMessage ?? "Er is iets misgegaan bij het registreren van de attendance.");
         }
 
-        // POST: api/Attendance
-        // Endpoint om een gebruiker zijn aanwezigheid te registreren
-        [HttpPost]
-        public async Task<IActionResult> RegisterAttendance([FromBody] Attendance attendance)
-        {
-            if (attendance == null || attendance.UserId == Guid.Empty || attendance.Date == DateTime.MinValue)
-            {
-                return BadRequest("Invalid attendance data.");
-            }
+        return Ok(result.Message);
+    }
 
-            var result = await _attendanceService.RegisterAttendance(attendance);
-            if (result.IsSuccess)
-            {
-                return Ok(result.Message);
-            }
-            else
-            {
-                return BadRequest(result.ErrorMessage);
-            }
+    [HttpGet("user/{userId}")]
+    public async Task<IActionResult> GetUserAttendances(Guid userId)
+    {
+        var attendances = await _attendanceService.GetUserAttendances(userId);
+        if (attendances == null || attendances.Count == 0)
+        {
+            return NotFound($"Geen attendance gevonden voor UserID {userId}.");
         }
 
-        // GET: api/Attendance/{userId}
-        // Haal de lijst van aanwezigheden van een gebruiker op
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetUserAttendances(Guid userId)
+        return Ok(attendances);
+    }
+
+    [HttpDelete("delete/{id}")]
+    public async Task<IActionResult> DeleteAttendance(Guid id)
+    {
+        var result = await _attendanceService.RemoveAttendance(id);
+        if (!result.IsSuccess)
         {
-            var attendances = await _attendanceService.GetUserAttendances(userId);
-            if (attendances != null)
-            {
-                return Ok(attendances);
-            }
-            return NotFound("No attendances found for this user.");
+            return NotFound(result.ErrorMessage);
         }
 
-        // DELETE: api/Attendance/{id}
-        // Verwijder een aanwezigheid van een gebruiker
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> RemoveAttendance(Guid id)
-        {
-            var result = await _attendanceService.RemoveAttendance(id);
-            if (result.IsSuccess)
-            {
-                return Ok("Attendance removed successfully.");
-            }
-            else
-            {
-                return BadRequest(result.ErrorMessage);
-            }
-        }
+        return Ok($"Attendance met ID {id} is succesvol verwijderd.");
     }
 }
