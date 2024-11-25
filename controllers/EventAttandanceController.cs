@@ -7,49 +7,83 @@ using System.Collections.Generic;
 [Route("api/eventattendance")]
 public class EventAttendanceController : ControllerBase
 {
-    private readonly IEventAttendanceService _eventattendanceService;
+    private readonly IEventAttendanceService _eventAttendanceService;
+    private readonly IUserService _userService;
+    private readonly IEventService _eventService;
 
-    public EventAttendanceController(IEventAttendanceService eventattendanceService)
+    // Constructor with dependency injection
+    public EventAttendanceController(IEventAttendanceService eventAttendanceService, IUserService userService, IEventService eventService)
     {
-        _eventattendanceService = eventattendanceService;
+        _eventAttendanceService = eventAttendanceService;
+        _userService = userService;
+        _eventService = eventService;
     }
 
+    // Test endpoint to check if the API is healthy
     [HttpGet("Test")]
     public IActionResult APIHealth() => Ok("EventAttendance API is healthy!");
 
-    // [Authorize(Policy = Policies.RequireUserRole)] // Verwijderd voor testdoeleinden
+    // Create new EventAttendance
     [HttpPost("create")]
-    public async Task<IActionResult> CreateEventAttendance([FromBody] EventAttendance eventAttendance)
+    public async Task<IActionResult> CreateEventAttendance([FromBody] CreateEventAttendanceDTO dto)
     {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
+        // Validate the model
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
-        eventAttendance.Id = Guid.NewGuid(); // Zorg ervoor dat de ID wordt gegenereerd
-        var result = await _eventattendanceService.RegisterEventAttendance(eventAttendance);
+        // Fetch the user and event from the database using the provided IDs
+        var user = await _userService.GetUserAsync(dto.UserId);
+        var eventItem = await _eventService.GetEventAsync(dto.EventId);
 
-        if (!result.IsSuccess) 
-            return StatusCode(500, result.ErrorMessage ?? "Er is een fout opgetreden bij het registreren van de event attendance.");
+        if (user == null || eventItem == null)
+        {
+            return NotFound("User or Event not found");
+        }
 
-        return Ok(result.Message);
+        // Create the EventAttendance entity with the full User and Event objects
+        var eventAttendance = new EventAttendance
+        {
+            Id = Guid.NewGuid(),  
+            User = user,          // Assign the fetched User object
+            Event = eventItem,    // Assign the fetched Event object
+            Rating = dto.Rating,
+            Feedback = dto.Feedback
+        };
+
+        // Register the attendance using the service
+        var result = await _eventAttendanceService.RegisterEventAttendance(eventAttendance);
+
+        // Return response based on the result
+        if (result.IsSuccess)
+        {
+            return Ok(result.Message); // Success response
+        }
+        else
+        {
+            return StatusCode(500, result.ErrorMessage ?? "An error occurred while registering the event attendance.");
+        }
     }
 
-    // [Authorize(Policy = Policies.RequireUserRole)] // Verwijderd voor testdoeleinden
+
+    // Get all EventAttendances for a specific user
     [HttpGet("user/{userId}")]
     public async Task<IActionResult> GetEventAttendances(Guid userId)
     {
-        var attendances = await _eventattendanceService.GetEventAttendances(userId);
-        if (attendances == null || attendances.Count == 0) 
-            return NotFound($"Geen attendances gevonden voor User ID {userId}");
-        
+        var attendances = await _eventAttendanceService.GetEventAttendances(userId);
+        if (attendances == null || attendances.Count == 0)
+            return NotFound($"No attendances found for User ID {userId}");
+
         return Ok(attendances);
     }
 
-    // [Authorize(Policy = Policies.RequireAdminRole)] // Verwijderd voor testdoeleinden
+    // Delete an EventAttendance by Id
     [HttpDelete("delete/{id}")]
     public async Task<IActionResult> DeleteEventAttendance(Guid id)
     {
-        var result = await _eventattendanceService.RemoveEventAttendance(id);
-        if (!result.IsSuccess) return NotFound(result.ErrorMessage);
+        var result = await _eventAttendanceService.RemoveEventAttendance(id);
+        if (!result.IsSuccess)
+            return NotFound(result.ErrorMessage);
 
-        return Ok($"EventAttendance met ID {id} is succesvol verwijderd");
+        return Ok($"EventAttendance with ID {id} has been successfully deleted.");
     }
 }

@@ -1,19 +1,19 @@
 
 
 ### 1. Test API Health
-GET http://localhost:5001/api/user/Test
+GET http://localhost:5001/api/users/Test
 Content-Type: application/json
 
 ###
 
 ### 2. Create a New User (POST)
-POST http://localhost:5001/api/user/create
+POST http://localhost:5001/api/users/create
 Content-Type: application/json
 
 {
-  "FirstName": "J",
-  "LastName": "Doe",
-  "Email": "john.doe@example.com",
+  "FirstName": "test",
+  "LastName": "test",
+  "Email": "test@example.com",
   "Password": "password123",
   "RecurringDays": 7,
   "Role": 3,
@@ -27,13 +27,13 @@ Content-Type: application/json
 ###
 
 ### 3. Get All Users (GET)
-GET http://localhost:5001/api/user/all
+GET http://localhost:5001/api/users/all
 //Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 
 ###
 
 ### 4. Get User by ID (GET)
-GET http://localhost:5001/api/user/{079b196b-ccb3-4654-8f07-53b251b8079d}
+GET http://localhost:5001/api/users/{08b595dc-b0e2-473f-9dbe-cf0c4548a8f9}
 //Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 
 Content-Type: application/json
@@ -41,7 +41,7 @@ Content-Type: application/json
 ###
 
 ### 5. Update User by ID (PUT)
-PUT http://localhost:5001/api/user/{079b196b-ccb3-4654-8f07-53b251b8079d}
+PUT http://localhost:5001/api/users/{079b196b-ccb3-4654-8f07-53b251b8079d}
 //Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 Content-Type: application/json
 
@@ -69,7 +69,7 @@ POST http://localhost:5001/api/auth/login
 Content-Type: application/json
 
 {
-  "Email": "john.doe@example.com",
+  "Email": "test@example.com",
   "Password": "password123"
 }
 
@@ -92,21 +92,20 @@ Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 
 ###
 ### 1. Get User Points
-GET http://localhost:5001/api/points/{e4f85926-770f-4b45-80a2-99d323ebeb52}
+GET http://localhost:5001/api/points/{08b595dc-b0e2-473f-9dbe-cf0c4548a8f9}
 Content-Type: application/json
 
 ###
 
 ### 2. Add Points to User
-### 2. Add Points to User
-POST http://localhost:5001/api/points/{e4f85926-770f-4b45-80a2-99d323ebeb52}/add
+POST http://localhost:5001/api/points/{08b595dc-b0e2-473f-9dbe-cf0c4548a8f9}/add
 Content-Type: application/json
 
 100
 ###
 
 ### 3. Update User Points
-PUT http://localhost:5001/api/points/{0f22cc4c-9e45-47dd-af83-b7db0752188c}/update
+PUT http://localhost:5001/api/points/{08b595dc-b0e2-473f-9dbe-cf0c4548a8f9}/update
 Content-Type: application/json
 
 500
@@ -115,24 +114,9 @@ Content-Type: application/json
 ###
 
 ### 4. Get User Level
-GET http://localhost:5001/api/points/{0f22cc4c-9e45-47dd-af83-b7db0752188c}/level
+GET http://localhost:5001/api/points/{08b595dc-b0e2-473f-9dbe-cf0c4548a8f9}/level
 Content-Type: application/json
 
-###
-
-### Create a new Event
-POST http://localhost:5001/api/event/create
-Content-Type: application/json
-
-{
-  "Id": "",  
-  "Title": "Sample Event",
-  "Description": "Description of the event",
-  "StartTime": "2024-12-01T10:00:00",
-  "EndTime": "2024-12-01T12:00:00",
-  "Location": "Amsterdam",
-  "Approval": true
-}
 ### Test API Health
 GET http://localhost:5001/api/events/Test
 Content-Type: application/json
@@ -160,19 +144,7 @@ Content-Type: application/json
 GET http://localhost:5001/api/events/Test
 Content-Type: application/json
 ###
-POST http://localhost:5001/api/events/create
-Content-Type: application/json
-
-{
-  "Title": "Sample Event",
-  "Description": "A description of the sample event",
-  "StartTime": "2024-12-01T10:00:00",
-  "EndTime": "2024-12-01T12:00:00",
-  "Location": "Amsterdam",
-  "Approval": true
-}
-###
-GET http://localhost:5001/api/events/{5A285679-F4C0-4A16-92B2-C8371B56EA5A}
+GET http://localhost:5001/api/events/{8715e7b5-e74d-4986-a1f9-2c7905c06206}
 Content-Type: application/json
 ###
 GET http://localhost:5001/api/events/all
@@ -182,7 +154,7 @@ PUT http://localhost:5001/api/events/update
 Content-Type: application/json
 
 {
-  "Id": "5A285679-F4C0-4A16-92B2-C8371B56EA5A",  
+  "Id": "8715e7b5-e74d-4986-a1f9-2c7905c06206",  
   "Title": "title",
   "Description": "iets",
   "StartTime": "2024-12-01T11:00:00",
@@ -203,17 +175,17 @@ POST http://localhost:5001/api/eventattendance/create
 Content-Type: application/json
 
 {
-  "userID": "9B4BD324-82A1-432F-B1EA-6E898AE6C18F", 
-  "eventID": "82C7EFD8-B68C-4195-86FB-62047ABF438B",  
+  "userID": "08b595dc-b0e2-473f-9dbe-cf0c4548a8f9", 
+  "eventID": "8715e7b5-e74d-4986-a1f9-2c7905c06206",
   "rating": 5,
   "feedback": "Great event!"
 }
 
 ###
-GET http://localhost:5001/api/eventattendance/user/{userId}
+GET http://localhost:5001/api/eventattendance/user/{08b595dc-b0e2-473f-9dbe-cf0c4548a8f9}
 Content-Type: application/json
 ###
-DELETE http://localhost:5001/api/eventattendance/delete/{eventAttendanceId}
+DELETE http://localhost:5001/api/eventattendance/delete/{160394fe-0844-420d-89eb-7dc69ad4f825}
 Content-Type: application/json
 ###
 
@@ -229,7 +201,7 @@ POST http://localhost:5001/api/attendance/register
 Content-Type: application/json
 
 {
-  "UserId": "00000000-0000-0000-0000-000000000001",  
+  "UserId": "08b595dc-b0e2-473f-9dbe-cf0c4548a8f9",  
   "Date": "2024-11-15T08:00:00"
 }
 ###
@@ -239,6 +211,5 @@ Content-Type: application/json
 DELETE http://localhost:5001/api/attendance/delete/{attendanceId}
 Content-Type: application/json
 ###
-
 
 
