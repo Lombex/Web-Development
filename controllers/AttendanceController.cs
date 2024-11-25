@@ -36,18 +36,6 @@ public class AttendanceController : ControllerBase
         return Ok(result.Message);
     }
 
-    [HttpGet("user/{userId}")]
-    public async Task<IActionResult> GetUserAttendances(Guid userId)
-    {
-        var attendances = await _attendanceService.GetUserAttendances(userId);
-        if (attendances == null || attendances.Count == 0)
-        {
-            return NotFound($"Geen attendance gevonden voor UserID {userId}.");
-        }
-
-        return Ok(attendances);
-    }
-
     [HttpDelete("delete/{id}")]
     public async Task<IActionResult> DeleteAttendance(Guid id)
     {
@@ -58,5 +46,13 @@ public class AttendanceController : ControllerBase
         }
 
         return Ok($"Attendance met ID {id} is succesvol verwijderd.");
+    }
+
+    [HttpGet("users/{id}")]
+    public async Task<IActionResult> GetAttendance(Guid id)
+    {
+        var Attendance = await _attendanceService.GetUserAttendances(id);
+        if (Attendance == null) return BadRequest("This attendance does not exist!");
+        return Ok(Attendance);
     }
 }

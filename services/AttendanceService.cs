@@ -14,12 +14,10 @@ public interface IAttendanceService
 public class AttendanceService : IAttendanceService
 {
     private readonly AppDbContext _context;
-
     public AttendanceService(AppDbContext context)
     {
         _context = context;
     }
-
     public async Task<(bool IsSuccess, string Message, string ErrorMessage)> RegisterAttendance(Attendance attendance)
     {
         try
@@ -34,12 +32,6 @@ public class AttendanceService : IAttendanceService
             return (false, null, $"Er is een fout opgetreden: {ex.Message}");
         }
     }
-
-    public async Task<List<Attendance>> GetUserAttendances(Guid userId)
-    {
-        return await _context.Attendances.Where(a => a.UserId == userId).ToListAsync();
-    }
-
     public async Task<(bool IsSuccess, string ErrorMessage)> RemoveAttendance(Guid id)
     {
         var attendance = await _context.Attendances.FindAsync(id);
@@ -51,5 +43,9 @@ public class AttendanceService : IAttendanceService
         _context.Attendances.Remove(attendance);
         await _context.SaveChangesAsync();
         return (true, null);
+    }
+    public Task<List<Attendance>> GetUserAttendances(Guid userId)
+    {
+        return Task.FromResult(_context.Attendances.Where(x => x.UserId == userId).ToList());
     }
 }

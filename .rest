@@ -1,10 +1,6 @@
-
-
-### 1. Test API Health
+### Test API
 GET http://localhost:5001/api/users/Test
 Content-Type: application/json
-
-###
 
 ### 2. Create a New User (POST)
 POST http://localhost:5001/api/users/create
@@ -175,8 +171,8 @@ POST http://localhost:5001/api/eventattendance/create
 Content-Type: application/json
 
 {
-  "userID": "08b595dc-b0e2-473f-9dbe-cf0c4548a8f9", 
-  "eventID": "8715e7b5-e74d-4986-a1f9-2c7905c06206",
+  "userID": "198ce3f8-b220-4e0d-bd42-4a1b7d9c6e1f", 
+  "eventID": "6b925dfb-f879-4b21-afc0-5ad82d19b6ec",
   "rating": 5,
   "feedback": "Great event!"
 }
@@ -193,19 +189,19 @@ Content-Type: application/json
 #-> Attandance
 #
 
-###
 GET http://localhost:5001/api/attendance/Test
 Content-Type: application/json
+
 ###
 POST http://localhost:5001/api/attendance/register
 Content-Type: application/json
 
 {
-  "UserId": "08b595dc-b0e2-473f-9dbe-cf0c4548a8f9",  
+  "UserId": "198ce3f8-b220-4e0d-bd42-4a1b7d9c6e1f",  
   "Date": "2024-11-15T08:00:00"
 }
 ###
-GET http://localhost:5001/api/attendance/user/{userId}
+GET http://localhost:5001/api/attendance/users/{198ce3f8-b220-4e0d-bd42-4a1b7d9c6e1f}
 Content-Type: application/json
 ###
 DELETE http://localhost:5001/api/attendance/delete/{attendanceId}
