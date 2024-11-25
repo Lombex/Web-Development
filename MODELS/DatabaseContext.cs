@@ -6,13 +6,11 @@ public class AppDbContext : DbContext
     // Properties for the database sets
     public DbSet<EventAttendance> EventAttendances { get; set; }
     public DbSet<Attendance> Attendances { get; set; }
-
     public DbSet<Event> Events { get; set; }
     public DbSet<Admin> Admins { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<ShopItems> ShopItems { get; set; }
     public DbSet<UserPointsModel> UserPointsModels { get; set; }
-
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

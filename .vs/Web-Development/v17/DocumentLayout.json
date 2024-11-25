@@ -7,12 +7,24 @@
       "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:.rest||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\controllers\\attendancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:controllers\\attendancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\punten_systeem\\pointsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:punten_systeem\\pointsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\services\\attendanceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:services\\attendanceservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\controllers\\point system controllers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:controllers\\point system controllers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\controllers\\eventattandancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:controllers\\eventattandancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,8 +34,48 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": ".rest",
+              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\.rest",
+              "RelativeDocumentMoniker": ".rest",
+              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\.rest",
+              "RelativeToolTip": ".rest",
+              "ViewState": "AQIAAFYAAAAAAAAAAAAAwF8AAAAGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2024-11-25T21:19:53.842Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\UserController.cs",
+              "RelativeToolTip": "controllers\\UserController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABoAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-25T21:23:56.192Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\services\\UserService.cs",
+              "RelativeDocumentMoniker": "services\\UserService.cs",
+              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\services\\UserService.cs",
+              "RelativeToolTip": "services\\UserService.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAIwCAAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-25T21:20:56.575Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
@@ -38,41 +90,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AttendanceService.cs",
-              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\services\\AttendanceService.cs",
-              "RelativeDocumentMoniker": "services\\AttendanceService.cs",
-              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\services\\AttendanceService.cs",
-              "RelativeToolTip": "services\\AttendanceService.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAAC4AAABBAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-25T18:35:37.313Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "AttendanceController.cs",
-              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\AttendanceController.cs",
-              "RelativeDocumentMoniker": "controllers\\AttendanceController.cs",
-              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\AttendanceController.cs",
-              "RelativeToolTip": "controllers\\AttendanceController.cs",
-              "ViewState": "AQIAAA0AAAAAAAAAAAAgwDoAAAAAAAAA",
+              "Title": "PointSystem.cs",
+              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\punten_systeem\\PointSystem.cs",
+              "RelativeDocumentMoniker": "punten_systeem\\PointSystem.cs",
+              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\punten_systeem\\PointSystem.cs",
+              "RelativeToolTip": "punten_systeem\\PointSystem.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACwAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-25T18:33:29.173Z",
+              "WhenOpened": "2024-11-25T19:23:25.641Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": ".rest",
-              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\.rest",
-              "RelativeDocumentMoniker": ".rest",
-              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\.rest",
-              "RelativeToolTip": ".rest",
+              "DocumentIndex": 3,
+              "Title": "EventAttandanceController.cs",
+              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\EventAttandanceController.cs",
+              "RelativeDocumentMoniker": "controllers\\EventAttandanceController.cs",
+              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\EventAttandanceController.cs",
+              "RelativeToolTip": "controllers\\EventAttandanceController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
-              "WhenOpened": "2024-11-25T19:01:12.283Z",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-25T20:42:19.468Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Point System Controllers.cs",
+              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\Point System Controllers.cs",
+              "RelativeDocumentMoniker": "controllers\\Point System Controllers.cs",
+              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\Point System Controllers.cs",
+              "RelativeToolTip": "controllers\\Point System Controllers.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-25T20:34:03.723Z",
               "EditorCaption": ""
             }
           ]

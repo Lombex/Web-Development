@@ -7,14 +7,14 @@ POST http://localhost:5001/api/users/create
 Content-Type: application/json
 
 {
-  "FirstName": "test",
-  "LastName": "test",
-  "Email": "test@example.com",
+  "FirstName": "Zdennick",
+  "LastName": "Oosterwolde",
+  "Email": "Zdennick@example.com",
   "Password": "password123",
   "RecurringDays": 7,
   "Role": 3,
   "Points": {
-    "AllTimePoints": 1000,
+    "AllTimePoints": 100,
     "PointAmount": 0,
     "Items": []
   }
@@ -29,7 +29,7 @@ GET http://localhost:5001/api/users/all
 ###
 
 ### 4. Get User by ID (GET)
-GET http://localhost:5001/api/users/{08b595dc-b0e2-473f-9dbe-cf0c4548a8f9}
+GET http://localhost:5001/api/users/{ded83454-1e0a-42d3-be7b-1e89f4532051}
 //Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 
 Content-Type: application/json
@@ -37,7 +37,7 @@ Content-Type: application/json
 ###
 
 ### 5. Update User by ID (PUT)
-PUT http://localhost:5001/api/users/{079b196b-ccb3-4654-8f07-53b251b8079d}
+PUT http://localhost:5001/api/users/{ded83454-1e0a-42d3-be7b-1e89f4532051}
 //Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 Content-Type: application/json
 
@@ -52,7 +52,7 @@ Content-Type: application/json
 ###
 
 ### 6. Delete User by ID (DELETE)
-DELETE http://localhost:5001/api/user/{1113d1a7-3ccc-4fc0-b329-f600e314b0e3}
+DELETE http://localhost:5001/api/user/{ded83454-1e0a-42d3-be7b-1e89f4532051}
 //Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 
 //CHANGE READOUT, WORKS!
@@ -88,20 +88,20 @@ Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 
 ###
 ### 1. Get User Points
-GET http://localhost:5001/api/points/{08b595dc-b0e2-473f-9dbe-cf0c4548a8f9}
+GET http://localhost:5001/api/points/{4060e581-96c3-404a-9549-7319e2ae44bb}
 Content-Type: application/json
 
 ###
 
 ### 2. Add Points to User
-POST http://localhost:5001/api/points/{08b595dc-b0e2-473f-9dbe-cf0c4548a8f9}/add
+POST http://localhost:5001/api/points/{4060e581-96c3-404a-9549-7319e2ae44bb}/add
 Content-Type: application/json
 
 100
 ###
 
 ### 3. Update User Points
-PUT http://localhost:5001/api/points/{08b595dc-b0e2-473f-9dbe-cf0c4548a8f9}/update
+PUT http://localhost:5001/api/points/{4060e581-96c3-404a-9549-7319e2ae44bb}/update
 Content-Type: application/json
 
 500
@@ -204,7 +204,7 @@ Content-Type: application/json
 GET http://localhost:5001/api/attendance/users/{198ce3f8-b220-4e0d-bd42-4a1b7d9c6e1f}
 Content-Type: application/json
 ###
-DELETE http://localhost:5001/api/attendance/delete/{attendanceId}
+DELETE http://localhost:5001/api/attendance/delete/{f7a100e3-7b3a-49d0-8b4b-a5043b81b0c1}
 Content-Type: application/json
 ###
 
