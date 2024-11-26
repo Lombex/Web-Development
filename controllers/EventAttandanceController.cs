@@ -1,8 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-
 [ApiController]
 [Route("api/eventattendance")]
 public class EventAttendanceController : ControllerBase
@@ -11,7 +7,6 @@ public class EventAttendanceController : ControllerBase
     private readonly IUserService _userService;
     private readonly IEventService _eventService;
 
-    // Constructor with dependency injection
     public EventAttendanceController(IEventAttendanceService eventAttendanceService, IUserService userService, IEventService eventService)
     {
         _eventAttendanceService = eventAttendanceService;
@@ -19,7 +14,6 @@ public class EventAttendanceController : ControllerBase
         _eventService = eventService;
     }
 
-    // Test endpoint to check if the API is healthy
     [HttpGet("Test")]
     public IActionResult APIHealth() => Ok("EventAttendance API is healthy!");
 
@@ -27,11 +21,11 @@ public class EventAttendanceController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> CreateEventAttendance([FromBody] CreateEventAttendanceDTO dto)
     {
-        // Validate the model
+        // als het volgens de DTO niet klopt, dan geef een BadRequest terug
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        // Fetch the user and event from the database using the provided IDs
+        // neemt de UserId en EventId van de DTO en haalt de User en Event op
         var user = await _userService.GetUserAsync(dto.UserId);
         var eventItem = await _eventService.GetEventAsync(dto.EventId);
 
@@ -40,23 +34,21 @@ public class EventAttendanceController : ControllerBase
             return NotFound("User or Event not found");
         }
 
-        // Create the EventAttendance entity with the full User and Event objects
+        // maak een nieuwe EventAttendance object aan
         var eventAttendance = new EventAttendance
         {
             Id = Guid.NewGuid(),  
-            User = user,          // Assign the fetched User object
-            Event = eventItem,    // Assign the fetched Event object
+            User = user,         
+            Event = eventItem,    
             Rating = dto.Rating,
             Feedback = dto.Feedback
         };
 
         // Register the attendance using the service
         var result = await _eventAttendanceService.RegisterEventAttendance(eventAttendance);
-
-        // Return response based on the result
         if (result.IsSuccess)
         {
-            return Ok(result.Message); // Success response
+            return Ok(result.Message);
         }
         else
         {
