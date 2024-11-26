@@ -86,7 +86,6 @@ Content-Type: application/json
 GET http://localhost:5001/api/user/all
 Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 
-###
 ### 1. Get User Points
 GET http://localhost:5001/api/points/{4060e581-96c3-404a-9549-7319e2ae44bb}
 Content-Type: application/json
@@ -98,16 +97,12 @@ POST http://localhost:5001/api/points/{4060e581-96c3-404a-9549-7319e2ae44bb}/add
 Content-Type: application/json
 
 100
-###
 
 ### 3. Update User Points
 PUT http://localhost:5001/api/points/{4060e581-96c3-404a-9549-7319e2ae44bb}/update
 Content-Type: application/json
 
 500
-
-
-###
 
 ### 4. Get User Level
 GET http://localhost:5001/api/points/{08b595dc-b0e2-473f-9dbe-cf0c4548a8f9}/level
@@ -131,11 +126,6 @@ Content-Type: application/json
 ### Test API Health
 GET http://localhost:5001/api/eventattendance/Test
 Content-Type: application/json
-
-### Register a new Event Attendance
-### Test API Health
-###
-# Events
 ###
 GET http://localhost:5001/api/events/Test
 Content-Type: application/json
@@ -163,7 +153,6 @@ DELETE http://localhost:5001/api/events/delete/{5A285679-F4C0-4A16-92B2-C8371B56
 Content-Type: application/json
 ###
 
-#EventAttandance
 GET http://localhost:5001/api/eventattendance/Test
 Content-Type: application/json
 ###
@@ -185,10 +174,6 @@ DELETE http://localhost:5001/api/eventattendance/delete/{160394fe-0844-420d-89eb
 Content-Type: application/json
 ###
 
-#
-#-> Attandance
-#
-
 GET http://localhost:5001/api/attendance/Test
 Content-Type: application/json
 
@@ -200,6 +185,7 @@ Content-Type: application/json
   "UserId": "198ce3f8-b220-4e0d-bd42-4a1b7d9c6e1f",  
   "Date": "2024-11-15T08:00:00"
 }
+
 ###
 GET http://localhost:5001/api/attendance/users/{198ce3f8-b220-4e0d-bd42-4a1b7d9c6e1f}
 Content-Type: application/json
