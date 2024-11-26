@@ -3,7 +3,7 @@ public interface IShopItemService
 {
     Task<ShopItems> GetShopItem(Guid id);
     Task CreateShopItem(ShopItems item);
-    Task UpdateShopItem(Guid id, float Price, string Name, string Description);
+    Task UpdateShopItem(Guid id, ShopItems item);
     Task RemoveShopItem(Guid id);
 }
 
@@ -29,12 +29,12 @@ public class ShopItemService : IShopItemService
         await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateShopItem(Guid id, float Price, string Name, string Description)
+    public async Task UpdateShopItem(Guid id, ShopItems item)
     {
         ShopItems? ShopItem = await GetShopItem(id);
-        ShopItem.Price = Price;
-        ShopItem.Name = Name;
-        ShopItem.Description = Description;
+        ShopItem.Price = item.Price;
+        ShopItem.Name = item.Name;
+        ShopItem.Description = item.Description;
         await _context.SaveChangesAsync();
     }
 

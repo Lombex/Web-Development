@@ -25,9 +25,9 @@ public class ShopItemController : ControllerBase
     }
 
     [HttpPut("update")]
-    public async Task<IActionResult> UpdateShopItem(Guid id, [FromBody] float Price, [FromBody] string Name, [FromBody] string Description)
+    public async Task<IActionResult> UpdateShopItem(Guid id, [FromBody] ShopItems items)
     {
-        await _shopItemService.UpdateShopItem(id, Price, Name, Description);
+        await _shopItemService.UpdateShopItem(id, items);
         return Ok(new { message = "ShopItem updated successfully!" });
     }
 
@@ -35,6 +35,6 @@ public class ShopItemController : ControllerBase
     public async Task<IActionResult> DeleteShopItem(Guid id)
     {
         await _shopItemService.RemoveShopItem(id);
-        return Ok(new { message = "ShopItem deleted successfully!" });
+        return Ok(new { message = "ShopItem deleted successfully!   " });
     }
 }

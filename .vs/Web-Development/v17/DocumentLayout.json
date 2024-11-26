@@ -9,10 +9,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\services\\shopitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:services\\shopitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,52 +18,7 @@
       "DocumentGroups": [
         {
           "DockedHeight": 200,
-          "SelectedChildIndex": 2,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "controllers\\UserController.cs",
-              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\UserController.cs",
-              "RelativeToolTip": "controllers\\UserController.cs",
-              "ViewState": "AQIAACIAAAAAAAAAAAAkwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-26T10:55:53.723Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ShopItemService.cs",
-              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\services\\ShopItemService.cs",
-              "RelativeDocumentMoniker": "services\\ShopItemService.cs",
-              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\services\\ShopItemService.cs",
-              "RelativeToolTip": "services\\ShopItemService.cs",
-              "ViewState": "AQIAABMAAAAAAAAAAAAwwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-26T10:55:34.621Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ShopItemController.cs",
-              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\ShopItemController.cs",
-              "RelativeDocumentMoniker": "controllers\\ShopItemController.cs",
-              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\ShopItemController.cs",
-              "RelativeToolTip": "controllers\\ShopItemController.cs",
-              "ViewState": "AQIAAAcAAAAAAAAAAAAzwCUAAABBAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-26T10:38:24.65Z",
-              "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedHeight": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -84,6 +35,32 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ShopItemService.cs",
+              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\services\\ShopItemService.cs",
+              "RelativeDocumentMoniker": "services\\ShopItemService.cs",
+              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\services\\ShopItemService.cs",
+              "RelativeToolTip": "services\\ShopItemService.cs",
+              "ViewState": "AQIAABYAAAAAAAAAAAAwwCQAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-26T10:55:34.621Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ShopItemController.cs",
+              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\ShopItemController.cs",
+              "RelativeDocumentMoniker": "controllers\\ShopItemController.cs",
+              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\ShopItemController.cs",
+              "RelativeToolTip": "controllers\\ShopItemController.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAswCcAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-26T10:38:24.65Z",
+              "EditorCaption": ""
             }
           ]
         }
