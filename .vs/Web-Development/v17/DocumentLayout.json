@@ -3,30 +3,34 @@
   "WorkspaceRootPath": "C:\\Users\\zdenn\\Desktop\\Web-Development\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\controllers\\shopitemcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:controllers\\shopitemcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\rest files\\users.rest||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:rest files\\users.rest||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\services\\shopitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:services\\shopitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\models\\databasecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:models\\databasecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
     {
-      "Orientation": 1,
+      "Orientation": 0,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedHeight": 200,
-          "SelectedChildIndex": 5,
+          "DockedWidth": 213,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             },
             {
               "$type": "Bookmark",
@@ -34,7 +38,7 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
@@ -44,22 +48,48 @@
               "RelativeDocumentMoniker": "services\\ShopItemService.cs",
               "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\services\\ShopItemService.cs",
               "RelativeToolTip": "services\\ShopItemService.cs",
-              "ViewState": "AQIAABYAAAAAAAAAAAAwwCQAAAAvAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-26T10:55:34.621Z",
+              "WhenOpened": "2024-12-01T19:46:59.238Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "ShopItemController.cs",
-              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\ShopItemController.cs",
-              "RelativeDocumentMoniker": "controllers\\ShopItemController.cs",
-              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\controllers\\ShopItemController.cs",
-              "RelativeToolTip": "controllers\\ShopItemController.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAswCcAAAABAAAA",
+              "Title": "Users.rest",
+              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\Rest Files\\Users.rest",
+              "RelativeDocumentMoniker": "Rest Files\\Users.rest",
+              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\Rest Files\\Users.rest",
+              "RelativeToolTip": "Rest Files\\Users.rest",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAADMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2024-12-01T19:42:33.457Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAAFkAAAAAAAAAAAAowHwAAAAKAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-26T10:38:24.65Z",
+              "WhenOpened": "2024-12-01T19:22:03.599Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DatabaseContext.cs",
+              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\MODELS\\DatabaseContext.cs",
+              "RelativeDocumentMoniker": "MODELS\\DatabaseContext.cs",
+              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\MODELS\\DatabaseContext.cs",
+              "RelativeToolTip": "MODELS\\DatabaseContext.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAA4wBcAAAALAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-01T19:55:29.179Z",
               "EditorCaption": ""
             }
           ]

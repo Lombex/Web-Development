@@ -10,31 +10,34 @@ public class ShopItemController : ControllerBase
         _shopItemService = shopItemService;
     }
 
-    [HttpGet("{userId}")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetShopItem(Guid id)
     {
         ShopItems? shopItem = await _shopItemService.GetShopItem(id);
         return Ok(shopItem);
     }
 
+    [HttpGet("all")]
+    public async Task<ActionResult<IEnumerable<ShopItems>>> GetAllShopItems() => Ok(await _shopItemService.GetAllShopItems());
+
     [HttpPost("add")]
-    public async Task<IActionResult> CreateShopItem(ShopItems item)
+    public async Task<IActionResult> CreateShopItem([FromBody] ShopItems item)
     {
         await _shopItemService.CreateShopItem(item);
         return Ok(new { message = "ShopItem created successfully!"});
     }
 
-    [HttpPut("update")]
+    [HttpPut("update/{id}")]
     public async Task<IActionResult> UpdateShopItem(Guid id, [FromBody] ShopItems items)
     {
         await _shopItemService.UpdateShopItem(id, items);
         return Ok(new { message = "ShopItem updated successfully!" });
     }
 
-    [HttpDelete("delete")]
+    [HttpDelete("delete/{id}")]
     public async Task<IActionResult> DeleteShopItem(Guid id)
     {
         await _shopItemService.RemoveShopItem(id);
-        return Ok(new { message = "ShopItem deleted successfully!   " });
+        return Ok(new { message = "ShopItem deleted successfully!" });
     }
 }

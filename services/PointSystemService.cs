@@ -4,10 +4,8 @@ using System.Linq;
 
 public interface IPointSystemService
 {
-    Task<int> GetUserPointAmount(Guid Id);
-    
+    Task<int> GetUserPointAmount(Guid Id);  
     Task AddPointsToUser(Guid userId, int Amount);
-
     Task UpdateUserPoint(Guid userId, int Amount);
 }
 

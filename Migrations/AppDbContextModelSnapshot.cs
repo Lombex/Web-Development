@@ -23,15 +23,12 @@ namespace Web_Development.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -98,7 +95,6 @@ namespace Web_Development.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Feedback")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Rating")
@@ -123,19 +119,15 @@ namespace Web_Development.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Firstname")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Lastname")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("RecuringDays")
@@ -198,15 +190,13 @@ namespace Web_Development.Migrations
                                         .HasColumnType("TEXT");
 
                                     b2.Property<string>("Description")
-                                        .IsRequired()
                                         .HasColumnType("TEXT");
 
                                     b2.Property<string>("Name")
-                                        .IsRequired()
                                         .HasColumnType("TEXT");
 
-                                    b2.Property<int>("Price")
-                                        .HasColumnType("INTEGER");
+                                    b2.Property<float>("Price")
+                                        .HasColumnType("REAL");
 
                                     b2.HasKey("UserPointsModelUserId", "Id");
 

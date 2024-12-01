@@ -2,6 +2,7 @@ using System.Data.Entity;
 public interface IShopItemService
 {
     Task<ShopItems> GetShopItem(Guid id);
+    Task<IEnumerable<ShopItems>> GetAllShopItems();
     Task CreateShopItem(ShopItems item);
     Task UpdateShopItem(Guid id, ShopItems item);
     Task RemoveShopItem(Guid id);
@@ -14,13 +15,14 @@ public class ShopItemService : IShopItemService
     {
         _context = context;
     }
-
     public async Task<ShopItems> GetShopItem(Guid id)
     {
         var shopItem = _context.ShopItems.FirstOrDefaultAsync(x => x.Id == id);
         if (shopItem == null) throw new NullReferenceException("This Shopitem does not exist!");
         return await shopItem;
     }
+
+    public async Task<IEnumerable<ShopItems>> GetAllShopItems() => await _context.ShopItems.ToListAsync();
 
     public async Task CreateShopItem(ShopItems item)
     {

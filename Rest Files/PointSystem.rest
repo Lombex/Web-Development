@@ -1,0 +1,19 @@
+### Get User Points
+GET http://localhost:5001/api/points/{4060e581-96c3-404a-9549-7319e2ae44bb}
+Content-Type: application/json
+
+### Add Points to User
+POST http://localhost:5001/api/points/{4060e581-96c3-404a-9549-7319e2ae44bb}/add
+Content-Type: application/json
+
+100
+
+### Update User Points
+PUT http://localhost:5001/api/points/{4060e581-96c3-404a-9549-7319e2ae44bb}/update
+Content-Type: application/json
+
+500
+
+### 4. Get User Level
+GET http://localhost:5001/api/points/{08b595dc-b0e2-473f-9dbe-cf0c4548a8f9}/level
+Content-Type: application/json

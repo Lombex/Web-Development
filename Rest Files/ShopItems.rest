@@ -1,0 +1,28 @@
+### Get All Shop item
+
+GET http://localhost:5001/api/shopitem/all
+Content-Type: application/json
+
+### Create New Shop item
+POST http://localhost:5001/api/shopitem/add
+Content-Type: application/json
+
+{
+  "Price": 250,
+  "Name": "DarkMode",
+  "Description": "Darkmode for web pages!"
+}
+
+### Update Shop Item
+PUT http://localhost:5001/api/shopitem/update/{000-00000-000-000000-000-0000}
+Content-Type: application/json
+
+{
+  "Price": 500,
+  "Name": "DarkMode",
+  "Description": "Darkmode for web pages!"
+}
+
+### Delete Shop Item
+DELETE http://localhost:5001/api/shopitem/delete/{}
+Content-Type: application/json

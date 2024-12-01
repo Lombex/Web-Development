@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Web_Development.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241021174639_AddAttendancePrimaryKey")]
-    partial class AddAttendancePrimaryKey
+    [Migration("20241201194126_AddAllEntities")]
+    partial class AddAllEntities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,20 +26,34 @@ namespace Web_Development.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.ToTable("Admins");
+                });
+
+            modelBuilder.Entity("Attendance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Attendances");
                 });
 
             modelBuilder.Entity("Event", b =>
@@ -80,20 +94,23 @@ namespace Web_Development.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("EventID")
+                    b.Property<Guid>("EventId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Feedback")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Rating")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("UserID")
+                    b.Property<Guid>("UserId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("EventAttendances");
                 });
@@ -105,19 +122,15 @@ namespace Web_Development.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Firstname")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Lastname")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("RecuringDays")
@@ -129,6 +142,25 @@ namespace Web_Development.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("EventAttendance", b =>
+                {
+                    b.HasOne("Event", "Event")
+                        .WithMany("EventAttendances")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("User", "User")
+                        .WithMany("EventAttendances")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("User", b =>
@@ -161,15 +193,13 @@ namespace Web_Development.Migrations
                                         .HasColumnType("TEXT");
 
                                     b2.Property<string>("Description")
-                                        .IsRequired()
                                         .HasColumnType("TEXT");
 
                                     b2.Property<string>("Name")
-                                        .IsRequired()
                                         .HasColumnType("TEXT");
 
-                                    b2.Property<int>("Price")
-                                        .HasColumnType("INTEGER");
+                                    b2.Property<float>("Price")
+                                        .HasColumnType("REAL");
 
                                     b2.HasKey("UserPointsModelUserId", "Id");
 
@@ -184,6 +214,16 @@ namespace Web_Development.Migrations
 
                     b.Navigation("Points")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Event", b =>
+                {
+                    b.Navigation("EventAttendances");
+                });
+
+            modelBuilder.Entity("User", b =>
+                {
+                    b.Navigation("EventAttendances");
                 });
 #pragma warning restore 612, 618
         }
