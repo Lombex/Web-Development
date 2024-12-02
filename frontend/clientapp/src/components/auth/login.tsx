@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button } from '../ui/button';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '../ui/button'; 
 import { Loader2 } from 'lucide-react';
 
 const Login: React.FC = () => {
@@ -9,8 +10,13 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState<string | null>(null);
 
+  const navigate = useNavigate();   
+
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    setLoading(true);
+    setError(null);
 
     try {
       const response = await fetch('http://localhost:5001/api/auth/login', {
@@ -29,9 +35,13 @@ const Login: React.FC = () => {
       }
 
       const data = await response.json();
-      setToken(data.token); 
+      setToken(data.token);
       setEmail('');
       setPassword('');
+
+
+      navigate('/point-shop'); // Redirect to PointShop page
+
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Login failed');
     } finally {
@@ -40,8 +50,8 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-200"> {/* grijs achtergrond*/}
-      {/* Centreren van login  */}
+    <div className="flex items-center justify-center min-h-screen bg-gray-200">
+      {/* Centered login form */}
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
         {!token ? (
           <form onSubmit={handleLoginSubmit} className="space-y-4">

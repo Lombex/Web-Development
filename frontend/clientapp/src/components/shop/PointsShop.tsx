@@ -60,7 +60,7 @@ interface User {
         const users = await response.json();
         console.log('Users data:', users);
         
-        const testUser = users.find((u: User) => u.email === 'test@example.com');
+        const testUser = users.find((u: User) => u.email === 'john.doe@example.com');
         console.log('Test user:', testUser);
         
         if (testUser) {
