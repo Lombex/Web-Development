@@ -105,6 +105,14 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = "swagger";
     });
 }
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        builder => builder
+            .WithOrigins("http://your-frontend-domain")
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
 
 // Authentication & Authorization middleware
 app.UseAuthentication();
@@ -112,5 +120,6 @@ app.UseAuthorization();
 
 app.MapGet("/", () => "This is the home page");
 app.MapControllers();
+app.UseCors("AllowFrontend");
 
 app.Run();
