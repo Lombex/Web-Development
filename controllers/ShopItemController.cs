@@ -10,25 +10,31 @@ public class ShopItemController : ControllerBase
         _shopItemService = shopItemService;
     }
 
+    [HttpGet("Test")]
+    public async Task<IActionResult> TestAPI()
+    {
+        return Ok("Api is healthy!");
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetShopItem(Guid id)
     {
-        ShopItems? shopItem = await _shopItemService.GetShopItem(id);
+        ShopItemModel? shopItem = await _shopItemService.GetShopItem(id);
         return Ok(shopItem);
     }
 
     [HttpGet("all")]
-    public async Task<ActionResult<IEnumerable<ShopItems>>> GetAllShopItems() => Ok(await _shopItemService.GetAllShopItems());
+    public async Task<ActionResult<List<ShopItemModel>>> GetAllShopItems() => Ok(await _shopItemService.GetAllShopItems());
 
     [HttpPost("add")]
-    public async Task<IActionResult> CreateShopItem([FromBody] ShopItems item)
+    public async Task<IActionResult> CreateShopItem([FromBody] ShopItemModel item)
     {
         await _shopItemService.CreateShopItem(item);
         return Ok(new { message = "ShopItem created successfully!"});
     }
 
     [HttpPut("update/{id}")]
-    public async Task<IActionResult> UpdateShopItem(Guid id, [FromBody] ShopItems items)
+    public async Task<IActionResult> UpdateShopItem(Guid id, [FromBody] ShopItemModel items)
     {
         await _shopItemService.UpdateShopItem(id, items);
         return Ok(new { message = "ShopItem updated successfully!" });

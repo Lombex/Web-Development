@@ -32,7 +32,7 @@ Content-Type: application/json
 }
 
 ### Update User by ID 
-PUT http://localhost:5001/api/users/{703fef6e-4895-41af-90ab-c88137b0126c}
+PUT http://localhost:5001/api/users/{ef7cabc3-18df-4716-b6af-01ec4d0ede2d}
 //Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 Content-Type: application/json
 
@@ -45,7 +45,7 @@ Content-Type: application/json
 }
 
 ### Delete User by ID
-DELETE http://localhost:5001/api/users/{703fef6e-4895-41af-90ab-c88137b0126c}
+DELETE http://localhost:5001/api/users/{ef7cabc3-18df-4716-b6af-01ec4d0ede2d}
 //Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 
 Content-Type: application/json

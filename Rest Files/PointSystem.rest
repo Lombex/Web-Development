@@ -3,10 +3,10 @@ GET http://localhost:5001/api/points/{4060e581-96c3-404a-9549-7319e2ae44bb}
 Content-Type: application/json
 
 ### Add Points to User
-POST http://localhost:5001/api/points/{4060e581-96c3-404a-9549-7319e2ae44bb}/add
+POST http://localhost:5001/api/points/{e779d29d-f7cc-4272-bc28-08c010cce00f}/add
 Content-Type: application/json
 
-100
+10000
 
 ### Update User Points
 PUT http://localhost:5001/api/points/{4060e581-96c3-404a-9549-7319e2ae44bb}/update

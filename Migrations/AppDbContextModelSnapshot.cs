@@ -180,7 +180,7 @@ namespace Web_Development.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
 
-                            b1.OwnsMany("ShopItems", "Items", b2 =>
+                            b1.OwnsMany("ShopItemModel", "Items", b2 =>
                                 {
                                     b2.Property<Guid>("UserPointsModelUserId")
                                         .HasColumnType("TEXT");

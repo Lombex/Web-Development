@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Web_Development.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241201195611_FixShopItemsRelationship")]
-    partial class FixShopItemsRelationship
+    [Migration("20241202205127_FirstMigration")]
+    partial class FirstMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -183,7 +183,7 @@ namespace Web_Development.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("UserId");
 
-                            b1.OwnsMany("ShopItems", "Items", b2 =>
+                            b1.OwnsMany("ShopItemModel", "Items", b2 =>
                                 {
                                     b2.Property<Guid>("UserPointsModelUserId")
                                         .HasColumnType("TEXT");

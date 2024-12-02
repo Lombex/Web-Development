@@ -8,18 +8,22 @@ public class AppDbContext : DbContext
     public DbSet<Event> Events { get; set; }
     public DbSet<Admin> Admins { get; set; }
     public DbSet<User> Users { get; set; }
-    public DbSet<ShopItems> ShopItems { get; set; }
+    public DbSet<ShopItemModel> ShopItems { get; set; }
     public DbSet<UserPointsModel> UserPointsModels { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured) optionsBuilder.UseSqlite("Data Source=Database.db"); 
+    }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Example configuration for relationships and owned types
         modelBuilder.Entity<User>().OwnsOne(u => u.Points, points =>
         {
-            // ShopItems is owned by UserPointsModel
             points.OwnsMany(p => p.Items, item =>
             {
-                item.WithOwner(); // Ensures the relationship is correctly defined
+                item.WithOwner();
             });
         });
 

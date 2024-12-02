@@ -1,6 +1,6 @@
 using System;
 
-public class ShopItems
+public class ShopItemModel
 {
     public Guid Id { get; set; }
     public float Price { get; set; }
