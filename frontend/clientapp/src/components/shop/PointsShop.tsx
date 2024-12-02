@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
+import { ArrowLeft } from 'lucide-react';
 
 interface ShopItem {
   id: string;
@@ -11,7 +12,11 @@ interface ShopItem {
   price: number;
 }
 
-const PointShop = () => {
+interface PointShopProps {
+  onNavigate: (page: string) => void;
+}
+
+const PointShop = ({ onNavigate }: PointShopProps) => {
   const [points, setPoints] = useState(1000);
   const [items] = useState<ShopItem[]>([
     { id: '1', name: 'Dark Theme', description: 'Enable dark mode', price: 500 },
@@ -47,6 +52,16 @@ const PointShop = () => {
 
   return (
     <div className="container mx-auto p-4">
+      {/* Terug knop */}
+      <Button 
+        variant="outline" 
+        className="mb-4"
+        onClick={() => onNavigate('dashboard')}
+      >
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        Terug naar Dashboard
+      </Button>
+
       <Card className="mb-6">
         <CardHeader>
           <CardTitle>Your Points</CardTitle>
