@@ -1,4 +1,3 @@
-
 public interface IPointSystemService
 {
     Task<int> GetPointsFromUser(User user);
@@ -6,8 +5,6 @@ public interface IPointSystemService
     Task<bool> UpdateUserPoints(User user, int amount);
     Task<float> GetUserLevel(User user);
     Task<bool> BuyItem(User user, ShopItems item);
-    // Task<List<ShopItems>> GetAllShopItems();
-    // Task<ShopItems> GetItemById(Guid id);
 }
 
 public class PointSystemService : IPointSystemService
@@ -18,29 +15,18 @@ public class PointSystemService : IPointSystemService
     {
         _context = context;
     }
+
     public async Task<int> GetPointsFromUser(User user)
     {
         var userModel = user.Points.PointAmount;
-
         return await Task.FromResult(userModel);
     }
 
-    public async void AddUserPoints(User user, int amount)
+    public void AddUserPoints(User user, int amount)
     {
         user.Points.AllTimePoints += amount;
         user.Points.PointAmount += amount;
-        await Task.CompletedTask;
-    }
-
-    public async Task<bool> BuyItem(User user, ShopItems item)
-    {
-        if (user.Points.PointAmount >= item.Price)
-        {
-            user.Points.PointAmount -= item.Price;
-            user.Points.Items.Add(item);
-            return await Task.FromResult(true);
-        }
-        return await Task.FromResult(false);
+        _context.SaveChanges(); // Synchronous save
     }
 
     public async Task<bool> UpdateUserPoints(User user, int amount)
@@ -48,9 +34,10 @@ public class PointSystemService : IPointSystemService
         if (user != null)
         {
             user.Points.PointAmount = amount;
-            return await Task.FromResult(true);
+            await _context.SaveChangesAsync();
+            return true;
         }
-        return await Task.FromResult(false);
+        return false;
     }
 
     public async Task<float> GetUserLevel(User user)
@@ -61,6 +48,18 @@ public class PointSystemService : IPointSystemService
             return await Task.FromResult(level);
         }
         return await Task.FromResult(0.0f);
+    }
+
+    public async Task<bool> BuyItem(User user, ShopItems item)
+    {
+        if (user.Points.PointAmount >= item.Price)
+        {
+            user.Points.PointAmount -= item.Price;
+            user.Points.Items.Add(item);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        return false;
     }
 }
 
