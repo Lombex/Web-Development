@@ -79,6 +79,17 @@ builder.Services.AddAuthorization(options =>
         policy.RequireRole("Admin"));
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000") 
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
 // Add DbContext for SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -105,14 +116,41 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = "swagger";
     });
 }
-builder.Services.AddCors(options =>
+// DEFAULT USER FOR TESTING
+using (var scope = app.Services.CreateScope())
 {
-    options.AddPolicy("AllowFrontend",
-        builder => builder
-            .WithOrigins("http://your-frontend-domain")
-            .AllowAnyMethod()
-            .AllowAnyHeader());
-});
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+
+    // Check if test user exists
+    var testUser = await context.Users.FirstOrDefaultAsync(u => u.Email == "test@example.com");
+    
+    if (testUser == null)
+    {
+        testUser = new User
+        {
+            Id = Guid.NewGuid(),
+            Firstname = "Test",
+            Lastname = "User",
+            Email = "test@example.com",
+            Password = "test123",
+            Role = UserRole.User,
+            Points = new UserPointsModel
+            {
+                PointAmount = 1000,
+                AllTimePoints = 1000,
+                Items = new List<ShopItems>()
+            }
+        };
+
+        await userService.CreateUserAsync(testUser);
+        Console.WriteLine($"Test user created with ID: {testUser.Id}");
+    }
+    else
+    {
+        Console.WriteLine($"Test user already exists with ID: {testUser.Id}");
+    }
+}
 
 // Authentication & Authorization middleware
 app.UseAuthentication();

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-[Route("api/users")]
+[Route("api/user")]
 [ApiController]
 public class UserController : ControllerBase
 {
