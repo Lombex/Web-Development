@@ -1,4 +1,4 @@
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 public interface IShopItemService
 {
     Task<ShopItemModel> GetShopItem(Guid id);
@@ -15,35 +15,44 @@ public class ShopItemService : IShopItemService
     {
         _context = context;
     }
+
     public async Task<ShopItemModel> GetShopItem(Guid id)
     {
-        var shopItem = _context.ShopItems.FirstOrDefaultAsync(x => x.Id == id);
-        if (shopItem == null) throw new NullReferenceException("This Shopitem does not exist!");
-        return await shopItem;
+        var shopItem = await _context.ShopItems.FirstOrDefaultAsync(x => x.Id == id);
+        if (shopItem == null) throw new KeyNotFoundException($"ShopItem with ID {id} does not exist.");
+        return shopItem;
     }
-    public async Task<List<ShopItemModel>> GetAllShopItems() => await _context.ShopItems.ToListAsync();
+
+    public async Task<List<ShopItemModel>> GetAllShopItems()
+    {
+        return await _context.ShopItems.AsQueryable().ToListAsync();
+    }
 
     public async Task CreateShopItem(ShopItemModel item)
     {
-        if (item == null) throw new NullReferenceException(nameof(item));
+        if (item == null) throw new ArgumentNullException(nameof(item));
         await _context.ShopItems.AddAsync(item);
         await _context.SaveChangesAsync();
     }
 
     public async Task UpdateShopItem(Guid id, ShopItemModel item)
     {
-        ShopItemModel? ShopItem = await GetShopItem(id);
-        ShopItem.Price = item.Price;
-        ShopItem.Name = item.Name;
-        ShopItem.Description = item.Description;
+        var shopItem = await GetShopItem(id);
+        if (shopItem == null) throw new KeyNotFoundException($"ShopItem with ID {id} does not exist.");
+
+        shopItem.Price = item.Price;
+        shopItem.Name = item.Name;
+        shopItem.Description = item.Description;
+
+        _context.ShopItems.Update(shopItem);
         await _context.SaveChangesAsync();
     }
 
     public async Task RemoveShopItem(Guid id)
     {
-        ShopItemModel item = await GetShopItem(id);
-        if (item == null) throw new NullReferenceException("This item does not exist!");
-        _context.ShopItems.Remove(item);
+        var shopItem = await GetShopItem(id);
+        if (shopItem == null) throw new KeyNotFoundException($"ShopItem with ID {id} does not exist.");
+        _context.ShopItems.Remove(shopItem);
         await _context.SaveChangesAsync();
     }
 }

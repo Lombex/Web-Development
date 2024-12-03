@@ -11,32 +11,35 @@ public class ShopItemController : ControllerBase
     }
 
     [HttpGet("Test")]
-    public async Task<IActionResult> TestAPI()
-    {
-        return Ok("Api is healthy!");
-    }
+    public IActionResult TestAPI() => Ok("API is healthy!");
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetShopItem(Guid id)
     {
-        ShopItemModel? shopItem = await _shopItemService.GetShopItem(id);
+        var shopItem = await _shopItemService.GetShopItem(id);
         return Ok(shopItem);
     }
 
     [HttpGet("all")]
-    public async Task<ActionResult<List<ShopItemModel>>> GetAllShopItems() => Ok(await _shopItemService.GetAllShopItems());
+    public async Task<IActionResult> GetAllShopItems()
+    {
+        var shopItems = await _shopItemService.GetAllShopItems();
+        return Ok(shopItems);
+    }
 
     [HttpPost("add")]
     public async Task<IActionResult> CreateShopItem([FromBody] ShopItemModel item)
     {
+        if (item == null) return BadRequest(new { message = "Invalid ShopItem data." });
         await _shopItemService.CreateShopItem(item);
-        return Ok(new { message = "ShopItem created successfully!"});
+        return CreatedAtAction(nameof(GetShopItem), new { id = item.Id }, new { message = "ShopItem created successfully!", shopItem = item });
     }
 
     [HttpPut("update/{id}")]
-    public async Task<IActionResult> UpdateShopItem(Guid id, [FromBody] ShopItemModel items)
+    public async Task<IActionResult> UpdateShopItem(Guid id, [FromBody] ShopItemModel item)
     {
-        await _shopItemService.UpdateShopItem(id, items);
+        if (item == null) return BadRequest(new { message = "Invalid ShopItem data." });
+        await _shopItemService.UpdateShopItem(id, item);
         return Ok(new { message = "ShopItem updated successfully!" });
     }
 

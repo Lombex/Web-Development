@@ -16,26 +16,6 @@ namespace Web_Development.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
 
-            modelBuilder.Entity("Admin", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Username")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Admins");
-                });
-
             modelBuilder.Entity("Attendance", b =>
                 {
                     b.Property<Guid>("Id")
@@ -112,6 +92,26 @@ namespace Web_Development.Migrations
                     b.ToTable("EventAttendances");
                 });
 
+            modelBuilder.Entity("ShopItemModel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShopItems");
+                });
+
             modelBuilder.Entity("User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -130,6 +130,9 @@ namespace Web_Development.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("PointsAllTimePoints")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("RecuringDays")
                         .HasColumnType("INTEGER");
 
@@ -138,7 +141,23 @@ namespace Web_Development.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("PointsAllTimePoints");
+
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("UserPointsModel", b =>
+                {
+                    b.Property<int>("AllTimePoints")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PointAmount")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("AllTimePoints");
+
+                    b.ToTable("UserPointsModels");
                 });
 
             modelBuilder.Entity("EventAttendance", b =>
@@ -162,55 +181,13 @@ namespace Web_Development.Migrations
 
             modelBuilder.Entity("User", b =>
                 {
-                    b.OwnsOne("UserPointsModel", "Points", b1 =>
-                        {
-                            b1.Property<Guid>("UserId")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<int>("AllTimePoints")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<int>("PointAmount")
-                                .HasColumnType("INTEGER");
-
-                            b1.HasKey("UserId");
-
-                            b1.ToTable("UserPointsModels");
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-
-                            b1.OwnsMany("ShopItemModel", "Items", b2 =>
-                                {
-                                    b2.Property<Guid>("UserPointsModelUserId")
-                                        .HasColumnType("TEXT");
-
-                                    b2.Property<Guid>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("TEXT");
-
-                                    b2.Property<string>("Description")
-                                        .HasColumnType("TEXT");
-
-                                    b2.Property<string>("Name")
-                                        .HasColumnType("TEXT");
-
-                                    b2.Property<float>("Price")
-                                        .HasColumnType("REAL");
-
-                                    b2.HasKey("UserPointsModelUserId", "Id");
-
-                                    b2.ToTable("ShopItems");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("UserPointsModelUserId");
-                                });
-
-                            b1.Navigation("Items");
-                        });
-
-                    b.Navigation("Points")
+                    b.HasOne("UserPointsModel", "Points")
+                        .WithMany()
+                        .HasForeignKey("PointsAllTimePoints")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Points");
                 });
 
             modelBuilder.Entity("Event", b =>

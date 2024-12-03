@@ -7,6 +7,10 @@ Content-Type: application/json
 GET http://localhost:5001/api/shopitem/all
 Content-Type: application/json
 
+### Get Shop item by iD
+GET http://localhost:5001/api/shopitem/{9fd60eb1-6a7c-4eaa-ba63-4e0ac5a4bdce}
+Content-Type: application/json
+
 ### Create New Shop item
 POST http://localhost:5001/api/shopitem/add
 Content-Type: application/json
@@ -18,7 +22,7 @@ Content-Type: application/json
 }
 
 ### Update Shop Item
-PUT http://localhost:5001/api/shopitem/update/{000-00000-000-000000-000-0000}
+PUT http://localhost:5001/api/shopitem/update/9fd60eb1-6a7c-4eaa-ba63-4e0ac5a4bdce
 Content-Type: application/json
 
 {
@@ -28,5 +32,5 @@ Content-Type: application/json
 }
 
 ### Delete Shop Item
-DELETE http://localhost:5001/api/shopitem/delete/{}
+DELETE http://localhost:5001/api/shopitem/delete/87899a7b-0e06-4590-b70a-04e91a99acbd
 Content-Type: application/json

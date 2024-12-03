@@ -1,15 +1,28 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\zdenn\\Desktop\\Web-Development\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\zdenn\\Desktop\\Web-Development\\backend\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\backend\\services\\shopitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:services\\shopitemservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\backend\\controllers\\shopitemcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:controllers\\shopitemcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|c:\\users\\zdenn\\desktop\\web-development\\backend\\rest files\\shopitems.rest||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{933B84D8-6262-4165-B005-8AC43C7C303E}|Web-Development.csproj|solutionrelative:rest files\\shopitems.rest||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 213,
-          "SelectedChildIndex": -1,
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -22,6 +35,66 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ShopItemController.cs",
+              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\backend\\controllers\\ShopItemController.cs",
+              "RelativeDocumentMoniker": "controllers\\ShopItemController.cs",
+              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\backend\\controllers\\ShopItemController.cs",
+              "RelativeToolTip": "controllers\\ShopItemController.cs",
+              "ViewState": "AQIAABcAAAAAAAAAAAAwwCgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T23:27:46.068Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ShopItemService.cs",
+              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\backend\\services\\ShopItemService.cs",
+              "RelativeDocumentMoniker": "services\\ShopItemService.cs",
+              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\backend\\services\\ShopItemService.cs",
+              "RelativeToolTip": "services\\ShopItemService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-02T23:46:55.343Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "473dadf1-0010-4b1a-adcc-b1ce6bf9e2bc",
+        "Display": 1,
+        "X": 139,
+        "Y": 137,
+        "Width": 1374,
+        "Height": 868,
+        "WindowState": 2
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ShopItems.rest",
+              "DocumentMoniker": "C:\\Users\\zdenn\\Desktop\\Web-Development\\backend\\Rest Files\\ShopItems.rest",
+              "RelativeDocumentMoniker": "Rest Files\\ShopItems.rest",
+              "ToolTip": "C:\\Users\\zdenn\\Desktop\\Web-Development\\backend\\Rest Files\\ShopItems.rest",
+              "RelativeToolTip": "Rest Files\\ShopItems.rest",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2024-12-02T23:30:50.347Z",
+              "EditorCaption": ""
             }
           ]
         }

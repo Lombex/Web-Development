@@ -6,27 +6,16 @@ public class AppDbContext : DbContext
     public DbSet<EventAttendance> EventAttendances { get; set; }
     public DbSet<Attendance> Attendances { get; set; }
     public DbSet<Event> Events { get; set; }
-    public DbSet<Admin> Admins { get; set; }
-    public DbSet<User> Users { get; set; }
-    public DbSet<ShopItemModel> ShopItems { get; set; }
+    public DbSet<User> Users { get; set; } 
     public DbSet<UserPointsModel> UserPointsModels { get; set; }
+    public DbSet<ShopItemModel> ShopItems { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured) optionsBuilder.UseSqlite("Data Source=Database.db"); 
     }
-
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>().OwnsOne(u => u.Points, points =>
-        {
-            points.OwnsMany(p => p.Items, item =>
-            {
-                item.WithOwner();
-            });
-        });
-
         modelBuilder.Entity<EventAttendance>().HasOne(ea => ea.User).WithMany(u => u.EventAttendances)
             .HasForeignKey(ea => ea.UserId).OnDelete(DeleteBehavior.Cascade);
 
