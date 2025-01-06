@@ -20,3 +20,11 @@ public class EventService
         return await Task.FromResult(true);
     }
 }
+public interface IEventService
+{
+    Task<Event?> GetEventAsync(Guid id);
+    Task<IEnumerable<Event>> GetAllEventsAsync();
+    Task<Event> CreateEventAsync(Event eventItem);
+    Task<Event?> UpdateEventAsync(Guid id, Event eventItem);
+    Task<bool> DeleteEventAsync(Guid id);
+}
