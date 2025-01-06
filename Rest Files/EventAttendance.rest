@@ -1,0 +1,22 @@
+### Test API Health
+GET http://localhost:5001/api/eventattendance/Test
+Content-Type: application/json
+
+### Get a event attendance
+GET http://localhost:5001/api/eventattendance/user/{08b595dc-b0e2-473f-9dbe-cf0c4548a8f9}
+Content-Type: application/json
+
+### Create a new event attendance
+POST http://localhost:5001/api/eventattendance/create
+Content-Type: application/json
+
+{
+  "userID": "198ce3f8-b220-4e0d-bd42-4a1b7d9c6e1f", 
+  "eventID": "6b925dfb-f879-4b21-afc0-5ad82d19b6ec",
+  "rating": 5,
+  "feedback": "Great event!"
+}
+
+### Delete a event attendance
+DELETE http://localhost:5001/api/eventattendance/delete/{160394fe-0844-420d-89eb-7dc69ad4f825}
+Content-Type: application/json
