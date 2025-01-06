@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-[Route("api/user")]
+[Route("api/users")]
 [ApiController]
 public class UserController : ControllerBase
 {
-     private readonly IUserService _userService;
+    private readonly IUserService _userService;
 
     public UserController(IUserService userService)
     {
@@ -25,18 +25,16 @@ public class UserController : ControllerBase
     public async Task<IActionResult> CreateUser([FromBody] User user)
     {
         var createdUser = await _userService.CreateUserAsync(user);
-        return CreatedAtAction(nameof(GetUserById), new { id =  Guid.NewGuid() }, createdUser);
+        return CreatedAtAction(nameof(GetUserById), new { id = Guid.NewGuid() }, createdUser);
     }
 
     [HttpGet("all")]
-    //[Authorize(Policies.RequireUserRole)]
     public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
     {
         return Ok(await _userService.GetAllUsersAsync());
     }
 
     [HttpGet("{id}")]
-    //[Authorize(Policies.RequireUserRole)]
     public async Task<ActionResult<User>> GetUserById(Guid id)
     {
         var user = await _userService.GetUserAsync(id);
@@ -45,7 +43,6 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    //[Authorize(Policies.RequireUserRole)]
     public async Task<IActionResult> UpdateUser(Guid id, [FromBody] User user)
     {
         var updatedUser = await _userService.UpdateUserAsync(id, user);
@@ -54,7 +51,6 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    //[Authorize(Policies.RequireAdminRole)]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
         var result = await _userService.DeleteUserAsync(id);

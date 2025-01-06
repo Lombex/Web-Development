@@ -1,67 +1,44 @@
+
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+
 public interface IPointSystemService
 {
-    Task<int> GetPointsFromUser(User user);
-    void AddUserPoints(User user, int amount);
-    Task<bool> UpdateUserPoints(User user, int amount);
-    Task<float> GetUserLevel(User user);
-    Task<bool> BuyItem(User user, ShopItems item);
+    Task<int> GetUserPointAmount(Guid Id);  
+    Task AddPointsToUser(Guid userId, int Amount);
+    Task UpdateUserPoint(Guid userId, int Amount);
 }
 
 public class PointSystemService : IPointSystemService
 {
     private readonly AppDbContext _context;
-
     public PointSystemService(AppDbContext context)
     {
-        _context = context;
+        _context = context; 
     }
 
-    public async Task<int> GetPointsFromUser(User user)
+    public async Task<int> GetUserPointAmount(Guid id)
     {
-        var userModel = user.Points.PointAmount;
-        return await Task.FromResult(userModel);
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+        if (user == null) throw new NullReferenceException("User does not exist!");
+        return user.Points.PointAmount;
     }
 
-    public void AddUserPoints(User user, int amount)
+    public async Task AddPointsToUser(Guid userId, int amount)
     {
-        user.Points.AllTimePoints += amount;
+        if (amount < 0) throw new ArgumentOutOfRangeException(nameof(amount), "Amount must be a positive integer!");
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+        if (user == null) throw new NullReferenceException("User does not exist!");
         user.Points.PointAmount += amount;
-        _context.SaveChanges(); // Synchronous save
+        await _context.SaveChangesAsync();
     }
 
-    public async Task<bool> UpdateUserPoints(User user, int amount)
+    public async Task UpdateUserPoint(Guid userId, int amount)
     {
-        if (user != null)
-        {
-            user.Points.PointAmount = amount;
-            await _context.SaveChangesAsync();
-            return true;
-        }
-        return false;
-    }
-
-    public async Task<float> GetUserLevel(User user)
-    {
-        if (user != null)
-        {
-            float level = user.Points.AllTimePoints / 100;
-            return await Task.FromResult(level);
-        }
-        return await Task.FromResult(0.0f);
-    }
-
-    public async Task<bool> BuyItem(User user, ShopItems item)
-    {
-        if (user.Points.PointAmount >= item.Price)
-        {
-            user.Points.PointAmount -= item.Price;
-            user.Points.Items.Add(item);
-            await _context.SaveChangesAsync();
-            return true;
-        }
-        return false;
+        if (amount < 0) throw new ArgumentOutOfRangeException(nameof(amount), "Amount must be a positive integer!");
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+        if (user == null) throw new NullReferenceException("User does not exist!");
+        user.Points.PointAmount = amount;
+        await _context.SaveChangesAsync();
     }
 }
-
-// lvl (lastlvl + currentlvl) * 1.25
-
