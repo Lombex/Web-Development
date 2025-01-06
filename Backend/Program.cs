@@ -55,21 +55,20 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Configure JWT Authentication
-#pragma warning disable CS8604
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-    };
-});
-#pragma warning restore CS8604
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
 
 // Add Authorization Policy
 builder.Services.AddAuthorization(options => 
@@ -78,6 +77,17 @@ builder.Services.AddAuthorization(options =>
         policy.RequireRole("User"));
     options.AddPolicy("RequireAdminRole", policy =>
         policy.RequireRole("Admin"));
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000") 
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
 });
 
 // Add DbContext for SQLite
@@ -90,18 +100,10 @@ builder.Services.AddScoped<IPointSystemService, PointSystemService>();
 builder.Services.AddScoped<IEventAttendanceService, EventAttendanceService>();
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
-builder.Services.AddScoped<IShopItemService, ShopItemService>();
 
 var app = builder.Build();
 
 app.Urls.Add("http://localhost:5001");
-
-// Configure Database
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    dbContext.Database.Migrate();
-}
 
 // Configure Swagger middleware
 if (app.Environment.IsDevelopment())
@@ -114,6 +116,41 @@ if (app.Environment.IsDevelopment())
         c.RoutePrefix = "swagger";
     });
 }
+// DEFAULT USER FOR TESTING
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var userService = scope.ServiceProvider.GetRequiredService<IUserService>();
+
+    // Check if test user exists
+    var testUser = await context.Users.FirstOrDefaultAsync(u => u.Email == "test@example.com");
+    
+    if (testUser == null)
+    {
+        testUser = new User
+        {
+            Id = Guid.NewGuid(),
+            Firstname = "Test",
+            Lastname = "User",
+            Email = "test@example.com",
+            Password = "test123",
+            Role = UserRole.User,
+            Points = new UserPointsModel
+            {
+                PointAmount = 1000,
+                AllTimePoints = 1000,
+                Items = new List<ShopItems>()
+            }
+        };
+
+        await userService.CreateUserAsync(testUser);
+        Console.WriteLine($"Test user created with ID: {testUser.Id}");
+    }
+    else
+    {
+        Console.WriteLine($"Test user already exists with ID: {testUser.Id}");
+    }
+}
 
 // Authentication & Authorization middleware
 app.UseAuthentication();
@@ -121,5 +158,6 @@ app.UseAuthorization();
 
 app.MapGet("/", () => "This is the home page");
 app.MapControllers();
+app.UseCors("AllowFrontend");
 
 app.Run();
