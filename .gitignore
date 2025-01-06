@@ -1,52 +1,8 @@
-﻿# .NET Core
-bin/
-obj/
-*.dll
-*.pdb
-*.exe
-*.cache
-*.log
-
-# Visual Studio files
-.vs/
-*.user
-*.userosscache
-*.suo
-*.userprefs
-*.dbmdl
-*.dbproj.schemaview
-*.jfm
-*.pfx
-*.publishsettings
-
-# SQLite
-*.db
+﻿# Ignore database files
+app.db
 *.db-shm
 *.db-wal
 
-# Node.js / Frontend
-frontend/node_modules/
-frontend/.pnp
-frontend/.pnp.js
-frontend/coverage/
-frontend/build/
-frontend/.DS_Store
-frontend/.env
-frontend/.env.local
-frontend/.env.development.local
-frontend/.env.test.local
-frontend/.env.production.local
-frontend/npm-debug.log*
-frontend/yarn-debug.log*
-frontend/yarn-error.log*
-
-# IDE specific files
-.idea/
-.vscode/
-*.swp
-*.swo
-*~
-
-# OS specific
-.DS_Store
-Thumbs.db
+# Ignore build artifacts
+obj/
+bin/
