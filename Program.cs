@@ -112,10 +112,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Calendar API v1");
+        // You can customize the Swagger UI here
         c.RoutePrefix = "swagger";
     });
 }
-
 // DEFAULT USER FOR TESTING
 using (var scope = app.Services.CreateScope())
 {
