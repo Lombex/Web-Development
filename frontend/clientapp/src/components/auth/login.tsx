@@ -13,17 +13,10 @@ const Login: React.FC = () => {
 
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login attempt with:', { email }); // Debug log
-
     setLoading(true);
     setError(null);
 
     try {
-      // Eerst controleren of de server bereikbaar is
-      const testResponse = await fetch('http://localhost:5001/api/user/Test');
-      console.log('Test response:', await testResponse.text());
-
-      // Login request
       const response = await fetch('http://localhost:5001/api/auth/login', {
         method: 'POST',
         headers: {
@@ -35,35 +28,35 @@ const Login: React.FC = () => {
         }),
       });
 
-      console.log('Response status:', response.status); // Debug log
-      
       const data = await response.json();
-      console.log('Response data:', data); // Debug log
 
       if (!response.ok) {
         throw new Error(data.message || 'Login failed');
       }
 
-      // Sla token op en navigeer
+      // Opslaan van Token en Id in localStorage
       localStorage.setItem('token', data.token);
-      navigate('/dashboard');
+      localStorage.setItem('Id', data.id);
 
+      // Navigate to dashboard
+      navigate('/dashboard');
     } catch (err) {
-      console.error('Full error:', err); // Debug log
+      console.error('Login error:', err);
       setError(err instanceof Error ? err.message : 'Login failed');
-      localStorage.removeItem('token');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-200">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <form onSubmit={handleLoginSubmit} className="space-y-4">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-400 to-purple-600">
+      <div className="bg-white p-8 rounded-xl shadow-xl w-full max-w-md">
+        <h1 className="text-2xl font-bold text-gray-800 text-center">Welcome</h1>
+        <p className="text-gray-600 text-center mb-6">Log in to your account</p>
+        <form onSubmit={handleLoginSubmit} className="space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email:
+              Email
             </label>
             <input
               type="email"
@@ -71,12 +64,13 @@ const Login: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              className="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              placeholder="you@example.com"
             />
           </div>
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-              Password:
+              Password
             </label>
             <input
               type="password"
@@ -84,25 +78,35 @@ const Login: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              className="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Enter your password"
             />
           </div>
-          <Button 
+          <Button
             type="submit"
             disabled={loading}
             variant="outline"
-            className="w-full mt-4"
+            className="w-full py-3 text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg shadow-md transition duration-300"
           >
-            {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+            {loading && <Loader2 className="w-5 h-5 mr-2 animate-spin" />}
             {loading ? 'Logging in...' : 'Login'}
           </Button>
 
           {error && (
-            <p className="text-red-500 mt-2">
+            <p className="text-sm text-center text-red-500 mt-2">
               Error: {error}
             </p>
           )}
         </form>
+        <p className="text-sm text-center text-gray-600 mt-4">
+          Don't have an account?{' '}
+          <a
+            href="/signup"
+            className="text-blue-500 hover:underline focus:outline-none"
+          >
+            Sign up
+          </a>
+        </p>
       </div>
     </div>
   );

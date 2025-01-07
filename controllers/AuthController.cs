@@ -30,13 +30,25 @@ public class AuthController : ControllerBase
 
         var token = GenerateJwtToken(user);
 
-        return Ok(new { token });
+        return Ok(new { token, user.Id });
     }
 
     private async Task<User?> AuthenticateUser(string email, string password)
     {
         var users = await _userService.GetAllUsersAsync();
         return users.FirstOrDefault(u => u.Email == email && u.Password == password);
+    }
+
+    public Guid GetUserIdFromToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var securityToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+
+        if (securityToken == null)
+            throw new SecurityTokenException("Invalid token");
+
+        var userId = securityToken.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+        return Guid.Parse(userId);
     }
 
     private string GenerateJwtToken(User user)

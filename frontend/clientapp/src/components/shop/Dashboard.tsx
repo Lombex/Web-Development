@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { ShoppingBag, Settings, Users, BookOpen, LogOut, Loader2 } from 'lucide-react';
 
@@ -21,15 +21,16 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      const userId = localStorage.getItem('Id');
       const token = localStorage.getItem('token');
-      
-      if (!token) {
+
+      if (!token || !userId) {
         navigate('/');
         return;
       }
 
       try {
-        const response = await fetch('http://localhost:5001/api/user/all', {
+        const response = await fetch(`http://localhost:5001/api/user/${userId}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -110,92 +111,65 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 space-y-6">
-      {/* Gebruikersprofiel Sectie */}
-      <Card className="bg-gradient-to-r from-blue-500 to-blue-600">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+    <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
+      {/* Sidebar with User Info */}
+      <div className="lg:col-span-1">
+        <Card className="bg-gradient-to-r from-blue-500 to-blue-600">
+          <CardHeader>
+            <div className="flex flex-col items-center space-y-4 text-white">
               <img
-                src="/api/placeholder/32/32"
+                src="/api/placeholder/64/64"
                 alt="Profile"
-                className="rounded-full w-16 h-16 border-2 border-white"
+                className="rounded-full w-24 h-24 border-2 border-white"
               />
-              <div className="text-white">
-                <h2 className="text-2xl font-bold">{userData.firstname} {userData.lastname}</h2>
+              <div>
+                <h2 className="text-xl font-bold">{userData.firstname} {userData.lastname}</h2>
                 <p className="text-blue-100">{userData.role}</p>
                 <p className="text-sm text-blue-100">{userData.email}</p>
               </div>
-            </div>
-            <Button
-              variant="secondary"
-              onClick={handleLogout}
-              className="flex items-center space-x-2"
-            >
-              <LogOut className="h-4 w-4" />
-              <span>Uitloggen</span>
-            </Button>
-          </div>
-        </CardHeader>
-      </Card>
-
-      {/* Welkom Bericht */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Welkom terug, {userData.firstname}!</CardTitle>
-          <CardDescription>
-            Wat wil je vandaag doen?
-          </CardDescription>
-        </CardHeader>
-      </Card>
-
-      {/* Navigatie Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {navigationCards.map((card, index) => (
-          <Card 
-            key={index} 
-            className="hover:shadow-lg transition-shadow cursor-pointer"
-          >
-            <CardHeader>
-              <div className={`${card.color} p-3 rounded-full w-fit`}>
-                {card.icon}
-              </div>
-            </CardHeader>
-            <CardContent>
-              <h3 className="font-bold mb-1">{card.title}</h3>
-              <p className="text-sm text-gray-500">{card.description}</p>
-            </CardContent>
-            <CardFooter>
-              <Button 
-                variant="secondary" 
-                className="w-full justify-center"
-                onClick={() => navigate(card.path)}
+              <Button
+                variant="secondary"
+                onClick={handleLogout}
+                className="flex items-center space-x-2"
               >
-                Ga naar {card.title}
+                <LogOut className="h-4 w-4" />
+                <span>Uitloggen</span>
               </Button>
-            </CardFooter>
-          </Card>
-        ))}
+            </div>
+          </CardHeader>
+        </Card>
       </div>
 
-      {/* Recent Activiteit of Aankondigingen */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Recente Aankondigingen</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="border-l-4 border-blue-500 pl-4">
-              <h4 className="font-semibold">Nieuwe opdracht beschikbaar</h4>
-              <p className="text-sm text-gray-500">Frontend Development - React Basics</p>
-            </div>
-            <div className="border-l-4 border-green-500 pl-4">
-              <h4 className="font-semibold">Points Shop Update</h4>
-              <p className="text-sm text-gray-500">Nieuwe beloningen toegevoegd!</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Main Dashboard Content */}
+      <div className="lg:col-span-3 space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Welkom terug, {userData.firstname}!</CardTitle>
+            <CardDescription>
+              Wat wil je vandaag doen?
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+          {navigationCards.map((card, index) => (
+            <Card 
+              key={index} 
+              className="hover:shadow-lg transition-shadow cursor-pointer"
+            >
+              <CardHeader>
+                <div className={`${card.color} p-3 rounded-full w-fit`}>
+                  {card.icon}
+                </div>
+              </CardHeader>
+              <CardContent>
+                <h3 className="font-bold mb-1">{card.title}</h3>
+                <p className="text-sm text-gray-500">{card.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
