@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Web_Development.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241021174639_AddAttendancePrimaryKey")]
+    partial class AddAttendancePrimaryKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -37,23 +40,6 @@ namespace Web_Development.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Admins");
-                });
-
-            modelBuilder.Entity("Attendance", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Attendances");
                 });
 
             modelBuilder.Entity("Event", b =>
@@ -94,7 +80,7 @@ namespace Web_Development.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("EventId")
+                    b.Property<Guid>("EventID")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Feedback")
@@ -104,14 +90,10 @@ namespace Web_Development.Migrations
                     b.Property<int>("Rating")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("UserID")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("EventAttendances");
                 });
@@ -147,25 +129,6 @@ namespace Web_Development.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("EventAttendance", b =>
-                {
-                    b.HasOne("Event", "Event")
-                        .WithMany("EventAttendances")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("User", "User")
-                        .WithMany("EventAttendances")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Event");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("User", b =>
@@ -221,16 +184,6 @@ namespace Web_Development.Migrations
 
                     b.Navigation("Points")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Event", b =>
-                {
-                    b.Navigation("EventAttendances");
-                });
-
-            modelBuilder.Entity("User", b =>
-                {
-                    b.Navigation("EventAttendances");
                 });
 #pragma warning restore 612, 618
         }

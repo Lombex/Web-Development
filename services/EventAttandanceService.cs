@@ -1,50 +1,58 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 public interface IEventAttendanceService
 {
     Task<(bool IsSuccess, string Message, string ErrorMessage)> RegisterEventAttendance(EventAttendance attendance);
-    Task<List<EventAttendance>> GetEventAttendances(Guid userId);
-    Task<(bool IsSuccess, string ErrorMessage)> RemoveEventAttendance(Guid id);
+    Task<List<EventAttendance>> GetEventAttendances(Guid userId); // Ophaalservice per gebruiker
+    Task<(bool IsSuccess, string ErrorMessage)> RemoveEventAttendance(Guid id); // Verwijder attendance
 }
 
 public class EventAttendanceService : IEventAttendanceService
 {
-    private readonly List<EventAttendance> _eventAttendances = new();
+    private readonly AppDbContext _context;
 
+    public EventAttendanceService(AppDbContext context)
+    {
+        _context = context;
+    }
+
+    // Register een nieuwe event attendance
     public async Task<(bool IsSuccess, string Message, string ErrorMessage)> RegisterEventAttendance(EventAttendance attendance)
     {
         try
         {
-            _eventAttendances.Add(attendance);
-            return await Task.FromResult<(bool, string, string)>((true, "Event attendance registered successfully", null));
+            await _context.EventAttendances.AddAsync(attendance); // Voeg attendance toe aan de database
+            await _context.SaveChangesAsync(); // Sla wijzigingen op
+            return (true, "Event attendance successfully registered", null);
         }
         catch (Exception ex)
         {
-            return await Task.FromResult<(bool, string, string)>((false, null, $"Error: {ex.Message}"));
+            return (false, null, $"Error: {ex.Message}");
         }
     }
 
+    // Haal alle attendances op voor een specifieke gebruiker
     public async Task<List<EventAttendance>> GetEventAttendances(Guid userId)
     {
-        var userAttendances = _eventAttendances.Where(ea => ea.UserID == userId).ToList();
-        return await Task.FromResult<List<EventAttendance>>(userAttendances);
+        return await _context.EventAttendances
+            .Where(ea => ea.UserId == userId) // Zoek op UserID in plaats van Id
+            .ToListAsync();
     }
 
+    // Verwijder een event attendance
     public async Task<(bool IsSuccess, string ErrorMessage)> RemoveEventAttendance(Guid id)
     {
-        var attendance = _eventAttendances.FirstOrDefault(ea => ea.Id == id);
+        var attendance = await _context.EventAttendances.FindAsync(id); // Zoek de attendance op basis van ID
         if (attendance == null)
         {
-            return await Task.FromResult<(bool, string)>((false, "Event attendance not found"));
+            return (false, "Event attendance not found");
         }
 
-        _eventAttendances.Remove(attendance);
-        return await Task.FromResult<(bool, string)>((true, null));
+        _context.EventAttendances.Remove(attendance); // Verwijder de attendance
+        await _context.SaveChangesAsync(); // Sla wijzigingen op
+        return (true, null);
     }
 }
-
-// Record for EventAttendance
-
