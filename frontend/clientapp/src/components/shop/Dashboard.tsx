@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
-import { ShoppingBag, Settings, Users, BookOpen, LogOut, Loader2 } from 'lucide-react';
+import { ShoppingBag, Settings, Users, BookOpen, LogOut, Loader2, Calendar } from 'lucide-react';
 
 interface UserData {
   id: string;
@@ -67,6 +67,13 @@ const Dashboard = () => {
       icon: <ShoppingBag className="h-6 w-6" />,
       color: "bg-blue-500 hover:bg-blue-600",
       path: "/point-shop",
+    },
+    {
+      title: "Calendar",
+      description: "View and manage office attendance",
+      icon: <Calendar className="h-6 w-6" />,
+      color: "bg-blue-500 hover:bg-blue-600",
+      path: "/calendar",
     },
     {
       title: "Opdrachten",
