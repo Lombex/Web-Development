@@ -2,15 +2,19 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 
 public interface IUserService
 {
     Task<User?> GetUserAsync(Guid id);
     Task<IEnumerable<User>> GetAllUsersAsync();
-    Task<User?> GetUserByEmailAsync(string email);
     Task<User> CreateUserAsync(User user);
     Task<User?> UpdateUserAsync(Guid id, User user);
     Task<bool> DeleteUserAsync(Guid id);
+    Guid GetUserIdFromToken(string token);
 }
 
 public class UserService : IUserService
@@ -32,10 +36,6 @@ public class UserService : IUserService
         return await _context.Users.ToListAsync();
     }
 
-    public async Task<User?> GetUserByEmailAsync(string email)
-    {
-        return await _context.Users.FirstOrDefaultAsync(u => EF.Functions.Like(u.Email, email));
-    }
 
     public async Task<User> CreateUserAsync(User user)
     {
@@ -57,23 +57,16 @@ public class UserService : IUserService
         {
             return null;
         }
-
-        if (user.Email != updatedUser.Email &&
-            await _context.Users.AnyAsync(u => u.Email == updatedUser.Email))
-        {
-            throw new InvalidOperationException("Email already exists");
-        }
-
-        user.Firstname = updatedUser.Firstname;
-        user.Lastname = updatedUser.Lastname;
-        user.Email = updatedUser.Email;
-        user.Password = updatedUser.Password;
-        user.RecuringDays = updatedUser.RecuringDays;
-        user.Role = updatedUser.Role;
+        user.Firstname = updatedUser.Firstname ?? user.Firstname;
+        user.Lastname = updatedUser.Lastname ?? user.Lastname;
+        user.Email = updatedUser.Email ?? user.Email;
+        user.Password = updatedUser.Password ?? user.Password;
+        user.RecuringDays = updatedUser.RecuringDays > 0 ? updatedUser.RecuringDays : user.RecuringDays;
 
         await _context.SaveChangesAsync();
         return user;
     }
+
 
     public async Task<bool> DeleteUserAsync(Guid id)
     {
@@ -86,5 +79,17 @@ public class UserService : IUserService
         _context.Users.Remove(user);
         await _context.SaveChangesAsync();
         return true;
+    }
+
+        public Guid GetUserIdFromToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var securityToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+
+        if (securityToken == null)
+            throw new SecurityTokenException("Invalid token");
+
+        var userId = securityToken.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+        return Guid.Parse(userId);
     }
 }

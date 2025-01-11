@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
 
 [Route("api/user")]
 [ApiController]
@@ -50,46 +51,91 @@ public class UserController : ControllerBase
         return Ok(user);
     }
 
-    [HttpGet("me")]
-    public async Task<ActionResult<User>> GetUserDetails()
+    [HttpGet("fromToken")]
+    public async Task<ActionResult<User>> GetUserFromToken()
     {
-        var email = User.FindFirstValue(claimType: ClaimTypes.NameIdentifier);
+        var authorizationHeader = Request.Headers["Authorization"].ToString();
+        if (string.IsNullOrWhiteSpace(authorizationHeader) || !authorizationHeader.StartsWith("Bearer "))
+        {
+            return Unauthorized(new { message = "Token is missing or invalid" });
+        }
 
-        if (string.IsNullOrEmpty(email))
-            return Unauthorized(new {  message = "Invalid token" });
+        var token = authorizationHeader.Substring("Bearer ".Length).Trim();
 
-        var user = await _userService.GetUserByEmailAsync(email);
+        try
+        {
+            var userId = _userService.GetUserIdFromToken(token);
+            var user = await _userService.GetUserAsync(userId);
 
-        if (user == null)
-            return NotFound(new { message = "User not found" });
+            if (user == null)
+                return NotFound(new { message = "User not found" });
 
-        return Ok(user);
+            return Ok(new
+            {
+                user.Id,
+                user.Firstname,
+                user.Lastname,
+                user.Email,
+                user.Role
+            });
+        }
+        catch (SecurityTokenException ex)
+        {
+            return Unauthorized(new { message = ex.Message });
+        }
     }
-
-
 
     [HttpPut("me")]
     public async Task<IActionResult> UpdateUserDetails([FromBody] User updatedUser)
     {
-        var email = User.FindFirstValue(claimType: ClaimTypes.NameIdentifier);
+        // Get the Authorization header and extract the token
+        var authorizationHeader = Request.Headers["Authorization"].ToString();
+        if (string.IsNullOrWhiteSpace(authorizationHeader) || !authorizationHeader.StartsWith("Bearer "))
+        {
+            return Unauthorized(new { message = "Token is missing or invalid" });
+        }
 
-        if (string.IsNullOrEmpty(email))
-            return Unauthorized(new { message = "Invalid token" });
+        var token = authorizationHeader.Substring("Bearer ".Length).Trim();
 
-        var user = await _userService.GetUserByEmailAsync(email);
-        if (user == null)
-            return NotFound(new { message = "User not found" });
+        try
+        {
+            var userId = _userService.GetUserIdFromToken(token);
 
-        user.Firstname = updatedUser.Firstname;
-        user.Lastname = updatedUser.Lastname;
-        user.Email = updatedUser.Email;
-        user.Password = updatedUser.Password;
+            var user = await _userService.GetUserAsync(userId);
+            if (user == null)
+            {
+                return NotFound(new { message = "User not found" });
+            }
 
-        await _userService.UpdateUserAsync(user.Id, user);
+            user.Firstname = updatedUser.Firstname;
+            user.Lastname = updatedUser.Lastname;
+            user.Email = updatedUser.Email;
+            user.Password = updatedUser.Password;
 
-        return Ok(user);
+            await _userService.UpdateUserAsync(userId, user);
+
+            return Ok(new
+            {
+                message = "User updated successfully",
+                user = new
+                {
+                    user.Id,
+                    user.Firstname,
+                    user.Lastname,
+                    user.Email,
+                    user.Role
+                }
+            });
+        }
+        catch (SecurityTokenException ex)
+        {
+            return Unauthorized(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "An error occurred", details = ex.Message });
+        }
     }
-
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteUser(Guid id)

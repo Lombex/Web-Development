@@ -26,7 +26,7 @@ const Settings: React.FC = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:5001/api/user/me`, {
+        const response = await fetch(`http://localhost:5001/api/user/fromToken`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',

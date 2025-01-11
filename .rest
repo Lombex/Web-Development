@@ -5,6 +5,9 @@ GET http://localhost:5001/api/user/Test
 Content-Type: application/json
 
 ###
+### Get User Details
+GET http://localhost:5001/api/user/fromToken
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJIZWxsby5kb2VAZXhhbXBsZS5jb20iLCJqdGkiOiI0ODc5MTAzNi0zOTE3LTQ4NDktYjJiOS0wMDM2ZDZiNDJkNzQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjkwZTNlMzdiLTQ3OTQtNDYzOS1hODg2LTFjZmFlY2VmYWU4MCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzM2NjA3NDM0LCJpc3MiOiJDYWxlbmRlcmZ5IiwiYXVkIjoiQ2FsZW5kZXJmeS1Vc2VycyJ9.L7555TMGpJugu44umJDUlUmO1U11mtCWDJeqHo3zEIU
 ###
 
 ### 3. Get All Users (GET)
@@ -66,10 +69,6 @@ Content-Type: application/json
 }
 
 ###
-### Get User by Email using JWT Token
-GET http://localhost:5001/api/user/me
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJIZWxsby5kb2VAZXhhbXBsZS5jb20iLCJqdGkiOiJjNjE3ZWFhNS1jMWI1LTQ5ZDctOGU4Yi1hZGRjYzdlZGRiODciLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjkwZTNlMzdiLTQ3OTQtNDYzOS1hODg2LTFjZmFlY2VmYWU4MCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzM2NjAxNzM2LCJpc3MiOiJDYWxlbmRlcmZ5IiwiYXVkIjoiQ2FsZW5kZXJmeS1Vc2VycyJ9.KWGnJB1uOlMnW0T8sGkh-V8QbFy5EuPLqJFfbCFOORY
-
 ###
 
 
@@ -80,7 +79,7 @@ Content-Type: application/json
 
 {
   "Email": "Hello.doe@example.com",
-  "Password": "password123"
+  "Password": "passwordxass123"
 }
 
 ###
