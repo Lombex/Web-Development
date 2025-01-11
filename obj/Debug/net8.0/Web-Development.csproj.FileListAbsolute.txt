@@ -748,3 +748,8 @@ C:\Users\Alex\Documents\GitHub\Web-Developmentv2\obj\Debug\net8.0\refint\Web-Dev
 C:\Users\Alex\Documents\GitHub\Web-Developmentv2\obj\Debug\net8.0\Web-Development.pdb
 C:\Users\Alex\Documents\GitHub\Web-Developmentv2\obj\Debug\net8.0\Web-Development.genruntimeconfig.cache
 C:\Users\Alex\Documents\GitHub\Web-Developmentv2\obj\Debug\net8.0\ref\Web-Development.dll
+C:\Users\Alex\Documents\GitHub\Web-Developmentv2\bin\Debug\net8.0\frontend\clientapp\build\asset-manifest.json
+C:\Users\Alex\Documents\GitHub\Web-Developmentv2\bin\Debug\net8.0\frontend\clientapp\build\manifest.json
+C:\Users\Alex\Documents\GitHub\Web-Developmentv2\bin\Debug\net8.0\frontend\clientapp\src\my-project\package.json
+C:\Users\Alex\Documents\GitHub\Web-Developmentv2\bin\Debug\net8.0\frontend\clientapp\src\my-project\public\manifest.json
+C:\Users\Alex\Documents\GitHub\Web-Developmentv2\bin\Debug\net8.0\frontend\clientapp\src\my-project\tsconfig.json

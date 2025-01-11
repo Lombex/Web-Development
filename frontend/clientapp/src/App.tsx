@@ -1,16 +1,16 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import PointShop from './components/shop/PointsShop';
 import Login from './components/auth/login';
 import Dashboard from './components/shop/Dashboard';
-import Calendar from './components/calendar/calendar';
-import PointShop from './components/shop/PointsShop';
 import SignUp from './components/auth/Signup';
 import Settings from './components/auth/Settings';
+import Calendar from './components/calendar/Calendar';
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-white"> {/* Changed to bg-white */}
+    <BrowserRouter>
+      <div className="min-h-screen bg-gray-50">
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -21,7 +21,7 @@ function App() {
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 
