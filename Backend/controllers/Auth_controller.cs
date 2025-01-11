@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 [ApiController]
 [Route("api/[controller]")]
-public class Auth_controller : ControllerBase
+public class AuthController : ControllerBase
 {
     private readonly IConfiguration _configuration;
     private readonly IUserService _userService;
 
-    public Auth_controller(IConfiguration configuration, IUserService userService)
+    public AuthController(IConfiguration configuration, IUserService userService)
     {
         _configuration = configuration;
         _userService = userService;
