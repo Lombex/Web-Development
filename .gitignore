@@ -1,5 +1,5 @@
-﻿Backend/bin
-Backend/obj
-Backend/.vs
+﻿backend/bin
+backend/obj
+backend/.vs
 *.db-shm
 *.db-wal
