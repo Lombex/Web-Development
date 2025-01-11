@@ -21,16 +21,15 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const userId = localStorage.getItem('Id');
       const token = localStorage.getItem('token');
 
-      if (!token || !userId) {
+      if (!token) {
         navigate('/');
         return;
       }
 
       try {
-        const response = await fetch(`http://localhost:5001/api/user/${userId}`, {
+        const response = await fetch('http://localhost:5001/api/user/me', {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -46,10 +45,8 @@ const Dashboard = () => {
       } catch (error) {
         console.error('Error fetching user data:', error);
         setError('Failed to load user data');
-        if (error instanceof Error && error.message.includes('401')) {
-          localStorage.removeItem('token');
-          navigate('/');
-        }
+        localStorage.removeItem('token');
+        navigate('/');
       } finally {
         setLoading(false);
       }
@@ -68,30 +65,30 @@ const Dashboard = () => {
       title: "Point Shop",
       description: "Besteed je punten aan beloningen",
       icon: <ShoppingBag className="h-6 w-6" />,
-      color: "bg-blue-100",
-      path: "/point-shop"
+      color: "bg-blue-500 hover:bg-blue-600",
+      path: "/point-shop",
     },
     {
       title: "Opdrachten",
       description: "Bekijk en lever je opdrachten in",
       icon: <BookOpen className="h-6 w-6" />,
-      color: "bg-green-100",
-      path: "/assignments"
+      color: "bg-green-500 hover:bg-green-600",
+      path: "/assignments",
     },
     {
       title: "Groepen",
       description: "Bekijk je projectgroepen",
       icon: <Users className="h-6 w-6" />,
-      color: "bg-purple-100",
-      path: "/groups"
+      color: "bg-purple-500 hover:bg-purple-600",
+      path: "/groups",
     },
     {
       title: "Instellingen",
       description: "Pas je voorkeuren aan",
       icon: <Settings className="h-6 w-6" />,
-      color: "bg-gray-100",
-      path: "/settings"
-    }
+      color: "bg-gray-500 hover:bg-gray-600",
+      path: "/settings",
+    },
   ];
 
   if (loading) {
@@ -153,12 +150,13 @@ const Dashboard = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
           {navigationCards.map((card, index) => (
-            <Card 
-              key={index} 
-              className="hover:shadow-lg transition-shadow cursor-pointer"
+            <Card
+              key={index}
+              className={`hover:shadow-lg transition-shadow cursor-pointer ${card.color}`}
+              onClick={() => navigate(card.path)}
             >
               <CardHeader>
-                <div className={`${card.color} p-3 rounded-full w-fit`}>
+                <div className="p-3 rounded-full w-fit">
                   {card.icon}
                 </div>
               </CardHeader>

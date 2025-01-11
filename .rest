@@ -5,25 +5,6 @@ GET http://localhost:5001/api/user/Test
 Content-Type: application/json
 
 ###
-
-### 2. Create a New User (POST)
-POST http://localhost:5001/api/user/create
-Content-Type: application/json
-
-{
-  "FirstName": "Alex",
-  "LastName": "Doe",
-  "Email": "Hello.doe@example.com",
-  "Password": "password123",
-  "RecurringDays": 7,
-  "Role": 3,
-  "Points": {
-    "AllTimePoints": 1000,
-    "PointAmount": 0,
-    "Items": []
-  }
-}
-
 ###
 
 ### 3. Get All Users (GET)
@@ -31,10 +12,21 @@ GET http://localhost:5001/api/user/all
 //Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 
 ###
+PUT http://localhost:5001/api/user/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJIZWxsby5kb2VAZXhhbXBsZS5jb20iLCJqdGkiOiIyNDE0MDY5NS02MmM4LTQ3NmEtOWE4Ni0xMDk1ODJkNjdkODkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjkwZTNlMzdiLTQ3OTQtNDYzOS1hODg2LTFjZmFlY2VmYWU4MCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzM2NjAxODIzLCJpc3MiOiJDYWxlbmRlcmZ5IiwiYXVkIjoiQ2FsZW5kZXJmeS1Vc2VycyJ9.8PX8uRslM8PnCI-Zbd1iHRC45g6JrUX4-jupl_GYQ7g
+Content-Type: application/json
+
+{
+    "firstname": "jaaaaaaassss",
+    "lastname": "Dossssssssssssssse",
+    "email": "johnieeee.doe@example.com",
+    "password": "newpassword"
+}
+
 
 ### 4. Get User by ID (GET)
-GET http://localhost:5001/api/user/{079b196b-ccb3-4654-8f07-53b251b8079d}
-//Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
+GET http://localhost:5001/api/user/{49012e45-51cb-4dc4-a9bf-7dceddbe7fcf}
+//Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJIZWxsby5kb2VAZXhhbXBsZS5jb20iLCJqdGkiOiJkOTcyYjYxOC1hYTdlLTRkNDctOWJhNS04OGFlYzRmM2ZjNGQiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjAwMzlhNGFmLTE3MmQtNDE1OC05MGE2LWJkYzNiZGUyNDJiZCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzM2NDUyMjc0LCJpc3MiOiJDYWxlbmRlcmZ5IiwiYXVkIjoiQ2FsZW5kZXJmeS1Vc2VycyJ9.bXoXoBoe9h10MUauJgwvw6E7RIKjsvk7b_kNSGXuj7Y
 
 Content-Type: application/json
 
@@ -56,7 +48,7 @@ Content-Type: application/json
 ###
 
 ### 6. Delete User by ID (DELETE)
-DELETE http://localhost:5001/api/user/{1113d1a7-3ccc-4fc0-b329-f600e314b0e3}
+DELETE http://localhost:5001/api/user/{16daad2f-098c-4f07-b0da-3716403b7162}
 //Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 
 //CHANGE READOUT, WORKS!
@@ -74,6 +66,13 @@ Content-Type: application/json
 }
 
 ###
+### Get User by Email using JWT Token
+GET http://localhost:5001/api/user/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJIZWxsby5kb2VAZXhhbXBsZS5jb20iLCJqdGkiOiJjNjE3ZWFhNS1jMWI1LTQ5ZDctOGU4Yi1hZGRjYzdlZGRiODciLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjkwZTNlMzdiLTQ3OTQtNDYzOS1hODg2LTFjZmFlY2VmYWU4MCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzM2NjAxNzM2LCJpc3MiOiJDYWxlbmRlcmZ5IiwiYXVkIjoiQ2FsZW5kZXJmeS1Vc2VycyJ9.KWGnJB1uOlMnW0T8sGkh-V8QbFy5EuPLqJFfbCFOORY
+
+###
+
+
 
 ### 8. Login with Wrong Password
 POST http://localhost:5001/api/auth/login
@@ -92,14 +91,14 @@ Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 
 ###
 ### 1. Get User Points
-GET http://localhost:5001/api/points/{e4f85926-770f-4b45-80a2-99d323ebeb52}
+GET http://localhost:5001/api/points/{9DF14F27-31DA-4FB8-A5FE-501E442A14D0}
 Content-Type: application/json
 
 ###
 
 ### 2. Add Points to User
 ### 2. Add Points to User
-POST http://localhost:5001/api/points/{e4f85926-770f-4b45-80a2-99d323ebeb52}/add
+POST http://localhost:5001/api/points/{9DF14F27-31DA-4FB8-A5FE-501E442A14D0}/add
 Content-Type: application/json
 
 100

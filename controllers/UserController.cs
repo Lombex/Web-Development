@@ -1,14 +1,15 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 [Route("api/user")]
 [ApiController]
 public class UserController : ControllerBase
 {
-     private readonly IUserService _userService;
+    private readonly IUserService _userService;
 
     public UserController(IUserService userService)
     {
@@ -24,19 +25,24 @@ public class UserController : ControllerBase
     [HttpPost("create")]
     public async Task<IActionResult> CreateUser([FromBody] User user)
     {
-        var createdUser = await _userService.CreateUserAsync(user);
-        return CreatedAtAction(nameof(GetUserById), new { id =  Guid.NewGuid() }, createdUser);
+        try
+        {
+            var createdUser = await _userService.CreateUserAsync(user);
+            return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpGet("all")]
-    //[Authorize(Policies.RequireUserRole)]
     public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
     {
         return Ok(await _userService.GetAllUsersAsync());
     }
 
     [HttpGet("{id}")]
-    //[Authorize(Policies.RequireUserRole)]
     public async Task<ActionResult<User>> GetUserById(Guid id)
     {
         var user = await _userService.GetUserAsync(id);
@@ -44,17 +50,48 @@ public class UserController : ControllerBase
         return Ok(user);
     }
 
-    [HttpPut("{id}")]
-    //[Authorize(Policies.RequireUserRole)]
-    public async Task<IActionResult> UpdateUser(Guid id, [FromBody] User user)
+    [HttpGet("me")]
+    public async Task<ActionResult<User>> GetUserDetails()
     {
-        var updatedUser = await _userService.UpdateUserAsync(id, user);
-        if (updatedUser == null) return NotFound();
-        return Ok(updatedUser);
+        var email = User.FindFirstValue(claimType: ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrEmpty(email))
+            return Unauthorized(new {  message = "Invalid token" });
+
+        var user = await _userService.GetUserByEmailAsync(email);
+
+        if (user == null)
+            return NotFound(new { message = "User not found" });
+
+        return Ok(user);
     }
 
+
+
+    [HttpPut("me")]
+    public async Task<IActionResult> UpdateUserDetails([FromBody] User updatedUser)
+    {
+        var email = User.FindFirstValue(claimType: ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrEmpty(email))
+            return Unauthorized(new { message = "Invalid token" });
+
+        var user = await _userService.GetUserByEmailAsync(email);
+        if (user == null)
+            return NotFound(new { message = "User not found" });
+
+        user.Firstname = updatedUser.Firstname;
+        user.Lastname = updatedUser.Lastname;
+        user.Email = updatedUser.Email;
+        user.Password = updatedUser.Password;
+
+        await _userService.UpdateUserAsync(user.Id, user);
+
+        return Ok(user);
+    }
+
+
     [HttpDelete("{id}")]
-    //[Authorize(Policies.RequireAdminRole)]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
         var result = await _userService.DeleteUserAsync(id);

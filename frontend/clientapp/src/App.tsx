@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import PointShop from './components/shop/PointsShop';
 import Login from './components/auth/login';
 import Dashboard from './components/shop/Dashboard'; // Zorg dat dit pad correct is
+import SignUp from './components/auth/Signup'; // Zorg dat dit pad correct is
+import Settings from './components/auth/Settings'; // Zorg dat dit pad correct is
+
 
 function App() {
   return (
@@ -12,6 +15,8 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/point-shop" element={<PointShop />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </div>
     </Router>

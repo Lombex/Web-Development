@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../ui/button';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Eye, EyeOff } from 'lucide-react';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   const navigate = useNavigate();
 
@@ -34,11 +35,8 @@ const Login: React.FC = () => {
         throw new Error(data.message || 'Login failed');
       }
 
-      // Opslaan van Token en Id in localStorage
       localStorage.setItem('token', data.token);
-      localStorage.setItem('Id', data.id);
 
-      // Navigate to dashboard
       navigate('/dashboard');
     } catch (err) {
       console.error('Login error:', err);
@@ -46,6 +44,10 @@ const Login: React.FC = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const redirectToSignUp = () => {
+    navigate('/signup'); // Redirect to Sign Up page
   };
 
   return (
@@ -72,15 +74,24 @@ const Login: React.FC = () => {
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">
               Password
             </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Enter your password"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="mt-1 p-3 w-full border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter your password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 px-3 flex items-center focus:outline-none"
+              >
+                {showPassword ? <EyeOff className="w-5 h-5 text-gray-500" /> : <Eye className="w-5 h-5 text-gray-500" />}
+              </button>
+            </div>
           </div>
           <Button
             type="submit"
@@ -100,12 +111,13 @@ const Login: React.FC = () => {
         </form>
         <p className="text-sm text-center text-gray-600 mt-4">
           Don't have an account?{' '}
-          <a
-            href="/signup"
+          <button
+            type="button"
+            onClick={redirectToSignUp}
             className="text-blue-500 hover:underline focus:outline-none"
           >
             Sign up
-          </a>
+          </button>
         </p>
       </div>
     </div>
