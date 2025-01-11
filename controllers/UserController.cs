@@ -76,7 +76,13 @@ public class UserController : ControllerBase
                 user.Firstname,
                 user.Lastname,
                 user.Email,
-                user.Role
+                user.Role,
+                Points = new
+                {
+                    user.Points.PointAmount,
+                    user.Points.AllTimePoints,
+                    Items = user.Points.Items
+                }
             });
         }
         catch (SecurityTokenException ex)
@@ -84,6 +90,7 @@ public class UserController : ControllerBase
             return Unauthorized(new { message = ex.Message });
         }
     }
+
 
     [HttpPut("me")]
     public async Task<IActionResult> UpdateUserDetails([FromBody] User updatedUser)
@@ -123,7 +130,7 @@ public class UserController : ControllerBase
                     user.Firstname,
                     user.Lastname,
                     user.Email,
-                    user.Role
+                    user.Points
                 }
             });
         }
