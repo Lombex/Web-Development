@@ -1,18 +1,63 @@
-import React from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../../components/ui/card';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
-import { ShoppingBag, Settings, Users, BookOpen } from 'lucide-react';
+import { ShoppingBag, Settings, Users, BookOpen, LogOut, Loader2, Calendar } from 'lucide-react';
 
-interface DashboardProps {
-  onNavigate: (page: string) => void;
+interface UserData {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  firstname: string;
+  lastname: string;
 }
 
-const Dashboard = ({ onNavigate }: DashboardProps) => {
-  const user = {
-    name: "John Doe",
-    email: "john@example.com",
-    role: "Student",
-    avatar: "/api/placeholder/32/32"
+const Dashboard = () => {
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        navigate('/');
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:5001/api/user/fromToken', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch user data');
+        }
+
+        const data = await response.json();
+        setUserData(data);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        setError('Failed to load user data');
+        localStorage.removeItem('token');
+        navigate('/');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [navigate]);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/');
   };
 
   const navigationCards = [
@@ -20,109 +65,116 @@ const Dashboard = ({ onNavigate }: DashboardProps) => {
       title: "Point Shop",
       description: "Besteed je punten aan beloningen",
       icon: <ShoppingBag className="h-6 w-6" />,
-      color: "bg-blue-100",
-      page: "pointshop"
+      color: "bg-blue-500 hover:bg-blue-600",
+      path: "/point-shop",
+    },
+    {
+      title: "Calendar",
+      description: "View and manage office attendance",
+      icon: <Calendar className="h-6 w-6" />,
+      color: "bg-blue-500 hover:bg-blue-600",
+      path: "/calendar",
     },
     {
       title: "Opdrachten",
       description: "Bekijk en lever je opdrachten in",
       icon: <BookOpen className="h-6 w-6" />,
-      color: "bg-green-100",
-      page: "assignments"
+      color: "bg-green-500 hover:bg-green-600",
+      path: "/assignments",
     },
     {
       title: "Groepen",
       description: "Bekijk je projectgroepen",
       icon: <Users className="h-6 w-6" />,
-      color: "bg-purple-100",
-      page: "groups"
+      color: "bg-purple-500 hover:bg-purple-600",
+      path: "/groups",
     },
     {
       title: "Instellingen",
       description: "Pas je voorkeuren aan",
       icon: <Settings className="h-6 w-6" />,
-      color: "bg-gray-100",
-      page: "settings"
-    }
+      color: "bg-gray-500 hover:bg-gray-600",
+      path: "/settings",
+    },
   ];
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="w-8 h-8 animate-spin" />
+      </div>
+    );
+  }
+
+  if (error || !userData) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-red-500">Er is een fout opgetreden bij het laden van je gegevens.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="container mx-auto p-4 space-y-6">
-      {/* Gebruikersprofiel Sectie */}
-      <Card className="bg-gradient-to-r from-blue-500 to-blue-600">
-        <CardHeader>
-          <div className="flex items-center space-x-4">
-            <img
-              src={user.avatar}
-              alt="Profile"
-              className="rounded-full w-16 h-16 border-2 border-white"
-            />
-            <div className="text-white">
-              <h2 className="text-2xl font-bold">{user.name}</h2>
-              <p className="text-blue-100">{user.role}</p>
-              <p className="text-sm text-blue-100">{user.email}</p>
-            </div>
-          </div>
-        </CardHeader>
-      </Card>
-
-      {/* Welkom Bericht */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Welkom terug, {user.name}!</CardTitle>
-          <CardDescription>
-            Wat wil je vandaag doen?
-          </CardDescription>
-        </CardHeader>
-      </Card>
-
-      {/* Navigatie Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {navigationCards.map((card, index) => (
-          <Card 
-            key={index} 
-            className="hover:shadow-lg transition-shadow cursor-pointer"
-          >
-            <CardHeader>
-              <div className={`${card.color} p-3 rounded-full w-fit`}>
-                {card.icon}
+    <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
+      {/* Sidebar with User Info */}
+      <div className="lg:col-span-1">
+        <Card className="bg-gradient-to-r from-blue-500 to-blue-600">
+          <CardHeader>
+            <div className="flex flex-col items-center space-y-4 text-white">
+              <img
+                src="/api/placeholder/64/64"
+                alt="Profile"
+                className="rounded-full w-24 h-24 border-2 border-white"
+              />
+              <div>
+                <h2 className="text-xl font-bold">{userData.firstname} {userData.lastname}</h2>
+                <p className="text-blue-100">{userData.role}</p>
+                <p className="text-sm text-blue-100">{userData.email}</p>
               </div>
-            </CardHeader>
-            <CardContent>
-              <h3 className="font-bold mb-1">{card.title}</h3>
-              <p className="text-sm text-gray-500">{card.description}</p>
-            </CardContent>
-            <CardFooter>
-              <Button 
-                variant="secondary" 
-                className="w-full justify-center"
-                onClick={() => onNavigate(card.page)}
+              <Button
+                variant="secondary"
+                onClick={handleLogout}
+                className="flex items-center space-x-2"
               >
-                Ga naar {card.title}
+                <LogOut className="h-4 w-4" />
+                <span>Uitloggen</span>
               </Button>
-            </CardFooter>
-          </Card>
-        ))}
+            </div>
+          </CardHeader>
+        </Card>
       </div>
 
-      {/* Recent Activiteit of Aankondigingen */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Recente Aankondigingen</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="border-l-4 border-blue-500 pl-4">
-              <h4 className="font-semibold">Nieuwe opdracht beschikbaar</h4>
-              <p className="text-sm text-gray-500">Frontend Development - React Basics</p>
-            </div>
-            <div className="border-l-4 border-green-500 pl-4">
-              <h4 className="font-semibold">Points Shop Update</h4>
-              <p className="text-sm text-gray-500">Nieuwe beloningen toegevoegd!</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Main Dashboard Content */}
+      <div className="lg:col-span-3 space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Welkom terug, {userData.firstname}!</CardTitle>
+            <CardDescription>
+              Wat wil je vandaag doen?
+            </CardDescription>
+          </CardHeader>
+        </Card>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+          {navigationCards.map((card, index) => (
+            <Card
+              key={index}
+              className={`hover:shadow-lg transition-shadow cursor-pointer ${card.color}`}
+              onClick={() => navigate(card.path)}
+            >
+              <CardHeader>
+                <div className="p-3 rounded-full w-fit">
+                  {card.icon}
+                </div>
+              </CardHeader>
+              <CardContent>
+                <h3 className="font-bold mb-1">{card.title}</h3>
+                <p className="text-sm text-gray-500">{card.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

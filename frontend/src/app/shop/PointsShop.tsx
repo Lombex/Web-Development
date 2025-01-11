@@ -33,11 +33,7 @@ interface User {
   };
 }
 
-interface PointsShopProps {
-  onNavigate: (page: string) => void;
-}
-
-const PointShop = ({ onNavigate }: PointsShopProps) =>  {
+const PointShop = () =>  {
   const [user, setUser] = useState<User | null>(null);
   const [userPoints, setUserPoints] = useState<UserPoints | null>(null);
   const [items] = useState<ShopItem[]>([

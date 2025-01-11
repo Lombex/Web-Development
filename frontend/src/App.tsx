@@ -1,30 +1,26 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-import Login from './app/auth/Login'; 
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import PointShop from './app/shop/PointsShop';
+import Login from './app/auth/Login';
 import Dashboard from './app/shop/Dashboard';
+import SignUp from './app/auth/Signup';
+import Settings from './app/auth/settings';
 
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('dashboard');
-
   return (
-    <div>
+    <BrowserRouter>
       <div className="min-h-screen bg-gray-50">
-        {currentPage === 'dashboard' && <Dashboard onNavigate={setCurrentPage} />}
-        {currentPage === 'pointshop' && <PointShop onNavigate={setCurrentPage} />}
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/point-shop" element={<PointShop />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
       </div>
-
-      <Router> {/* Wrap the app with Router */}
-        <div className="min-h-screen bg-gray-50">
-          <Routes>
-            <Route path="/" element={<Login />} /> 
-            <Route path="/point-shop" element={<PointShop onNavigate={setCurrentPage} />} /> 
-          </Routes>
-        </div>
-      </Router>
-    </div>
+    </BrowserRouter>
   );
 }
 
