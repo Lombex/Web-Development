@@ -2,15 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
-import { ShoppingBag, Settings, Users, BookOpen, LogOut, Loader2, Calendar,Tags } from 'lucide-react';
+import { ShoppingBag, Settings, Users, BookOpen, LogOut, Loader2, Calendar, Tags } from 'lucide-react';
 
 interface UserData {
   id: string;
-  name: string;
-  email: string;
-  role: string;
   firstname: string;
   lastname: string;
+  email: string;
+  role: number; // Role is a number (1 for Admin, 3 for User)
+  points: {
+    pointAmount: number;
+    allTimePoints: number;
+    items: any[];
+  };
 }
 
 const Dashboard = () => {
@@ -40,8 +44,13 @@ const Dashboard = () => {
           throw new Error('Failed to fetch user data');
         }
 
-        const data = await response.json();
+        const data: UserData = await response.json();
         setUserData(data);
+
+        // Redirect Admins (role === 1) to Admin Dashboard
+        if (data.role === 1) {
+          navigate('/admin');
+        }
       } catch (error) {
         console.error('Error fetching user data:', error);
         setError('Failed to load user data');
@@ -103,7 +112,6 @@ const Dashboard = () => {
       color: "bg-red-500 hover:bg-red-600",
       path: "/events",
     },
-
   ];
 
   if (loading) {
@@ -136,7 +144,7 @@ const Dashboard = () => {
               />
               <div>
                 <h2 className="text-xl font-bold">{userData.firstname} {userData.lastname}</h2>
-                <p className="text-blue-100">{userData.role}</p>
+                <p className="text-blue-100">{userData.role === 1 ? 'Admin' : 'User'}</p>
                 <p className="text-sm text-blue-100">{userData.email}</p>
               </div>
               <Button
