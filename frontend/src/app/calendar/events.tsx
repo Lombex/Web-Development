@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card";
-import { Loader2, CheckCircle, XCircle, ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { Loader2, CheckCircle, XCircle, ArrowUpDown, ChevronDown, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../../components/ui/dialog"
 import { ColumnDef, ColumnFiltersState, SortingState,
   VisibilityState, flexRender, getCoreRowModel,
@@ -36,7 +35,129 @@ interface Event {
   approval: boolean;
 }
 
-export const columns: ColumnDef<Event>[] = [   
+const EventsDashboard: React.FC = () => {
+
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = React.useState({})
+
+  const [id, setId] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [location, setLocation] = useState("");
+  const [approval, setApproval] = useState(false);
+
+  const handleUpdateEvent = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const updatedEvent = {
+      Id: id,
+      Title: title,
+      Description: description,
+      StartTime: startTime,
+      EndTime: endTime,
+      Location: location,
+      Approval: approval,
+    };
+
+    try {
+      const response = await fetch("http://localhost:5001/api/events/update", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedEvent),
+      });
+
+      if (response.ok) {
+        const updatedEventData = await response.json();
+        alert("Event updated successfully!");
+        setEvents((prevEvents) =>
+          prevEvents.map((evt) => (evt.id === id ? updatedEventData : evt))
+        );
+      } else {
+        throw new Error("Failed to update event.");
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const handleCreateEvent = async (e: React.FormEvent) => { 
+    e.preventDefault();
+
+    const newEvent = {
+      Title: title,
+      Description: description,
+      StartTime: startTime,
+      EndTime: endTime,
+      Location: location,
+      Approval: approval,
+    };
+
+    try {
+      const response = await fetch("http://localhost:5001/api/events/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newEvent),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to update event: ${response.statusText}`);
+      }
+  
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const data = await response.json();
+        alert("Event updated successfully!");
+        console.log(data); // Debugging: Check the returned data
+      } else {
+        alert("Event updated successfully!");
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  const handleDeleteEvent = async (eventId: string) => {
+    try {
+      const response = await fetch(`http://localhost:5001/api/events/delete/${eventId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to delete event: ${response.statusText}`);
+      }
+  
+      alert("Event deleted successfully!");
+      setEvents((prevEvents) => prevEvents.filter((event) => event.id !== eventId));
+    } catch (error) {
+      alert(`Error: ${error}`);
+    }
+  };
+
+  React.useEffect(() => {
+    const fetchEvents = async () => {
+        try {
+            const response = await fetch("http://localhost:5001/api/events/all");
+            if (!response.ok) throw new Error("Failed to fetch events.");
+            const data: Event[] = await response.json();
+            setEvents(data);
+        } catch (err) {
+            setError("Something went wrong.");
+        } finally {
+            setLoading(false);
+        }
+    };
+    fetchEvents();
+  }, []);
+
+  const columns: ColumnDef<Event>[] = [   
     {
       accessorKey: "id",
       header: "ID",
@@ -95,79 +216,14 @@ export const columns: ColumnDef<Event>[] = [
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>Copy ID</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>View customer</DropdownMenuItem>
-              <DropdownMenuItem>View payment details</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => {handleDeleteEvent(payment.id)}}><Trash2 className="text-red-400" /> Delete Event
+                </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )
       },
     },
-]
-
-const EventsDashboard: React.FC = () => {
-
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
-
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const [location, setLocation] = useState("");
-  const [approval, setApproval] = useState(false);
-
-  const handleCreateEvent = async (e: React.FormEvent) => { 
-    e.preventDefault();
-
-    const newEvent = {
-      Title: title,
-      Description: description,
-      StartTime: startTime,
-      EndTime: endTime,
-      Location: location,
-      Approval: approval,
-    };
-
-    try {
-      const response = await fetch("http://localhost:5001/api/events/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newEvent),
-      });
-
-      if (response.ok) {
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.includes("application/json")) {
-          const createdEvent = await response.json();
-          setEvents((prevEvents) => [...prevEvents, createdEvent]);
-          alert("Event created successfully!");
-        } else alert("Event created successfully!");
-      } else throw new Error("Failed to create event.");
-    } catch (error) {
-      alert(error);
-    }
-  };
-
-  React.useEffect(() => {
-    const fetchEvents = async () => {
-        try {
-            const response = await fetch("http://localhost:5001/api/events/all");
-            if (!response.ok) throw new Error("Failed to fetch events.");
-            const data: Event[] = await response.json();
-            setEvents(data);
-        } catch (err) {
-            setError("Something went wrong.");
-        } finally {
-            setLoading(false);
-        }
-    };
-    fetchEvents();
-  }, []);
+  ]
 
   const table = useReactTable({
     data: events,
@@ -267,6 +323,69 @@ const EventsDashboard: React.FC = () => {
           </DialogContent>
         </Dialog>
         
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>Update Event</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Update event</DialogTitle>
+              <DialogDescription>Make changes to your event here. Click save when you're done.</DialogDescription>
+            </DialogHeader>
+            <form onSubmit={(handleUpdateEvent)}>
+              <div className="grid gap-4 py-4">
+
+                <div className="grid grid-cols-1 items-center gap-4">
+                    <Label htmlFor="id">Id</Label>
+                    <Input id="id" placeholder="Event Id.."
+                      value={id} onChange={(e) => setId(e.target.value)} required/>
+                </div>
+
+                <div className="grid grid-cols-1 items-center gap-4">
+                  <Label htmlFor="title">Title</Label>
+                  <Input id="title" placeholder="Your title"
+                    value={title} onChange={(e) => setTitle(e.target.value)} required/>
+                </div>
+
+                <div className="grid grid-cols-1 items-center gap-4">
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea id="description" placeholder="Type your message here."
+                    value={description} onChange={(e) => setDescription(e.target.value)} required/>
+                </div>
+
+                <div className="grid grid-cols-1 items-center gap-4">
+                  <Label htmlFor="starttime">Start Time</Label>
+                  <Input id="starttime" placeholder="2024-12-01T12:00:00" 
+                    value={startTime} onChange={(e) => setStartTime(e.target.value)} required/>
+                </div>
+
+                <div className="grid grid-cols-1 items-center gap-4">
+                  <Label htmlFor="endtime">End Time</Label>
+                  <Input id="endtime" placeholder="2024-12-01T14:00:00"
+                    value={endTime} onChange={(e) => setEndTime(e.target.value)} required/>
+                </div>
+
+                <div className="grid grid-cols-1 items-center gap-4">
+                  <Label htmlFor="location">Location</Label>
+                  <Input id="location" placeholder="Amsterdam" value={location}
+                    onChange={(e) => setLocation(e.target.value)} required/>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="approval" checked={approval} onCheckedChange={(value) => setApproval(!!value)}/>
+                  <label htmlFor="approval" className="text-sm font-medium leading-none">
+                    Approval
+                  </label>
+                </div>
+                
+              </div>
+              <DialogFooter>
+                <Button type="submit">Save changes</Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">Columns<ChevronDown /></Button>
