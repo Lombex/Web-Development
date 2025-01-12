@@ -13,8 +13,8 @@ function App() {
     <BrowserRouter>
       <div className="min-h-screen bg-gray-50">
         <Routes>
-          <Route path="/a" element={<Login />} />
-          <Route path="/" element={<Events />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/events" element={<Events />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/point-shop" element={<PointShop />} />
           <Route path="/calendar" element={<Calendar />} />
