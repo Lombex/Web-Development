@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card";
 import { Loader2, CheckCircle, XCircle, ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
-
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../../components/ui/dialog"
 import { ColumnDef, ColumnFiltersState, SortingState,
   VisibilityState, flexRender, getCoreRowModel,
   getFilteredRowModel, getPaginationRowModel, getSortedRowModel,
   useReactTable 
 } from "@tanstack/react-table"
  
+import { Label } from "../../components/ui/label"
+
 import { Button } from "../../components/ui/button"
 import { Input } from "../../components/ui/input"
 
@@ -19,6 +21,10 @@ import { DropdownMenu, DropdownMenuCheckboxItem,
 import { Table, TableBody, TableCell,
   TableHead, TableHeader, TableRow
 } from "../../components/ui/table"
+
+import { Textarea } from "../../components/ui/textarea"
+
+import { Checkbox } from "../../components/ui/checkbox"
 
 interface Event {
   id: string;
@@ -108,6 +114,45 @@ const EventsDashboard: React.FC = () => {
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
 
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [location, setLocation] = useState("");
+  const [approval, setApproval] = useState(false);
+
+  const handleCreateEvent = async (e: React.FormEvent) => { 
+    e.preventDefault();
+
+    const newEvent = {
+      Title: title,
+      Description: description,
+      StartTime: startTime,
+      EndTime: endTime,
+      Location: location,
+      Approval: approval,
+    };
+
+    try {
+      const response = await fetch("http://localhost:5001/api/events/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newEvent),
+      });
+
+      if (response.ok) {
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const createdEvent = await response.json();
+          setEvents((prevEvents) => [...prevEvents, createdEvent]);
+          alert("Event created successfully!");
+        } else alert("Event created successfully!");
+      } else throw new Error("Failed to create event.");
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   React.useEffect(() => {
     const fetchEvents = async () => {
         try {
@@ -161,20 +206,75 @@ const EventsDashboard: React.FC = () => {
 
   return (
     <div className="w-full p-4">
-      <div className="grid gap-2 col-span-2 items-center py-4">
+      <div className="flex gap-2 items-center py-4">
         <Input placeholder="Filter by title..." value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) => table.getColumn("title")?.setFilterValue(event.target.value)} className="max-w-sm"/>
-        <Button>Create Event</Button>
+        
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>Create Event</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Create event</DialogTitle>
+              <DialogDescription>Make changes to your event here. Click save when you're done.</DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleCreateEvent}>
+              <div className="grid gap-4 py-4">
+
+                <div className="grid grid-cols-1 items-center gap-4">
+                  <Label htmlFor="title">Title</Label>
+                  <Input id="title" placeholder="Your title"
+                    value={title} onChange={(e) => setTitle(e.target.value)} required/>
+                </div>
+
+                <div className="grid grid-cols-1 items-center gap-4">
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea id="description" placeholder="Type your message here."
+                    value={description} onChange={(e) => setDescription(e.target.value)} required/>
+                </div>
+
+                <div className="grid grid-cols-1 items-center gap-4">
+                  <Label htmlFor="starttime">Start Time</Label>
+                  <Input id="starttime" placeholder="2024-12-01T12:00:00" 
+                    value={startTime} onChange={(e) => setStartTime(e.target.value)} required/>
+                </div>
+
+                <div className="grid grid-cols-1 items-center gap-4">
+                  <Label htmlFor="endtime">End Time</Label>
+                  <Input id="endtime" placeholder="2024-12-01T14:00:00"
+                    value={endTime} onChange={(e) => setEndTime(e.target.value)} required/>
+                </div>
+
+                <div className="grid grid-cols-1 items-center gap-4">
+                  <Label htmlFor="location">Location</Label>
+                  <Input id="location" placeholder="Amsterdam" value={location}
+                    onChange={(e) => setLocation(e.target.value)} required/>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox id="approval" checked={approval} onCheckedChange={(value) => setApproval(!!value)}/>
+                  <label htmlFor="approval" className="text-sm font-medium leading-none">
+                    Approval
+                  </label>
+                </div>
+                
+              </div>
+              <DialogFooter>
+                <Button type="submit">Save changes</Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+        
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">Columns<ChevronDown /></Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             {table.getAllColumns().filter((column) => column.getCanHide()).map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem key={column.id} className="capitalize"
-                    checked={column.getIsVisible()} onCheckedChange={(value) => column.toggleVisibility(!!value)}>{column.id}</DropdownMenuCheckboxItem>
-                )
+                return (<DropdownMenuCheckboxItem key={column.id} className="capitalize"
+                    checked={column.getIsVisible()} onCheckedChange={(value) => column.toggleVisibility(!!value)}>{column.id}</DropdownMenuCheckboxItem>)
               })
             }
           </DropdownMenuContent>
