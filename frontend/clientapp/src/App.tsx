@@ -5,7 +5,8 @@ import Login from './components/auth/login';
 import Dashboard from './components/shop/Dashboard';
 import SignUp from './components/auth/Signup';
 import Settings from './components/auth/Settings';
-import Calendar from './components/calendar/Calendar';
+import Calendar from './components/calendar/calendar';
+import Events from './components/calendar/events';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/point-shop" element={<PointShop />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/events" element={<Events />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
