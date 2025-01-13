@@ -55,4 +55,42 @@ public class PointSystemController : ControllerBase
         var level = await _pointSystemService.GetUserLevel(user);
         return Ok(level);
     }
+
+    [HttpPost("{userId}/purchase")]
+    public async Task<IActionResult> PurchaseItem(Guid userId, [FromBody] ShopItems item)
+    {
+        try
+        {
+            var user = await _userService.GetUserAsync(userId);
+            if (user == null) return NotFound("User not found");
+    
+            // Check if user already owns this item
+            if (user.Points.Items.Any(i => i.Name == item.Name))  // Just check by name for now
+            {
+                return BadRequest("Item already owned");
+            }
+    
+            // Create new ShopItem with a new GUID since frontend sends string ID
+            var shopItem = new ShopItems
+            {
+                Id = Guid.NewGuid(), // Generate new GUID for new items
+                Name = item.Name,
+                Description = item.Description,
+                Price = item.Price
+            };
+    
+            var purchaseResult = await _pointSystemService.BuyItem(user, shopItem);
+            if (!purchaseResult)
+            {
+                return BadRequest("Not enough points");
+            }
+    
+            await _userService.UpdateUserAsync(userId, user);
+            return Ok("Item purchased successfully");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error processing purchase: {ex.Message}");
+        }
+    }
 }
