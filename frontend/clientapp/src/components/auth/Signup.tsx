@@ -25,34 +25,34 @@ const SignUp: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          FirstName: firstName,
-          LastName: lastName,
-          Email: email,
-          Password: password,
-          RecurringDays: 7,
-          Role: 3,
-          Points: {
-            AllTimePoints: 1000,
-            PointAmount: 0,
-            Items: [],
-          },
+          firstname: firstName,
+          lastname: lastName,
+          email: email,
+          password: password,
+          role: 3,  // Ensure this matches UserRole enum
+          recurringDays: 7,
+          points: {
+            allTimePoints: 1000,
+            pointAmount: 0,
+            items: []
+          }
         }),
       });
 
+      const responseData = await response.json();
+
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || 'Sign-up failed');
+        throw new Error(responseData.message || 'Sign-up failed');
       }
 
-      // Redirect to login page after successful sign-up
       navigate('/');
     } catch (err) {
-      console.error('Sign-up error:', err);
+      console.error('Detailed Sign-up error:', err);
       setError(err instanceof Error ? err.message : 'Sign-up failed');
     } finally {
       setLoading(false);
     }
-  };
+};
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-400 to-purple-600">

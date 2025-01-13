@@ -37,18 +37,34 @@ public class UserService : IUserService
     }
 
 
-    public async Task<User> CreateUserAsync(User user)
-    {
-        if (await _context.Users.AnyAsync(u => u.Email == user.Email))
-        {
-            throw new InvalidOperationException("Email already exists");
-        }
+public async Task<User> CreateUserAsync(User user)
+{
+    // Validate input
+    if (string.IsNullOrWhiteSpace(user.Email))
+        throw new InvalidOperationException("Email is required");
 
-        user.Id = Guid.NewGuid();
-        await _context.Users.AddAsync(user);
-        await _context.SaveChangesAsync();
-        return user;
-    }
+    if (string.IsNullOrWhiteSpace(user.Password))
+        throw new InvalidOperationException("Password is required");
+
+    // Check for existing email
+    var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+    if (existingUser != null)
+        throw new InvalidOperationException("Email already exists");
+
+    // Set default values
+    user.Id = Guid.NewGuid();
+    user.Role = user.Role == 0 ? UserRole.User : user.Role;
+    user.Points ??= new UserPointsModel 
+    { 
+        AllTimePoints = 1000, 
+        PointAmount = 0, 
+        Items = new List<ShopItems>() 
+    };
+
+    await _context.Users.AddAsync(user);
+    await _context.SaveChangesAsync();
+    return user;
+}
 
     public async Task<User?> UpdateUserAsync(Guid id, User updatedUser)
     {
