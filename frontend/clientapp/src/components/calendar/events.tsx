@@ -203,26 +203,60 @@ const EventsDashboard: React.FC = () => {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
-        const payment = row.original
-
+        const event = row.original;
+    
+        const handleJoinEvent = async () => {
+          try {
+            const userId = localStorage.getItem("userId");
+            if (!userId) {
+              alert("User not logged in.");
+              return;
+            }
+    
+            const response = await fetch("http://localhost:5001/api/eventattendance/join", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                EventId: event.id,
+                UserId: userId,
+              }),
+            });
+    
+            if (!response.ok) {
+              throw new Error("Failed to join the event.");
+            }
+    
+            alert("Successfully joined the event!");
+          } catch (error) {
+            alert(`Error: ${(error as Error).message}`);
+          }
+        };
+    
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span><MoreHorizontal />
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(payment.id)}>Copy ID</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigator.clipboard.writeText(event.id)}>Copy ID</DropdownMenuItem>
               <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => {handleDeleteEvent(payment.id)}}><Trash2 className="text-red-400" /> Delete Event
-                </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleJoinEvent}>
+                <CheckCircle className="text-green-400" /> Join Event
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleDeleteEvent(event.id)}>
+                <Trash2 className="text-red-400" /> Delete Event
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        )
+        );
       },
-    },
+    }    
   ]
 
   const table = useReactTable({

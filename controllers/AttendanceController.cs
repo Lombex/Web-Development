@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 [ApiController]
@@ -24,13 +23,15 @@ public class AttendanceController : ControllerBase
     public async Task<IActionResult> RegisterAttendance([FromBody] Attendance attendance)
     {
         if (!ModelState.IsValid)
-            return BadRequest("Invalid attendance data.");
+            return BadRequest(ModelState);
 
-        attendance.Id = Guid.NewGuid();
+        attendance.Id = Guid.NewGuid(); // Zorg ervoor dat een nieuwe ID wordt toegewezen
         var result = await _attendanceService.RegisterAttendance(attendance);
 
         if (!result.IsSuccess)
-            return StatusCode(400, result.ErrorMessage); // Gebruik statuscode 400 voor fouten
+        {
+            return StatusCode(500, result.ErrorMessage ?? "Er is iets misgegaan bij het registreren van de attendance.");
+        }
 
         return Ok(result.Message);
     }
@@ -44,15 +45,7 @@ public class AttendanceController : ControllerBase
             return NotFound($"Geen attendance gevonden voor UserID {userId}.");
         }
 
-        var result = attendances.Select(a => new
-        {
-            a.Id,
-            a.Date,
-            EventTitle = a.EventAttendance.Event.Title,
-            EventStartTime = a.EventAttendance.Event.StartTime
-        });
-
-        return Ok(result);
+        return Ok(attendances);
     }
 
     [HttpDelete("delete/{id}")]

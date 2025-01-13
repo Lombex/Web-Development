@@ -16,7 +16,7 @@ const Login: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
+  
     try {
       const response = await fetch('http://localhost:5001/api/auth/login', {
         method: 'POST',
@@ -28,16 +28,16 @@ const Login: React.FC = () => {
           Password: password,
         }),
       });
-
+  
       const data = await response.json();
-
+  
       if (!response.ok) {
         throw new Error(data.message || 'Login failed');
       }
-
-      localStorage.setItem('token', data.token);
-
-      navigate('/dashboard');
+      localStorage.setItem('token', data.token); 
+      localStorage.setItem('userId', data.userId); 
+  
+      navigate('/dashboard'); 
     } catch (err) {
       console.error('Login error:', err);
       setError(err instanceof Error ? err.message : 'Login failed');
@@ -45,9 +45,9 @@ const Login: React.FC = () => {
       setLoading(false);
     }
   };
-
+  
   const redirectToSignUp = () => {
-    navigate('/signup'); // Redirect to Sign Up page
+    navigate('/signup'); 
   };
 
   return (
