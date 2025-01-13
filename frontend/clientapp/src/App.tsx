@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import PointShop from './components/shop/PointsShop';
 import Login from './components/auth/login';
@@ -10,24 +10,89 @@ import Events from './components/calendar/events';
 import AdminDashboard from './components/shop/Admindashboard';
 import UserDetails from './components/auth/Userdetails';
 import Achievements from './components/achievements/Achievements';
+import Layout from './components/layout/Layout';
 
+interface ProtectedRouteProps {
+  children: ReactNode;
+  adminRequired?: boolean;
+}
 
+// Protected Route wrapper component
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, adminRequired = false }) => {
+  const token = localStorage.getItem('token');
+  const userRole = localStorage.getItem('userRole'); // You'll need to store this during login
+
+  if (!token) {
+    return <Navigate to="/" />;
+  }
+
+  if (adminRequired && userRole !== 'Admin') {
+    return <Navigate to="/dashboard" />;
+  }
+
+  return <Layout>{children}</Layout>;
+};
 
 function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-gray-50">
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/calendar" element={<Calendar />} />
-          <Route path="/point-shop" element={<PointShop />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/achievements" element={<Achievements />} />
-          <Route path="/admin/manage-users" element={<UserDetails />} />
+
+          {/* Protected User Routes */}
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/calendar" element={
+            <ProtectedRoute>
+              <Calendar />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/point-shop" element={
+            <ProtectedRoute>
+              <PointShop />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/settings" element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/events" element={
+            <ProtectedRoute>
+              <Events />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/achievements" element={
+            <ProtectedRoute>
+              <Achievements />
+            </ProtectedRoute>
+          } />
+
+          {/* Protected Admin Routes */}
+          <Route path="/admin" element={
+            <ProtectedRoute adminRequired>
+              <AdminDashboard />
+            </ProtectedRoute>
+          } />
+          
+          <Route path="/admin/manage-users" element={
+            <ProtectedRoute adminRequired>
+              <UserDetails />
+            </ProtectedRoute>
+          } />
+
+          {/* Catch all route */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>
