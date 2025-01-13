@@ -6,8 +6,11 @@ using Microsoft.EntityFrameworkCore;
 public interface IEventAttendanceService
 {
     Task<(bool IsSuccess, string Message, string ErrorMessage)> RegisterEventAttendance(EventAttendance attendance);
-    Task<List<EventAttendance>> GetEventAttendances(Guid userId); // Ophaalservice per gebruiker
-    Task<(bool IsSuccess, string ErrorMessage)> RemoveEventAttendance(Guid id); // Verwijder attendance
+    Task<List<EventAttendance>> GetEventAttendances(Guid userId);
+    Task<(bool IsSuccess, string ErrorMessage)> RemoveEventAttendance(Guid id);
+    // New methods
+    Task<EventAttendance> GetEventAttendanceAsync(Guid id);
+    Task<bool> UpdateEventAttendanceAsync(EventAttendance attendance);
 }
 
 public class EventAttendanceService : IEventAttendanceService
@@ -18,7 +21,6 @@ public class EventAttendanceService : IEventAttendanceService
     {
         _context = context;
     }
-
     // Register een nieuwe event attendance
     public async Task<(bool IsSuccess, string Message, string ErrorMessage)> RegisterEventAttendance(EventAttendance attendance)
     {
@@ -54,5 +56,27 @@ public class EventAttendanceService : IEventAttendanceService
         _context.EventAttendances.Remove(attendance); // Verwijder de attendance
         await _context.SaveChangesAsync(); // Sla wijzigingen op
         return (true, null);
+    }
+
+    public async Task<EventAttendance> GetEventAttendanceAsync(Guid id)
+    {
+        return await _context.EventAttendances
+            .Include(ea => ea.User)
+            .Include(ea => ea.Event)
+            .FirstOrDefaultAsync(ea => ea.Id == id);
+    }
+
+    public async Task<bool> UpdateEventAttendanceAsync(EventAttendance attendance)
+    {
+        try
+        {
+            _context.EventAttendances.Update(attendance);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

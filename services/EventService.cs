@@ -10,6 +10,8 @@ public interface IEventService
     Task<Event> CreateEventAsync(Event eventItem);
     Task<Event?> UpdateEventAsync(Guid id, Event eventItem);
     Task<bool> DeleteEventAsync(Guid id);
+    // New method
+    Task<Event> CompleteEventAsync(Guid id);
 }
 
 public class EventService : IEventService
@@ -62,5 +64,32 @@ public class EventService : IEventService
         _context.Events.Remove(eventItem);
         await _context.SaveChangesAsync();
         return true; 
-}
+    }
+    public async Task<Event> CompleteEventAsync(Guid id)
+    {
+        var @event = await _context.Events
+            .Include(e => e.EventAttendances)
+            .FirstOrDefaultAsync(e => e.Id == id);
+
+        if (@event == null) return null;
+
+        // Create a new event with updated completion status since Event is a record
+        var completedEvent = new Event(
+            @event.Id,
+            @event.Title,
+            @event.Description,
+            @event.StartTime,
+            @event.EndTime,
+            @event.Location,
+            @event.Approval,
+            @event.PointsReward,
+            @event.BonusPoints
+        );
+
+        _context.Events.Remove(@event);
+        await _context.Events.AddAsync(completedEvent);
+        await _context.SaveChangesAsync();
+
+        return completedEvent;
+    }
 }

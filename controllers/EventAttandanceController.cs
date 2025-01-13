@@ -2,16 +2,52 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-
+public class FeedbackModel
+{
+    public int Rating { get; set; }
+    public string Comment { get; set; }
+}
 [ApiController]
 [Route("api/eventattendance")]
 public class EventAttendanceController : ControllerBase
 {
     private readonly IEventAttendanceService _eventattendanceService;
+    private readonly IPointSystemService _pointSystemService;
+    private readonly IUserService _userService;
+    private readonly IEventService _eventService;
 
-    public EventAttendanceController(IEventAttendanceService eventattendanceService)
+    public EventAttendanceController(
+        IEventAttendanceService eventattendanceService,
+        IPointSystemService pointSystemService,
+        IUserService userService,
+        IEventService eventService)
     {
         _eventattendanceService = eventattendanceService;
+        _pointSystemService = pointSystemService;
+        _userService = userService;
+        _eventService = eventService;
+    }
+
+    [HttpPost("{attendanceId}/feedback")]
+    public async Task<IActionResult> ProvideFeedback(Guid attendanceId, [FromBody] FeedbackModel feedback)
+    {
+        var attendance = await _eventattendanceService.GetEventAttendanceAsync(attendanceId);
+        if (attendance == null) return NotFound("Attendance record not found");
+
+        attendance.Rating = feedback.Rating;
+        attendance.Feedback = feedback.Comment;
+        attendance.FeedbackProvided = true;
+
+        var user = await _userService.GetUserAsync(attendance.UserId);
+        var @event = await _eventService.GetEventAsync(attendance.EventId);
+
+        if (user != null && @event != null)
+        {
+            await _pointSystemService.AddEventPoints(user, @event, true);
+        }
+
+        var result = await _eventattendanceService.UpdateEventAttendanceAsync(attendance);
+        return Ok("Feedback recorded and points awarded");
     }
 
     [HttpGet("Test")]

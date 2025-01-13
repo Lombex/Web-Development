@@ -100,6 +100,9 @@ builder.Services.AddScoped<IPointSystemService, PointSystemService>();
 builder.Services.AddScoped<IEventAttendanceService, EventAttendanceService>();
 builder.Services.AddScoped<IEventService, EventService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+builder.Services.AddScoped<IUserProgressService, UserProgressService>();
+builder.Services.AddScoped<IAchievementService, AchievementService>();
+builder.Services.AddScoped<IPointSystemService, PointSystemService>();
 
 var app = builder.Build();
 

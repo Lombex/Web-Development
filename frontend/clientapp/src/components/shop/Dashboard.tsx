@@ -1,32 +1,62 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
-import { ShoppingBag, Settings, Users, BookOpen, LogOut, Loader2, Calendar, Tags } from 'lucide-react';
+import { Badge } from '../ui/badge';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
+import { 
+  ShoppingBag, 
+  Settings, 
+  Users, 
+  BookOpen, 
+  LogOut, 
+  Loader2, 
+  Award, 
+  Trophy,
+  TrendingUp,
+  Calendar
+} from 'lucide-react';
 
 interface UserData {
   id: string;
   firstname: string;
   lastname: string;
   email: string;
-  role: number; // Role is a number (1 for Admin, 3 for User)
+  role: string;
   points: {
     pointAmount: number;
     allTimePoints: number;
-    items: any[];
+    currentStreak: number;
   };
+  badges: Array<{
+    id: string;
+    name: string;
+    description: string;
+  }>;
+  achievements: Array<{
+    id: string;
+    name: string;
+    description: string;
+  }>;
+  currentLevel: number;
+}
+
+interface PointHistoryItem {
+  amount: number;
+  description: string;
+  timestamp: string;
 }
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [pointHistory, setPointHistory] = useState<PointHistoryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem('token');
-
       if (!token) {
         navigate('/');
         return;
@@ -40,21 +70,26 @@ const Dashboard = () => {
           },
         });
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch user data');
-        }
-
-        const data: UserData = await response.json();
+        if (!response.ok) throw new Error('Failed to fetch user data');
+        const data = await response.json();
         setUserData(data);
 
-        // Redirect Admins (role === 1) to Admin Dashboard
-        if (data.role === 1) {
-          navigate('/admin');
+        // Fetch point history
+        const historyResponse = await fetch(`http://localhost:5001/api/points/${data.id}/history`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (historyResponse.ok) {
+          const historyData = await historyResponse.json();
+          setPointHistory(historyData);
         }
+
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error:', error);
         setError('Failed to load user data');
-        localStorage.removeItem('token');
         navigate('/');
       } finally {
         setLoading(false);
@@ -69,51 +104,6 @@ const Dashboard = () => {
     navigate('/');
   };
 
-  const navigationCards = [
-    {
-      title: "Point Shop",
-      description: "Besteed je punten aan beloningen",
-      icon: <ShoppingBag className="h-6 w-6" />,
-      color: "bg-blue-500 hover:bg-blue-600",
-      path: "/point-shop",
-    },
-    {
-      title: "Calendar",
-      description: "View and manage office attendance",
-      icon: <Calendar className="h-6 w-6" />,
-      color: "bg-blue-500 hover:bg-blue-600",
-      path: "/calendar",
-    },
-    {
-      title: "Opdrachten",
-      description: "Bekijk en lever je opdrachten in",
-      icon: <BookOpen className="h-6 w-6" />,
-      color: "bg-green-500 hover:bg-green-600",
-      path: "/assignments",
-    },
-    {
-      title: "Groepen",
-      description: "Bekijk je projectgroepen",
-      icon: <Users className="h-6 w-6" />,
-      color: "bg-purple-500 hover:bg-purple-600",
-      path: "/groups",
-    },
-    {
-      title: "Instellingen",
-      description: "Pas je voorkeuren aan",
-      icon: <Settings className="h-6 w-6" />,
-      color: "bg-gray-500 hover:bg-gray-600",
-      path: "/settings",
-    },
-    {
-      title: "Events",
-      description: "Pas je voorkeuren aan",
-      icon: <Tags className="h-6 w-6" />,
-      color: "bg-red-500 hover:bg-red-600",
-      path: "/events",
-    },
-  ];
-
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -125,14 +115,17 @@ const Dashboard = () => {
   if (error || !userData) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p className="text-red-500">Er is een fout opgetreden bij het laden van je gegevens.</p>
+        <Alert variant="destructive">
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error || 'Failed to load user data'}</AlertDescription>
+        </Alert>
       </div>
     );
   }
 
   return (
     <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
-      {/* Sidebar with User Info */}
+      {/* User Profile Card */}
       <div className="lg:col-span-1">
         <Card className="bg-gradient-to-r from-blue-500 to-blue-600">
           <CardHeader>
@@ -144,7 +137,7 @@ const Dashboard = () => {
               />
               <div>
                 <h2 className="text-xl font-bold">{userData.firstname} {userData.lastname}</h2>
-                <p className="text-blue-100">{userData.role === 1 ? 'Admin' : 'User'}</p>
+                <p className="text-blue-100">Level {userData.currentLevel}</p>
                 <p className="text-sm text-blue-100">{userData.email}</p>
               </div>
               <Button
@@ -158,38 +151,120 @@ const Dashboard = () => {
             </div>
           </CardHeader>
         </Card>
+
+        {/* Points & Streak Card */}
+        <Card className="mt-4">
+          <CardHeader>
+            <CardTitle>Progress</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span>Current Points:</span>
+                <Badge variant="secondary">{userData.points.pointAmount}</Badge>
+              </div>
+              <div className="flex justify-between items-center">
+                <span>All-time Points:</span>
+                <Badge variant="secondary">{userData.points.allTimePoints}</Badge>
+              </div>
+              <div className="flex justify-between items-center">
+                <span>Current Streak:</span>
+                <Badge variant="secondary">{userData.points.currentStreak} days</Badge>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Main Dashboard Content */}
       <div className="lg:col-span-3 space-y-6">
+        {/* Recent Activity */}
         <Card>
           <CardHeader>
-            <CardTitle>Welkom terug, {userData.firstname}!</CardTitle>
-            <CardDescription>
-              Wat wil je vandaag doen?
-            </CardDescription>
+            <CardTitle>Recent Activity</CardTitle>
+            <CardDescription>Your latest point transactions</CardDescription>
           </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {pointHistory.slice(0, 5).map((item, index) => (
+                <div key={index} className="flex justify-between items-center border-b pb-2">
+                  <div>
+                    <p className="font-medium">{item.description}</p>
+                    <p className="text-sm text-gray-500">{new Date(item.timestamp).toLocaleDateString()}</p>
+                  </div>
+                  <Badge variant={item.amount >= 0 ? "default" : "destructive"}>
+                    {item.amount >= 0 ? `+${item.amount}` : item.amount}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          </CardContent>
         </Card>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-          {navigationCards.map((card, index) => (
+        {/* Navigation Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[
+            {
+              title: "Point Shop",
+              description: "Spend your points on rewards",
+              icon: <ShoppingBag className="h-6 w-6 text-white" />,
+              color: "bg-blue-500 hover:bg-blue-600",
+              path: "/point-shop"
+            },
+            {
+              title: "Events",
+              description: "View upcoming events",
+              icon: <Calendar className="h-6 w-6 text-white" />,
+              color: "bg-green-500 hover:bg-green-600",
+              path: "/events"
+            },
+            {
+              title: "Achievements",
+              description: "View your achievements",
+              icon: <Trophy className="h-6 w-6 text-white" />,
+              color: "bg-purple-500 hover:bg-purple-600",
+              path: "/achievements"
+            },
+            {
+              title: "Settings",
+              description: "Manage your account",
+              icon: <Settings className="h-6 w-6 text-white" />,
+              color: "bg-gray-500 hover:bg-gray-600",
+              path: "/settings"
+            }
+          ].map((card, index) => (
             <Card
               key={index}
-              className={`hover:shadow-lg transition-shadow cursor-pointer ${card.color}`}
+              className={`${card.color} cursor-pointer transition-transform hover:scale-105`}
               onClick={() => navigate(card.path)}
             >
               <CardHeader>
-                <div className="p-3 rounded-full w-fit">
-                  {card.icon}
-                </div>
+                <div className="text-white">{card.icon}</div>
               </CardHeader>
               <CardContent>
-                <h3 className="font-bold mb-1">{card.title}</h3>
-                <p className="text-sm text-gray-500">{card.description}</p>
+                <h3 className="font-bold text-white">{card.title}</h3>
+                <p className="text-sm text-white/80">{card.description}</p>
               </CardContent>
             </Card>
           ))}
         </div>
+
+        {/* Achievements Showcase */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Recent Achievements</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-2">
+              {userData.achievements?.slice(0, 3).map((achievement) => (
+                <Badge key={achievement.id} variant="secondary" className="p-2">
+                  <Award className="w-4 h-4 mr-1 inline" />
+                  {achievement.name}
+                </Badge>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

@@ -7,10 +7,40 @@ using System.Threading.Tasks;
 public class EventController : ControllerBase
 {
     private readonly IEventService _eventService;
+    private readonly IPointSystemService _pointSystemService;
+    private readonly IUserService _userService;
 
-    public EventController(IEventService eventService)
+    public EventController(
+        IEventService eventService, 
+        IPointSystemService pointSystemService,
+        IUserService userService)
     {
         _eventService = eventService;
+        _pointSystemService = pointSystemService;
+        _userService = userService;
+    }
+
+    [HttpPost("complete/{eventId}")]
+    public async Task<IActionResult> CompleteEvent(Guid eventId)
+    {
+        var @event = await _eventService.GetEventAsync(eventId);
+        if (@event == null) return NotFound("Event not found");
+
+        // Update event completion status and award points to participants
+        var updatedEvent = await _eventService.CompleteEventAsync(eventId);
+        if (updatedEvent == null) return NotFound("Event not found");
+
+        // Award points to all participants
+        foreach (var attendance in updatedEvent.EventAttendances)
+        {
+            var user = await _userService.GetUserAsync(attendance.UserId);
+            if (user != null)
+            {
+                await _pointSystemService.AddEventPoints(user, updatedEvent, attendance.FeedbackProvided);
+            }
+        }
+
+        return Ok("Event completed and points awarded");
     }
 
     [HttpGet("Test")] // http://localhost:5001/api/events/Test

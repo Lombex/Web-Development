@@ -10,9 +10,14 @@ public record Event
     public DateTime EndTime { get; init; }
     public string Location { get; init; }
     public bool Approval { get; init; }
-    public ICollection<EventAttendance> EventAttendances { get; set; } = new List<EventAttendance>();
-
-    public Event(Guid id, string title, string description, DateTime startTime, DateTime endTime, string location, bool approval)
+    public bool IsCompleted { get; init; }
+    public int PointsReward { get; init; }
+    public int BonusPoints { get; init; }
+    public ICollection<EventAttendance> EventAttendances { get; init; } = new List<EventAttendance>();
+    
+    public Event(Guid id, string title, string description, DateTime startTime, 
+                DateTime endTime, string location, bool approval, int pointsReward = 100, 
+                int bonusPoints = 50)
     {
         Id = id;
         Title = title;
@@ -21,6 +26,9 @@ public record Event
         EndTime = endTime;
         Location = location;
         Approval = approval;
+        PointsReward = pointsReward;
+        BonusPoints = bonusPoints;
+        IsCompleted = false;
     }
 }
 
