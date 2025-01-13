@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
@@ -24,6 +23,9 @@ interface User {
   firstname: string;
   lastname: string;
   email: string;
+  password: string;
+  recuringDays: number;
+  role: number;
   points: {
     allTimePoints: number;
     pointAmount: number;
@@ -32,14 +34,13 @@ interface User {
 }
 
 const PointShop = () => {
-  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [userPoints, setUserPoints] = useState<UserPoints | null>(null);
-  const [availableItems] = useState<ShopItem[]>([
-    { id: '1', name: 'Dark Theme', description: 'Enable dark mode for a unique experience', price: 500 },
-    { id: '2', name: 'Premium Badge', description: 'Show off your status with a unique badge', price: 1000 },
-    { id: '3', name: 'Custom Role', description: 'Get a unique role in the community', price: 2000 },
-    { id: '4', name: 'Day off', description: 'Get a day off - one time use!', price: 20000 },
+  const [items] = useState<ShopItem[]>([
+    { id: '1', name: 'Dark Theme', description: 'Enable dark mode', price: 500 },
+    { id: '2', name: 'Premium Badge', description: 'Show off your status', price: 1000 },
+    { id: '3', name: 'Custom Role', description: 'Get a unique role', price: 2000 },
+    { id: '4', name: 'Day off', description: 'Get a day off!', price: 20000 },
   ]);
   const [loading, setLoading] = useState(true);
   const [purchasing, setPurchasing] = useState(false);
@@ -50,38 +51,56 @@ const PointShop = () => {
     message: string;
   }>({ show: false, success: false, message: '' });
 
-  const fetchUserData = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/');
-      return;
-    }
-
+  const fetchTestUser = async () => {
     try {
-      const response = await fetch('http://localhost:5001/api/user/fromToken', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch('http://localhost:5001/api/user/all');
+      console.log('Users response:', response);
       
-      if (!response.ok) throw new Error('Failed to fetch user data');
+      if (!response.ok) throw new Error('Failed to fetch users');
       
-      const userData = await response.json();
-      console.log('User data:', userData);
+      const users = await response.json();
+      console.log('Users data:', users);
       
-      setUser(userData);
-      setUserPoints({
-        pointAmount: userData.points.pointAmount,
-        allTimePoints: userData.points.allTimePoints,
-        items: userData.points.items
-      });
+      const testUser = users.find((u: User) => u.email === 'test@example.com');
+      console.log('Test user:', testUser);
+      
+      if (testUser) {
+        setUser(testUser);
+        setUserPoints({
+          pointAmount: testUser.points.pointAmount,
+          allTimePoints: testUser.points.allTimePoints,
+          items: testUser.points.items
+        });
+      } else {
+        throw new Error('Test user not found');
+      }
     } catch (err) {
       console.error('Error:', err);
       setError('Failed to load user data');
-      navigate('/');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchUserPoints = async (userId: string) => {
+    if (!user) return;
+    try {
+      const response = await fetch(`http://localhost:5001/api/points/${userId}`);
+      console.log('Points response:', response);
+      
+      if (!response.ok) throw new Error('Failed to fetch points');
+      
+      const pointsData = await response.json();
+      console.log('Points data:', pointsData);
+      
+      setUserPoints({
+        pointAmount: user.points.pointAmount,
+        allTimePoints: user.points.allTimePoints,
+        items: user.points.items
+      });
+    } catch (err) {
+      console.error('Error fetching points:', err);
+      setError('Failed to load points data');
     }
   };
 
@@ -89,24 +108,20 @@ const PointShop = () => {
     if (!user) return;
 
     try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/');
-        return;
-      }
-
+      console.log('Adding points:', amount);
       const response = await fetch(`http://localhost:5001/api/points/${user.id}/add`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(amount)
       });
       
+      console.log('Add points response:', response);
+      
       if (!response.ok) throw new Error('Failed to add points');
       
-      await fetchUserData();
+      await fetchTestUser(); // Refresh all user data
     } catch (err) {
       console.error('Error:', err);
       setError('Failed to add points');
@@ -116,7 +131,8 @@ const PointShop = () => {
   const handlePurchase = async (item: ShopItem) => {
     if (!user || !userPoints) return;
 
-    if (userPoints.items.some(ownedItem => ownedItem.id === item.id || ownedItem.name === item.name)) {
+    // Check if item is already owned
+    if (userPoints.items.some(ownedItem => ownedItem.id === item.id)) {
       setPurchaseStatus({
         show: true,
         success: false,
@@ -125,52 +141,26 @@ const PointShop = () => {
       return;
     }
 
-    setPurchasing(true);
-
     try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/');
-        return;
-      }
-
+      setPurchasing(true);
       if (userPoints.pointAmount < item.price) {
         throw new Error('Not enough points');
       }
 
-      // First update points
       const newAmount = userPoints.pointAmount - item.price;
-      const updatePointsResponse = await fetch(`http://localhost:5001/api/points/${user.id}/update`, {
+      console.log('Updating points to:', newAmount);
+      
+      const response = await fetch(`http://localhost:5001/api/points/${user.id}/update`, {
         method: 'PUT',
         headers: {
-          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(newAmount)
       });
 
-      if (!updatePointsResponse.ok) {
-        throw new Error('Failed to update points');
-      }
-
-      // Then save the purchased item
-      const purchaseItemResponse = await fetch(`http://localhost:5001/api/points/${user.id}/purchase`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id: item.id,
-          name: item.name,
-          description: item.description,
-          price: item.price
-        })
-      });
-
-      if (!purchaseItemResponse.ok) {
-        throw new Error('Failed to save purchase');
-      }
+      console.log('Purchase response:', response);
+      
+      if (!response.ok) throw new Error('Purchase failed');
 
       setPurchaseStatus({
         show: true,
@@ -178,23 +168,15 @@ const PointShop = () => {
         message: `Successfully purchased ${item.name}!`
       });
 
-      // Refresh user data
-      await fetchUserData();
+      await fetchTestUser(); // Refresh all user data
 
     } catch (err) {
-      console.error('Error during purchase:', err);
+      console.error('Error:', err);
       setPurchaseStatus({
         show: true,
         success: false,
         message: err instanceof Error ? err.message : 'Purchase failed'
       });
-      
-      // Try to restore points if the purchase failed
-      try {
-        await fetchUserData();
-      } catch (refreshError) {
-        console.error('Failed to refresh user data:', refreshError);
-      }
     } finally {
       setPurchasing(false);
       setTimeout(() => {
@@ -204,8 +186,8 @@ const PointShop = () => {
   };
 
   useEffect(() => {
-    fetchUserData();
-  }, [navigate]);
+    fetchTestUser();
+  }, []);
 
   if (loading) {
     return (
@@ -259,33 +241,16 @@ const PointShop = () => {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {availableItems.map((item) => {
-          const isOwned = userPoints?.items?.some(ownedItem => 
-            ownedItem.id === item.id || ownedItem.name === item.name
-          );
+        {items.map((item) => {
+          const isOwned = userPoints?.items.some(ownedItem => ownedItem.id === item.id);
           return (
-            <Card 
-              key={item.id}
-              className={isOwned ? 'opacity-75 bg-gray-50' : ''}
-            >
+            <Card key={item.id}>
               <CardHeader>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <CardTitle>{item.name}</CardTitle>
-                    <CardDescription>{item.description}</CardDescription>
-                  </div>
-                  {isOwned && (
-                    <Badge variant="secondary" className="bg-gray-200">
-                      Owned
-                    </Badge>
-                  )}
-                </div>
+                <CardTitle>{item.name}</CardTitle>
+                <CardDescription>{item.description}</CardDescription>
               </CardHeader>
               <CardContent>
-                <Badge 
-                  variant={isOwned ? "outline" : "secondary"} 
-                  className={`text-lg ${isOwned ? 'border-gray-300 text-gray-500' : ''}`}
-                >
+                <Badge variant="secondary" className="text-lg">
                   {item.price} points
                 </Badge>
               </CardContent>
@@ -293,19 +258,16 @@ const PointShop = () => {
                 <Button 
                   onClick={() => handlePurchase(item)}
                   disabled={!userPoints || userPoints.pointAmount < item.price || purchasing || isOwned}
-                  variant={isOwned ? "outline" : "default"}
-                  className={`w-full ${isOwned ? 'bg-gray-100 text-gray-500 cursor-not-allowed' : ''}`}
+                  variant={isOwned ? "secondary" : "default"}
+                  className="w-full"
                 >
                   {purchasing ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Processing...
-                    </>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                   ) : isOwned ? (
-                    'Already in your inventory'
+                    'Already Owned'
                   ) : !userPoints || userPoints.pointAmount < item.price ? (
                     'Not enough points' 
-                  ) : (
+                    ) : (
                     'Purchase'
                   )}
                 </Button>

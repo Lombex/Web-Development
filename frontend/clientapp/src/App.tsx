@@ -11,6 +11,7 @@ import AdminDashboard from './components/shop/Admindashboard';
 import UserDetails from './components/auth/Userdetails';
 import Achievements from './components/achievements/Achievements';
 import Layout from './components/layout/Layout';
+import UserDashboard from './components/shop/UserDashboard';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -71,6 +72,12 @@ function App() {
             <ProtectedRoute>
               <Events />
             </ProtectedRoute>
+          } />
+
+          <Route path="/UserDashboard" element={
+            <ProtectedRoute>
+            <UserDashboard />
+          </ProtectedRoute>
           } />
           
           <Route path="/achievements" element={

@@ -239,6 +239,13 @@ const Dashboard = () => {
               color: "bg-orange-500 hover:bg-orange-600",
               path: "/calendar"
             },
+            {
+              title: "Co workers",
+              description: "View your co workers",
+              icon: <Calendar className="h-6 w-6 text-white" />,
+              color: "bg-orange-500 hover:bg-orange-600",
+              path: "/UserDashboard"
+            },
           ].map((card, index) => (
             <Card
               key={index}
