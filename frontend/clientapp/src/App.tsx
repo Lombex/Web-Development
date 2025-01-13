@@ -9,6 +9,9 @@ import Calendar from './components/calendar/calendar';
 import Events from './components/calendar/events';
 import AdminDashboard from './components/shop/Admindashboard';
 import UserDetails from './components/auth/Userdetails';
+import Achievements from './components/achievements/Achievements';
+
+
 
 function App() {
   return (
@@ -23,6 +26,7 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/events" element={<Events />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/achievements" element={<Achievements />} />
           <Route path="/admin/manage-users" element={<UserDetails />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
