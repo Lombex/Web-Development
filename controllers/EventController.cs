@@ -53,4 +53,5 @@ public class EventController : ControllerBase
         if (!isDeleted) return NotFound("Event not found.");
         return Ok("Event has been successfully deleted!");
     }
+    
 }

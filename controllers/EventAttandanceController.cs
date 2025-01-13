@@ -52,4 +52,36 @@ public class EventAttendanceController : ControllerBase
 
         return Ok($"EventAttendance met ID {id} is succesvol verwijderd");
     }
+    [HttpPost("review")]
+    public async Task<IActionResult> AddReview([FromBody] ReviewRequest review)
+    {
+        var eventAttendance = await _eventattendanceService.GetEventAttendanceAsync(review.EventId, review.UserId);
+
+        if (eventAttendance == null)
+        {
+            return NotFound("User is not associated with this event.");
+        }
+
+        // Update rating and feedback
+        eventAttendance.Rating = review.Rating;
+        eventAttendance.Feedback = review.Feedback;
+
+        var result = await _eventattendanceService.UpdateEventAttendanceAsync(eventAttendance);
+
+        if (!result.IsSuccess)
+        {
+            return StatusCode(500, result.ErrorMessage);
+        }
+
+        return Ok("Review added successfully.");
+    }
+}
+
+// Klasse om de requestdata voor een review vast te leggen
+public class ReviewRequest
+{
+    public Guid EventId { get; set; }
+    public Guid UserId { get; set; }
+    public int Rating { get; set; }
+    public string Feedback { get; set; }
 }

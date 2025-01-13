@@ -22,6 +22,13 @@ public record Event
         Location = location;
         Approval = approval;
     }
+    public double AverageRating
+    {
+        get
+        {
+            return EventAttendances.Any() ? EventAttendances.Average(ea => ea.Rating) : 0;
+        }
+    }
 }
 
 

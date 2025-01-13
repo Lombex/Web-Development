@@ -231,7 +231,7 @@ Content-Type: application/json
   "Date": "2024-11-15T08:00:00"
 }
 ###
-GET http://localhost:5001/api/attendance/user/{userId}
+GET http://localhost:5001/api/attendance/user/{00000000-0000-0000-0000-000000000001}
 Content-Type: application/json
 ###
 DELETE http://localhost:5001/api/attendance/delete/{attendanceId}
