@@ -27,9 +27,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobile, isOpen, onToggle }) => {
     { path: '/dashboard', name: 'Dashboard', icon: LayoutDashboard },
     { path: '/point-shop', name: 'Point Shop', icon: ShoppingBag },
     { path: '/events', name: 'Events', icon: Calendar },
+    { path: '/calendar', name: 'Calendar', icon: Calendar }, // Nieuwe Calendar-optie
     { path: '/achievements', name: 'Achievements', icon: Trophy },
     { path: '/settings', name: 'Settings', icon: Settings },
   ];
+  
 
   const handleLogout = () => {
     localStorage.removeItem('token');
