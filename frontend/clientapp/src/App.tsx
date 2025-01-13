@@ -17,10 +17,9 @@ interface ProtectedRouteProps {
   adminRequired?: boolean;
 }
 
-// Protected Route wrapper component
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, adminRequired = false }) => {
   const token = localStorage.getItem('token');
-  const userRole = localStorage.getItem('userRole'); // You'll need to store this during login
+  const userRole = localStorage.getItem('userRole');
 
   if (!token) {
     return <Navigate to="/" />;

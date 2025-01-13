@@ -25,12 +25,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobile, isOpen, onToggle }) => {
 
   const menuItems = [
     { path: '/dashboard', name: 'Dashboard', icon: LayoutDashboard },
+    { path: '/calendar', name: 'Calendar', icon: Calendar }, // Add this line
     { path: '/point-shop', name: 'Point Shop', icon: ShoppingBag },
     { path: '/events', name: 'Events', icon: Calendar },
     { path: '/achievements', name: 'Achievements', icon: Trophy },
     { path: '/settings', name: 'Settings', icon: Settings },
   ];
-
   const handleLogout = () => {
     localStorage.removeItem('token');
     navigate('/');
