@@ -85,33 +85,39 @@ const PointShop = () => {
     }
   };
 
-  const addPoints = async (amount: number) => {
+  const addPoints = async (amount: number, reason: string) => {
     if (!user) return;
-
+  
     try {
       const token = localStorage.getItem('token');
       if (!token) {
         navigate('/');
         return;
       }
-
+  
       const response = await fetch(`http://localhost:5001/api/points/${user.id}/add`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(amount)
+        body: JSON.stringify({ amount, reason }), // Send amount and reason as an object
       });
-      
-      if (!response.ok) throw new Error('Failed to add points');
-      
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.title || 'Failed to add points');
+      }
+  
+      console.log('Points added successfully');
+      // Refresh user data to reflect the new points
       await fetchUserData();
-    } catch (err) {
-      console.error('Error:', err);
-      setError('Failed to add points');
+    } catch (error) {
+      console.error('Error adding points:', error);
     }
   };
+  
+  
 
   const handlePurchase = async (item: ShopItem) => {
     if (!user || !userPoints) return;
@@ -239,7 +245,7 @@ const PointShop = () => {
             <p className="text-xl">All-time: {userPoints?.allTimePoints || 0}</p>
           </div>
           <Button 
-            onClick={() => addPoints(100)} 
+            onClick={() => addPoints(100, 'cheat')} 
             className="mt-4"
             variant="outline"
           >

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 [Route("api/points")]
 [ApiController]
 public class PointSystemController : ControllerBase
@@ -71,15 +72,21 @@ public class PointSystemController : ControllerBase
 
     // 2. Add Points to User
     [HttpPost("{userId}/add")]
-    public async Task<IActionResult> AddPoints(Guid userId, [FromBody] int amount)
+    public async Task<IActionResult> AddPoints(Guid userId, [FromBody] AddPointsRequest request)
     {
         var user = await _userService.GetUserAsync(userId);
         if (user == null) return NotFound("User does not exist!");
 
-        _pointSystemService.AddUserPoints(user, amount, null);
+        await _pointSystemService.AddUserPoints(user, request.Amount, request.Reason ?? "Points added");
         await _userService.UpdateUserAsync(userId, user);
-        
-        return Ok($"Added {amount} points to user {user.Firstname} {user.Lastname}.");
+
+        return Ok($"Added {request.Amount} points to user {user.Firstname} {user.Lastname}.");
+    }
+
+    public class AddPointsRequest
+    {
+        public int Amount { get; set; }
+        public string? Reason { get; set; }
     }
 
     // 3. Update User Points

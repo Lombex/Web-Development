@@ -49,7 +49,7 @@ const Calendar = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
-  
+
   const timeSlots = Array.from({ length: 24 }, (_, i) => i);
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
@@ -64,7 +64,6 @@ const Calendar = () => {
       return;
     }
 
-    // Fetch user data
     const fetchUserData = async () => {
       try {
         const response = await fetch('http://localhost:5001/api/user/fromToken', {
@@ -84,7 +83,6 @@ const Calendar = () => {
       }
     };
 
-    // Fetch attendance data
     const fetchAttendances = async () => {
       try {
         const response = await fetch('http://localhost:5001/api/attendance/user/me', {
@@ -102,41 +100,44 @@ const Calendar = () => {
     };
 
     fetchUserData();
-    fetchEvents();
     fetchAttendances();
   }, [navigate]);
 
-  const fetchEvents = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/');
-        return;
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          navigate('/');
+          return;
+        }
+
+        const response = await fetch('http://localhost:5001/api/events/all', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) throw new Error('Failed to fetch events');
+        const data = await response.json();
+        setEvents(data);
+      } catch (err) {
+        setError('Failed to load events');
+        console.error('Error fetching events:', err);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const response = await fetch('http://localhost:5001/api/events/all', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) throw new Error('Failed to fetch events');
-      const data = await response.json();
-      setEvents(data);
-    } catch (err) {
-      setError('Failed to load events');
-      console.error('Error fetching events:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchEvents();
+  }, [currentDate, navigate]);
 
   const getWeekDates = (date: Date) => {
     const week = [];
     const start = new Date(date);
     start.setDate(date.getDate() - date.getDay());
-    
+
     for (let i = 0; i < 7; i++) {
       const newDate = new Date(start);
       newDate.setDate(start.getDate() + i);
@@ -151,13 +152,13 @@ const Calendar = () => {
       currentDate.getMonth() + 1,
       0
     ).getDate();
-    
+
     const firstDay = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
       1
     ).getDay();
-    
+
     const blanks = Array(firstDay).fill(null);
     return [...blanks, ...Array.from({ length: daysInMonth }, (_, i) => i + 1)];
   };
@@ -185,8 +186,8 @@ const Calendar = () => {
   };
 
   const formatTime = (time: string) => {
-    return new Date(time).toLocaleTimeString([], { 
-      hour: '2-digit', 
+    return new Date(time).toLocaleTimeString([], {
+      hour: '2-digit',
       minute: '2-digit'
     });
   };
@@ -215,7 +216,7 @@ const Calendar = () => {
     const startHour = start.getHours() + (start.getMinutes() / 60);
     const endHour = end.getHours() + (end.getMinutes() / 60);
     const duration = endHour - startHour;
-    
+
     return {
       top: `${startHour * 4}rem`,
       height: `${duration * 4}rem`
@@ -227,15 +228,14 @@ const Calendar = () => {
   };
 
   const handleDayClick = (date: number | Date) => {
-    const selectedDate = typeof date === 'number' 
+    const selectedDate = typeof date === 'number'
       ? new Date(currentDate.getFullYear(), currentDate.getMonth(), date)
       : date;
-    
+
     const dayEvents = getEventsForDay(date);
     setSelectedDay({ date: selectedDate, events: dayEvents });
   };
 
-  // Component rendering code continues...
   return (
     <div className="min-h-screen bg-gray-50 p-4">
       <div className="max-w-8xl mx-auto bg-white rounded-lg shadow-xl">
@@ -245,8 +245,8 @@ const Calendar = () => {
             <h1 className="text-2xl font-bold">Calendar</h1>
             <div className="flex items-center space-x-2">
               <Button
-                variant="ghost" 
-                onClick={() => navigate('prev')}
+                variant="ghost"
+                onClick={() => navigateCalendar('prev')}
                 className="p-2"
               >
                 <ChevronLeft className="w-5 h-5" />
@@ -256,14 +256,14 @@ const Calendar = () => {
               </h2>
               <Button
                 variant="ghost"
-                onClick={() => navigate('next')}
+                onClick={() => navigateCalendar('next')}
                 className="p-2"
               >
                 <ChevronRight className="w-5 h-5" />
               </Button>
             </div>
           </div>
-          
+
           <div className="flex items-center space-x-2">
             <Button
               onClick={() => setViewType('month')}
@@ -306,8 +306,8 @@ const Calendar = () => {
                     {date === null ? (
                       <div className="bg-gray-50 p-2 min-h-[8rem]" />
                     ) : (
-                      <div 
-                        className={`p-2 min-h-[8rem] cursor-pointer hover:bg-gray-50 
+                      <div
+                        className={`p-2 min-h-[8rem] cursor-pointer hover:bg-gray-50
                           ${isToday(date) ? 'bg-blue-50 hover:bg-blue-100' : ''}`}
                         onClick={() => handleDayClick(date)}
                       >
@@ -353,7 +353,7 @@ const Calendar = () => {
                         <div
                           key={event.id}
                           style={calculateEventPosition(event)}
-                          className={`absolute left-6 right-1 p-1 rounded ${getEventColor(event)} 
+                          className={`absolute left-6 right-1 p-1 rounded ${getEventColor(event)}
                             text-sm overflow-hidden`}
                         >
                           <div className="font-semibold">{event.title}</div>
@@ -384,7 +384,7 @@ const Calendar = () => {
               <p className="text-gray-500">No events scheduled for this day.</p>
             ) : (
               selectedDay?.events.map(event => (
-                <div 
+                <div
                   key={event.id}
                   className={`${getEventColor(event)} p-3 rounded-lg`}
                 >

@@ -7,6 +7,11 @@ using System.Linq;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 
+public class AddPointsRequest
+{
+    public int Amount { get; set; }
+    public string Reason { get; set; }
+}
 public interface IPointSystemService
 {
     Task<int> GetPointsFromUser(User user);
@@ -31,15 +36,19 @@ public class PointSystemService : IPointSystemService
         _userProgressService = userProgressService;
     }
 
-    public async Task AddUserPoints(User user, int amount, string reason)
-    {
-        user.Points.PointAmount += amount;
-        user.Points.AllTimePoints += amount;
-        user.Points.LastPointsEarned = DateTime.UtcNow;
+public async Task AddUserPoints(User user, int amount, string reason)
+{
 
-        await _userProgressService.TrackProgress(user, amount, reason);
-        await _context.SaveChangesAsync();
-    }
+    user.Points.PointAmount += amount;
+    user.Points.AllTimePoints += amount;
+    user.Points.LastPointsEarned = DateTime.UtcNow;
+
+    // Track progress based on the provided amount and reason.
+    await _userProgressService.TrackProgress(user, amount, reason);
+
+    // Save changes to the database.
+    await _context.SaveChangesAsync();
+}
 
     public async Task<int> GetPointsFromUser(User user)
     {
