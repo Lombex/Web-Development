@@ -16,6 +16,7 @@ import {
   TrendingUp,
   Calendar
 } from 'lucide-react';
+import { title } from 'process';
 
 interface UserData {
   id: string;
@@ -239,6 +240,13 @@ const Dashboard = () => {
               color: "bg-orange-500 hover:bg-orange-600",
               path: "/calendar"
             },
+              {
+                title: "All employes",
+                description: "View and manage your calendar",
+                icon: <Calendar className="h-6 w-6 text-white" />,
+                color: "bg-red-500 hover:bg-red-600",
+                path: "/UserDashboard"
+              }
           ].map((card, index) => (
             <Card
               key={index}
