@@ -35,9 +35,22 @@ const Login: React.FC = () => {
         throw new Error(data.message || 'Login failed');
       }
 
-      localStorage.setItem('token', data.token);
+      if (data.role === undefined) {
+        setError('Role is undefined in the login response.');
+        return;
+      }
 
-      navigate('/dashboard');
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('userRole', data.role.toString());
+
+      if (data.role === 1) {
+        navigate('/admin');
+      } else if (data.role === 3) {
+        navigate('/dashboard');
+      } else {
+        
+        setError('Unknown role');
+      }
     } catch (err) {
       console.error('Login error:', err);
       setError(err instanceof Error ? err.message : 'Login failed');

@@ -15,6 +15,27 @@ GET http://localhost:5001/api/user/all
 //Authorization: Bearer YOUR_ACCESS_TOKEN_HERE
 
 ###
+### Create a new user
+POST http://localhost:5001/api/user/create
+Content-Type: application/json
+
+{
+  "firstname": "John",
+  "lastname": "Doe",
+  "email": "john.doe@example.com",
+  "password": "securePassword123",
+  "role": 3,
+  "recurringDays": 7,
+  "points": {
+    "allTimePoints": 1000,
+    "pointAmount": 0,
+    "items": []
+  }
+}
+
+
+
+###
 PUT http://localhost:5001/api/user/me
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJIZWxsby5kb2VAZXhhbXBsZS5jb20iLCJqdGkiOiIyNDE0MDY5NS02MmM4LTQ3NmEtOWE4Ni0xMDk1ODJkNjdkODkiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjkwZTNlMzdiLTQ3OTQtNDYzOS1hODg2LTFjZmFlY2VmYWU4MCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzM2NjAxODIzLCJpc3MiOiJDYWxlbmRlcmZ5IiwiYXVkIjoiQ2FsZW5kZXJmeS1Vc2VycyJ9.8PX8uRslM8PnCI-Zbd1iHRC45g6JrUX4-jupl_GYQ7g
 Content-Type: application/json
@@ -23,7 +44,8 @@ Content-Type: application/json
     "firstname": "jaaaaaaassss",
     "lastname": "Dossssssssssssssse",
     "email": "johnieeee.doe@example.com",
-    "password": "newpassword"
+    "password": "newpassword",
+    "streak": 0,
 }
 
 

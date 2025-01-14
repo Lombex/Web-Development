@@ -17,42 +17,51 @@ const SignUp: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
+    const payload = {
+      firstname: firstName,
+      lastname: lastName,
+      email: email,
+      password: password,
+      role: 3,
+      recurringDays: 7,
+      points: {
+        allTimePoints: 1000,
+        pointAmount: 0,
+        items: []
+      }
+    };
+    
     try {
+      // Log the request body to verify
+      console.log('Sign-up payload:', payload);
+
       const response = await fetch('http://localhost:5001/api/user/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          firstname: firstName,
-          lastname: lastName,
-          email: email,
-          password: password,
-          role: 3,  // Ensure this matches UserRole enum
-          recurringDays: 7,
-          points: {
-            allTimePoints: 1000,
-            pointAmount: 0,
-            items: []
-          }
-        }),
+        body: JSON.stringify(payload),
       });
 
       const responseData = await response.json();
 
+      // Check if the response status is ok
       if (!response.ok) {
         throw new Error(responseData.message || 'Sign-up failed');
       }
 
+      // Redirect to home page upon successful sign-up
       navigate('/');
     } catch (err) {
+      // Log error for debugging
       console.error('Detailed Sign-up error:', err);
+
+      // Set error message to be displayed to the user
       setError(err instanceof Error ? err.message : 'Sign-up failed');
     } finally {
       setLoading(false);
     }
-};
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-400 to-purple-600">

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Users, Settings, ClipboardList, BarChart, LogOut, Tags, Calendar } from 'lucide-react';
+import { Users, Settings, Tags, Calendar, LogOut } from 'lucide-react';
 import { Button } from '../ui/button';
 
 const AdminDashboard = () => {
@@ -11,28 +11,28 @@ const AdminDashboard = () => {
     localStorage.removeItem('token');
     navigate('/');
   };
-
+// werkt 
   const adminNavigationCards = [
     {
       title: "Manage Users",
       description: "View, edit, or remove user accounts",
-      icon: <Users className="h-6 w-6" />,
+      icon: <Users className="h-6 w-6 text-white" />,
       color: "bg-purple-500 hover:bg-purple-600",
       path: "/admin/manage-users",
     },
     {
-        title: "Calendar",
-        description: "View and manage office attendance",
-        icon: <Calendar className="h-6 w-6" />,
-        color: "bg-blue-500 hover:bg-blue-600",
-        path: "/calendar",
+      title: "Calendar",
+      description: "View and manage office attendance",
+      icon: <Calendar className="h-6 w-6 text-white" />,
+      color: "bg-blue-500 hover:bg-blue-600",
+      path: "/calendar",
     },
     {
-        title: "Events",
-        description: "Pas je voorkeuren aan",
-        icon: <Tags className="h-6 w-6" />,
-        color: "bg-red-500 hover:bg-red-600",
-        path: "/events",
+      title: "Events",
+      description: "Manage events and preferences",
+      icon: <Tags className="h-6 w-6 text-white" />,
+      color: "bg-red-500 hover:bg-red-600",
+      path: "/events",
     },
   ];
 
@@ -68,28 +68,27 @@ const AdminDashboard = () => {
       <div className="lg:col-span-3 space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Welkom terug Admin!</CardTitle>
-            <CardDescription>
-              Wat wil jij vandaag veranderen?.
-            </CardDescription>
+            <CardTitle>Welcome back, Admin!</CardTitle>
+            <CardDescription>What would you like to change today?</CardDescription>
           </CardHeader>
         </Card>
 
+        {/* Admin Navigation Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
           {adminNavigationCards.map((card, index) => (
             <Card
               key={index}
-              className={`hover:shadow-lg transition-shadow cursor-pointer ${card.color}`}
+              className={`cursor-pointer transition-shadow hover:shadow-lg ${card.color}`}
               onClick={() => navigate(card.path)}
             >
               <CardHeader>
-                <div className="p-3 rounded-full w-fit">
+                <div className="text-white p-3 rounded-full w-fit">
                   {card.icon}
                 </div>
               </CardHeader>
               <CardContent>
-                <h3 className="font-bold mb-1">{card.title}</h3>
-                <p className="text-sm text-gray-500">{card.description}</p>
+                <h3 className="font-bold text-white">{card.title}</h3>
+                <p className="text-sm text-white/80">{card.description}</p>
               </CardContent>
             </Card>
           ))}

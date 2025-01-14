@@ -37,34 +37,55 @@ public class UserService : IUserService
     }
 
 
-public async Task<User> CreateUserAsync(User user)
-{
-    // Validate input
-    if (string.IsNullOrWhiteSpace(user.Email))
-        throw new InvalidOperationException("Email is required");
+    public async Task<User> CreateUserAsync(User user)
+    {
+        // Validate input
+        if (string.IsNullOrWhiteSpace(user.Email))
+            throw new InvalidOperationException("Email is required");
 
-    if (string.IsNullOrWhiteSpace(user.Password))
-        throw new InvalidOperationException("Password is required");
+        if (string.IsNullOrWhiteSpace(user.Password))
+            throw new InvalidOperationException("Password is required");
 
-    // Check for existing email
-    var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
-    if (existingUser != null)
-        throw new InvalidOperationException("Email already exists");
+        // Check for existing email
+        var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == user.Email);
+        if (existingUser != null)
+            throw new InvalidOperationException("Email already exists");
 
-    // Set default values
-    user.Id = Guid.NewGuid();
-    user.Role = user.Role == 0 ? UserRole.User : user.Role;
-    user.Points ??= new UserPointsModel 
-    { 
-        AllTimePoints = 1000, 
-        PointAmount = 0, 
-        Items = new List<ShopItems>() 
-    };
+        // Set default values
+        user.Id = Guid.NewGuid();
+        user.Role = user.Role == 0 ? UserRole.User : user.Role;
+        user.Points ??= new UserPointsModel
+        { 
+            AllTimePoints = 1000, 
+            PointAmount = 0, 
+            Items = new List<ShopItems>() 
+        };
 
-    await _context.Users.AddAsync(user);
-    await _context.SaveChangesAsync();
-    return user;
-}
+        // Save the new user
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+
+        // After user is created, initialize the streak
+        var streak = new Streak
+        {
+            UserId = user.Id, // Set the UserId for the streak
+            User = user, // Set the User reference for the streak
+            CurrentStreak = 0, // Initialize the streak with 0
+            HighestStreak = 0, // Set default highest streak value to 0
+            LastAttendance = DateTime.Now // Set the default last attendance date
+        };
+
+        // Add the Streak object to the database
+        _context.Streaks.Add(streak);
+        await _context.SaveChangesAsync();
+
+        return user;
+    }
+
+
+
+
+
 
     public async Task<User?> UpdateUserAsync(Guid id, User updatedUser)
     {

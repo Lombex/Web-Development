@@ -25,7 +25,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, adminRequired
     return <Navigate to="/" />;
   }
 
-  if (adminRequired && userRole !== 'Admin') {
+  if (adminRequired && userRole !== '1') {
     return <Navigate to="/dashboard" />;
   }
 

@@ -31,7 +31,7 @@ public class AuthController : ControllerBase
 
         var token = GenerateJwtToken(user);
 
-        return Ok(new {token});
+        return Ok(new {token, user.Role});
     }
 
     private async Task<User?> AuthenticateUser(string email, string password)
